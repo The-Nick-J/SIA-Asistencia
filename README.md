@@ -1,5 +1,36 @@
-# SIA-Asistencia
-Proyecto de Programacion Avanzada, PUCV.
+# Gestión de Asistencia
 
-## Gestión de Asistencia de alumnos de un colegio
-Registro de la asistencia de alumnos los distintos días del año escolar, registro de inasistencias extraordinarias y salidas antes de horario.
+Sistema de información para registrar y consultar la asistencia de alumnos de un colegio.
+
+## Asignatura
+
+**INF2236 - Programación Avanzada**  
+Pontificia Universidad Católica de Valparaíso  
+Semestre 2 - 2026
+
+## Descripción
+
+El sistema permitirá gestionar la asistencia de los alumnos durante el año escolar, incluyendo:
+
+- Asistencia diaria.
+- Inasistencias extraordinarias.
+- Salidas antes del horario normal.
+
+El proyecto contará con una interfaz de consola y una interfaz gráfica.
+
+## Integrantes
+
+- Nicolás Jaramillo
+- Lucas Ahumada
+- Alessandro Reginato
+
+## Tecnologías
+
+- Java 11
+- Apache NetBeans 21
+- Maven
+- GitHub
+
+## Estado
+
+Proyecto en desarrollo.
