@@ -6,7 +6,7 @@ Sistema de información para registrar y consultar la asistencia de alumnos de u
 
 **INF2236 - Programación Avanzada**  
 Pontificia Universidad Católica de Valparaíso  
-Semestre 2 - 2026
+2do Semestre - 2026
 
 ## Descripción
 
