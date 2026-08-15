@@ -6,7 +6,7 @@ public class Asistencia {
     private boolean presente;
     private boolean retirado;
 
-    public Asistencia(LocalDate fecha, Alumno alumno, boolean presente) {
+    public Asistencia(LocalDate fecha, Alumno alumno, boolean presente, boolean retirado) {
         this.fecha = fecha;
         this.alumno = alumno;
         this.presente = presente;

@@ -1,14 +1,17 @@
+
 import java.util.ArrayList;
 
 public class Curso {
+
     private String nombre;
     private String codigo;
     private String profesorJefe;
     private ArrayList<Alumno> alumnos;
-    
-    public Curso() {
+
+    public Curso(String nombre, String codigo, String profesorJefe) {
         this.nombre = nombre;
-        this.codigo = codigo; 
+        this.codigo = codigo;
+        this.profesorJefe = profesorJefe;
         this.alumnos = new ArrayList<>();
     }
 
@@ -43,5 +46,9 @@ public class Curso {
     public void setAlumnos(ArrayList<Alumno> alumnos) {
         this.alumnos = alumnos;
     }
-   
+
+    public void addAlumno(Alumno alumno) {
+        this.alumnos.add(alumno);
+    }
+
 }
