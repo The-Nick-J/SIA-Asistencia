@@ -9,7 +9,7 @@ Queremos construir un sistema sencillo para que un colegio pueda registrar la as
 
 ## Equipo
 
-| Integrante | Rol dentro del proyecto |
+| Integrante |
 |---|---|
 | Nicolás Jaramillo   | 
 | Lucas Ahumada       | 
