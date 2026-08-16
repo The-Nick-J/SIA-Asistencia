@@ -4,9 +4,11 @@ import java.io.IOException;
 public class MenuCursos {
 
     private final BufferedReader leer;
+    private final GestionCursos gestionCursos;
 
-    public MenuCursos(BufferedReader leer) {
+    public MenuCursos(BufferedReader leer, GestionCursos gestionCursos) {
         this.leer = leer;
+        this.gestionCursos = gestionCursos;
     }
 
     public void mostrarMenu() throws IOException {
@@ -18,6 +20,11 @@ public class MenuCursos {
             System.out.println("2. Mostrar Cursos");
             System.out.println("3. Volver al Menu de Administracion");
             opcionCursos = Integer.parseInt(leer.readLine());
+            if (opcionCursos == 1){
+                gestionCursos.agregarCurso(leer.readLine(), leer.readLine(), leer.readLine());
+            } else if (opcionCursos == 2){
+                gestionCursos.mostrarCursos();
+            }
         } while (opcionCursos != 3);
     }
 }
