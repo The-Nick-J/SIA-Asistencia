@@ -1,9 +1,9 @@
 Proyecto de **Programación Avanzada**  
 INF2236 · PUCV · Segundo semestre 2026
 
-![hippo]([https://media3.giphy.com/media/aUovxH8Vf9qDu/giphy.gif](https://memes.memedrop.io/production/Jo3w14Zw8kDm/source.gif))
-
 ---
+
+![til]([https://raw.githubusercontent.com/hashrocket/hr-til/master/app/assets/images/banner.png](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjZ2MTQ3aXBlbzk3ZHJ3azQwanFxZmxhbXpnN3kyNTgyNnRqYWs3dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kJ1iL1ZQIyibu/giphy.gif))
 
 ## La idea
 
