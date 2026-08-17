@@ -15,13 +15,32 @@ public class MenuCursos {
         int opcionCursos;
 
         do {
+            //promptea al usuario por opciones
             System.out.println("Bienvenido al Menu de Gestion de Cursos");
             System.out.println("1. Agregar Curso");
             System.out.println("2. Mostrar Cursos");
             System.out.println("3. Volver al Menu de Administracion");
             opcionCursos = Integer.parseInt(leer.readLine());
+            
             if (opcionCursos == 1){
-                gestionCursos.agregarCurso(leer.readLine(), leer.readLine(), leer.readLine());
+                
+                //promptea al usuario por los datos
+                System.out.print("Nombre del curso: ");
+                String nombre = leer.readLine();
+                System.out.print("Codigo del curso: ");
+                String codigo = leer.readLine();
+                System.out.print("Profesor jefe: ");
+                String profesorJefe = leer.readLine();
+                
+                //feedback al usuario sobre la operacion y llama el metodo de agregado
+                if(gestionCursos.agregarCurso(nombre, codigo, profesorJefe)){
+                    System.out.println("Curso agregado con exito!");
+                    System.out.println("--------------------------");
+                } else {
+                    System.out.println("Error al agregar curso");
+                    System.out.println("--------------------------");
+                }
+                
             } else if (opcionCursos == 2){
                 gestionCursos.mostrarCursos();
             }
