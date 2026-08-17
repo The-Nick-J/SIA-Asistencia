@@ -34,6 +34,19 @@ public class GestionAlumnos{
         return null;
     }
     
+    public Alumno buscarAlumno(String nombre, String apellido){
+        //itera sobre los alumnos
+        for(Alumno alumno : alumnos){
+            //busca un alumno con el nombre y apellido indicado
+            if(alumno.getNombre().equals(nombre) && alumno.getApellido().equals(apellido)){
+                //si hay exito retorna el alumno
+                return alumno;
+            }
+        }
+        //si hay fallo retorna null
+        return null;
+    }
+    
     public void mostrarAlumno(String rut){
         Alumno alumno = buscarAlumno(rut);
         //verifica que exista alumno con dicho rut
