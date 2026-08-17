@@ -35,6 +35,9 @@ public class GestionCursos {
         System.out.println("Codigo: " + mostrado.getCodigo());
         System.out.println("Nombre: " + mostrado.getNombre());
         System.out.println("Profesor Jefe: " + mostrado.getProfesorJefe());
+        
+        //printear alumnos registrados en curso
+        mostrado.mostrarAlumnos();
     }
     
     public void mostrarCursos(){

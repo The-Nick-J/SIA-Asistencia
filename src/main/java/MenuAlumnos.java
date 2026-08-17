@@ -22,9 +22,40 @@ public class MenuAlumnos {
             System.out.println("4. Volver al Menu de Administracion");
             opcionAlumnos = Integer.parseInt(leer.readLine());
             if(opcionAlumnos == 1){
-                gestionAlumnos.agregarAlumno(leer.readLine(), leer.readLine(), leer.readLine());
+                //promptea al usuario por los datos
+                System.out.print("RUT: ");
+                String rut = leer.readLine();
+                System.out.print("Nombre: ");
+                String nombre = leer.readLine();
+                System.out.print("Apellido: ");
+                String apellido = leer.readLine();
+                
+                
+                if(gestionAlumnos.agregarAlumno(rut, nombre, apellido)){
+                    System.out.println("Alumno agregado con exito!");
+                    System.out.println("--------------------------");
+                } else {
+                    System.out.println("Error al agregar alumno");
+                    System.out.println("-----------------------");
+                }
+                
+                
             } else if(opcionAlumnos == 2){
                 gestionAlumnos.mostrarAlumnos();
+            } else if (opcionAlumnos == 3){
+                System.out.print("RUT: ");
+                String rut = leer.readLine();
+                System.out.print("Codigo de curso: ");
+                String codigo = leer.readLine();
+                
+                if(gestionAlumnos.registrarAlumno(rut,codigo)){
+                    System.out.println("Alumno registrado con exito!");
+                    System.out.println("----------------------------");
+                } else {
+                    System.out.println("Error al registrar alumno");
+                    System.out.println("-------------------------");
+                }
+                
             }
         } while (opcionAlumnos != 4);
     }

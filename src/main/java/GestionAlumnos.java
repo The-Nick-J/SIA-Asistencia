@@ -59,5 +59,24 @@ public class GestionAlumnos{
         }
         
     }
+    
+    public boolean registrarAlumno(String rut, String codigo){
+        Alumno alumno = buscarAlumno(rut);
+        
+        if(alumno == null){
+            System.out.println("No existe un alumno con ese RUT");
+            return false;
+        }
+        
+        Curso curso = gestionCursos.cursos.get(codigo);
+        
+        if(curso == null){
+            System.out.println("No existe un curso con ese codigo");
+            return false;
+        }
+        
+        curso.addAlumno(alumno);
+        return true;
+    }
 
 }
