@@ -1,11 +1,18 @@
 import java.io.*;
+import java.util.*;
 
 
 public class GestionAsistencia {
 
     public static void main(String[] args) throws IOException {
         BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
-        Menu menu = new Menu(leer);
+        
+        GestionCursos gestionCursos = new GestionCursos();
+        GestionAlumnos gestionAlumnos = new GestionAlumnos(gestionCursos);
+        
+        
+        Menu menu = new Menu(leer, gestionCursos, gestionAlumnos);
         menu.mostrarMenu();
+        
     }
 }

@@ -5,8 +5,8 @@ public class Menu {
 
     private final MenuPrincipal menuPrincipal;
 
-    public Menu(BufferedReader leer) {
-        menuPrincipal = new MenuPrincipal(leer);
+    public Menu(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos){
+        menuPrincipal = new MenuPrincipal(leer, gestionCursos, gestionAlumnos);
     }
 
     public void mostrarMenu() throws IOException {

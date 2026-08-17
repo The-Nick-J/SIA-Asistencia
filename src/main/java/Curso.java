@@ -50,5 +50,18 @@ public class Curso {
     public void addAlumno(Alumno alumno) {
         this.alumnos.add(alumno);
     }
+    
+    public void mostrarAlumnos(){
+        //revisar que existan alumnos en el arraylist
+        if(alumnos.isEmpty()){
+            System.out.println("No hay alumnos en este curso");
+            return;
+        }
+        //iterar sobre el arraylist y printear los atributos de los alumnos
+        for(Alumno alumno : alumnos){
+            System.out.println(alumno.getRut() + " - " + alumno.getNombre() + " " + alumno.getApellido());
+        }
+        
+    }
 
 }

@@ -4,9 +4,13 @@ import java.io.IOException;
 public class MenuAdministracion {
 
     private final BufferedReader leer;
+    private final GestionCursos gestionCursos;
+    private final GestionAlumnos gestionAlumnos;
 
-    public MenuAdministracion(BufferedReader leer) {
+    public MenuAdministracion(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos) {
         this.leer = leer;
+        this.gestionCursos = gestionCursos;
+        this.gestionAlumnos = gestionAlumnos;
     }
 
     public void mostrarMenu() throws IOException {
@@ -22,9 +26,9 @@ public class MenuAdministracion {
             opcionAdmin = Integer.parseInt(leer.readLine());
 
             if (opcionAdmin == 1) {
-                new MenuAlumnos(leer).mostrarMenu();
+                new MenuAlumnos(leer, gestionAlumnos).mostrarMenu();
             } else if (opcionAdmin == 2) {
-                new MenuCursos(leer).mostrarMenu();
+                new MenuCursos(leer, gestionCursos).mostrarMenu();
             } else if (opcionAdmin == 3) {
                 new MenuCalendario(leer).mostrarMenu();
             } else if (opcionAdmin == 4) {
