@@ -44,4 +44,12 @@ public class Asistencia {
     public void setRetirado(boolean retirado) {
         this.retirado = retirado;
     }
+    
+    public Boolean comprobarDatosAsistencia (LocalDate fecha){
+        return this.fecha.equals(fecha);
+    }
+    
+    public Boolean comprobarDatosAsistencia (Alumno alumno){
+        return this.alumno.equals(alumno);
+    }
 }
