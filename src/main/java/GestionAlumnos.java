@@ -47,17 +47,9 @@ public class GestionAlumnos {
 		return null;
 	}
 
-	public void mostrarAlumno(String rut) {
+	public Alumno mostrarAlumno(String rut) {
 		Alumno alumno = buscarAlumno(rut);
-		// verifica que exista alumno con dicho rut
-		if (alumno == null) {
-			System.out.println("No existe un alumno con ese RUT");
-			return;
-		}
-
-		System.out.println("RUT: " + alumno.getRut());
-		System.out.println("Nombre: " + alumno.getNombre());
-		System.out.println("Apellido: " + alumno.getApellido());
+		return alumno;
 	}
 
 	public void mostrarAlumnos() {

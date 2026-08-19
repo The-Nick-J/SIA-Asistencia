@@ -13,13 +13,15 @@ public class MenuAlumnos {
 
     public void mostrarMenu() throws IOException {
         int opcionAlumnos;
+        String alumnoBuscar;
 
         do {
             System.out.println("Bienvenido al Menu de Gestion de Alumnos");
             System.out.println("1. Agregar Alumno");
-            System.out.println("2. Mostrar Alumnos");
-            System.out.println("3. Registrar Alumno en Curso");
-            System.out.println("4. Volver al Menu de Administracion");
+            System.out.println("2. Mostrar Alumno");
+            System.out.println("3. Mostrar Todos los Alumnos");
+            System.out.println("4. Registrar Alumno en Curso");
+            System.out.println("5. Volver al Menu de Administracion");
             opcionAlumnos = Integer.parseInt(leer.readLine());
             if(opcionAlumnos == 1){
                 //promptea al usuario por los datos
@@ -40,10 +42,27 @@ public class MenuAlumnos {
                 }
                 
                 
-            } else if(opcionAlumnos == 2){
-                gestionAlumnos.mostrarAlumnos();
-            } else if (opcionAlumnos == 3){
-                System.out.print("RUT: ");
+            } else if(opcionAlumnos == 2) { 
+            	
+            	System.out.println("Ingrese el RUT del alumno que desea mostrar:");
+            	alumnoBuscar = leer.readLine();
+            	//quiza es buena idea cambiar arraylist de alumnos por map?
+            	Alumno alumno = gestionAlumnos.mostrarAlumno(alumnoBuscar);
+            	if(alumno != null) {
+            		alumno.mostrarResumen();
+            	} else {
+            		System.out.println("el RUT ingresado no tiene un alumno asociado");
+            	}
+            	
+            	
+            	
+            } else if(opcionAlumnos == 3){
+            	
+            	gestionAlumnos.mostrarAlumnos();
+            	
+            } else if (opcionAlumnos == 4){
+                
+            	System.out.print("RUT: ");
                 String rut = leer.readLine();
                 System.out.print("Codigo de curso: ");
                 String codigo = leer.readLine();
@@ -57,6 +76,6 @@ public class MenuAlumnos {
                 }
                 
             }
-        } while (opcionAlumnos != 4);
+        } while (opcionAlumnos != 5);
     }
 }

@@ -10,16 +10,28 @@ public class Alumno extends Persona {
     	this.curso = curso;
     }
     
+    public String getCodigoCurso() {
+    	return this.curso.getCodigo();
+    }
+    
     @Override
-    public String mostrarResumen() {
+    public void mostrarResumen() {
     	String nombre = this.getNombre();
     	String rut = this.getRut();
     	String apellido = this.getApellido();
     	
-    	if(curso != null) {
-    		return rut + ", " + nombre + ", " + apellido + ", " + this.curso.getCodigo();
+    	if(this.curso != null) {
+    		System.out.println("-----Datos del Alumno-----");
+    		System.out.println("RUT: " + rut);
+    		System.out.println("Nombre: " + nombre);
+    		System.out.println("Apellido: " + apellido);
+    		System.out.println("Curso: " + this.getCodigoCurso());
     	} else {
-    		return rut + ", " + nombre + ", " + apellido + ", " + "Sin curso";
+    		System.out.println("-----Datos del Alumno-----");
+    		System.out.println("RUT: " + rut);
+    		System.out.println("Nombre: " + nombre);
+    		System.out.println("Apellido: " + apellido);
+    		System.out.println("Curso: Sin curso asignado");
     	}
     }
 }
