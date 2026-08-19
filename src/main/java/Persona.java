@@ -35,7 +35,10 @@ public class Persona {
         this.apellido = apellido;
     }
     
-    public String mostrarResumen() {
-    	return this.rut + ", " + this.nombre + ", " + this.apellido;
+    public void mostrarResumen() {
+    	System.out.println("-----Datos de la Persona-----");
+		System.out.println("RUT: " + rut);
+		System.out.println("Nombre: " + nombre);
+		System.out.println("Apellido: " + apellido);
     }
 }
