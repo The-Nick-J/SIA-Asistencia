@@ -6,11 +6,15 @@ public class MenuPrincipal {
     private final BufferedReader leer;
     private final GestionCursos gestionCursos;
     private final GestionAlumnos gestionAlumnos;
+    private final MenuAsistencia menuAsistencia;
+    private final MenuAdministracion menuAdministracion;
 
     public MenuPrincipal(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos){
         this.leer = leer;
         this.gestionCursos = gestionCursos;
         this.gestionAlumnos = gestionAlumnos;
+        menuAsistencia = new MenuAsistencia(leer);
+        menuAdministracion = new MenuAdministracion(leer, gestionCursos, gestionAlumnos);
     }
 
     public void mostrarMenu() throws IOException {
@@ -25,9 +29,9 @@ public class MenuPrincipal {
             opcion = Integer.parseInt(leer.readLine());
 
             if (opcion == 1) {
-                new MenuAsistencia(leer).mostrarMenu();
+                menuAsistencia.mostrarMenu();
             } else if (opcion == 2) {
-                new MenuAdministracion(leer, gestionCursos, gestionAlumnos).mostrarMenu();
+                menuAdministracion.mostrarMenu();
             }
         } while (opcion != 3);
     }
