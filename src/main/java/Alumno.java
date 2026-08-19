@@ -1,38 +1,25 @@
 
-public class Alumno {
-    private String rut;
-    private String nombre;
-    private String apellido;
+public class Alumno extends Persona {
+	private Curso curso;
     
     public Alumno(String rut, String nombre, String apellido) {
-        this.rut = rut;
-        this.nombre = nombre;
-        this.apellido = apellido;
+    	super(rut,nombre,apellido);
     }
     
-    
-    public String getRut() {
-        return rut;
+    public void setCurso(Curso curso) {
+    	this.curso = curso;
     }
     
-    public String getNombre() {
-        return nombre;
+    @Override
+    public String mostrarResumen() {
+    	String nombre = this.getNombre();
+    	String rut = this.getRut();
+    	String apellido = this.getApellido();
+    	
+    	if(curso != null) {
+    		return rut + ", " + nombre + ", " + apellido + ", " + this.curso.getCodigo();
+    	} else {
+    		return rut + ", " + nombre + ", " + apellido + ", " + "Sin curso";
+    	}
     }
-    
-    public String getApellido() {
-        return apellido;
-    }
-    
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-    
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-    
 }

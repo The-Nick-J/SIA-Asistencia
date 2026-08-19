@@ -6,11 +6,19 @@ public class MenuAdministracion {
     private final BufferedReader leer;
     private final GestionCursos gestionCursos;
     private final GestionAlumnos gestionAlumnos;
+    private final MenuAlumnos menuAlumnos;
+    private final MenuCursos menuCursos;
+    private final MenuCalendario menuCalendario;
+    private final MenuAvanzado menuAvanzado;
 
     public MenuAdministracion(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos) {
         this.leer = leer;
         this.gestionCursos = gestionCursos;
         this.gestionAlumnos = gestionAlumnos;
+        this.menuAlumnos = new MenuAlumnos(leer, gestionAlumnos);
+        this.menuCursos = new MenuCursos(leer, gestionCursos);
+        this.menuCalendario = new MenuCalendario(leer);
+        this.menuAvanzado = new MenuAvanzado(leer);
     }
 
     public void mostrarMenu() throws IOException {
@@ -26,13 +34,13 @@ public class MenuAdministracion {
             opcionAdmin = Integer.parseInt(leer.readLine());
 
             if (opcionAdmin == 1) {
-                new MenuAlumnos(leer, gestionAlumnos).mostrarMenu();
+                menuAlumnos.mostrarMenu();
             } else if (opcionAdmin == 2) {
-                new MenuCursos(leer, gestionCursos).mostrarMenu();
+                menuCursos.mostrarMenu();
             } else if (opcionAdmin == 3) {
-                new MenuCalendario(leer).mostrarMenu();
+                menuCalendario.mostrarMenu();
             } else if (opcionAdmin == 4) {
-                new MenuAvanzado(leer).mostrarMenu();
+                menuAvanzado.mostrarMenu();
             }
         } while (opcionAdmin != 5);
     }
