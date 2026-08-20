@@ -14,6 +14,10 @@ public class Alumno extends Persona {
     	return this.curso.getCodigo();
     }
     
+    public Curso getCurso() {
+    	return this.curso;
+    }
+    
     @Override
     public void mostrarResumen() {
     	String nombre = this.getNombre();
