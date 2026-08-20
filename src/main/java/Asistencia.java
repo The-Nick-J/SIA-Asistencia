@@ -4,13 +4,19 @@ public class Asistencia {
     private LocalDate fecha;
     private Alumno alumno;
     private boolean presente;
+    private boolean inasistenciaExtraordinaria;
+    private String motivoInasistencia;
+    private String motivoSalida;
     private boolean retirado;
 
-    public Asistencia(LocalDate fecha, Alumno alumno, boolean presente, boolean retirado) {
+    public Asistencia(LocalDate fecha, Alumno alumno, boolean presente, boolean retirado, boolean inasistenciaExtraordinaria, String motivoInasistencia, String motivoSalida) {
         this.fecha = fecha;
         this.alumno = alumno;
         this.presente = presente;
         this.retirado = retirado;
+        this.inasistenciaExtraordinaria = inasistenciaExtraordinaria;
+        this.motivoInasistencia = motivoInasistencia;
+        this.motivoSalida = motivoSalida;
     }
 
     public LocalDate getFecha() {
@@ -45,11 +51,37 @@ public class Asistencia {
         this.retirado = retirado;
     }
     
-    public Boolean comprobarDatosAsistencia (LocalDate fecha){
+    public boolean comprobarDatosAsistencia (LocalDate fecha){
         return this.fecha.equals(fecha);
     }
     
-    public Boolean comprobarDatosAsistencia (Alumno alumno){
+    public boolean comprobarDatosAsistencia (Alumno alumno){
         return this.alumno.equals(alumno);
     }
+    
+    public boolean isInasistenciaExtraordinaria() {
+        return this.inasistenciaExtraordinaria;
+    }
+    
+    public void setInasistenciaExtraordinaria(boolean inasistenciaExtraordinaria) {
+        this.inasistenciaExtraordinaria = inasistenciaExtraordinaria;
+    }
+    
+    public String getMotivoInasistencia() {
+        return this.motivoInasistencia;
+    }
+    
+    public void setMotivoInasistencia(String motivoInasistencia) {
+        this.motivoInasistencia = motivoInasistencia;
+    }
+    
+    public String getMotivoSalida() {
+        return this.motivoSalida;
+    }
+    
+    public void setMotivoSalida(String motivoSalida) {
+        this.motivoSalida = motivoSalida;
+    }
 }
+
+    

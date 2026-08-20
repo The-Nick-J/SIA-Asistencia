@@ -20,7 +20,10 @@ public class DatosIniciales {
                 LocalDate.now(),
                 alumno1,
                 true,
-                false
+                false,
+                false,
+                null,
+                null
         );
 
         System.out.println("Curso: " + curso.getNombre());
