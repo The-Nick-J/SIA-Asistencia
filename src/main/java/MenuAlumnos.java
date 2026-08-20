@@ -66,7 +66,7 @@ public class MenuAlumnos {
                 String rut = leer.readLine();
                 System.out.print("Codigo de curso: ");
                 String codigo = leer.readLine();
-                
+               
                 if(gestionAlumnos.registrarAlumno(rut,codigo)){
                     System.out.println("Alumno registrado con exito!");
                     System.out.println("----------------------------");
