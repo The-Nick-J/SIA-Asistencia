@@ -5,7 +5,7 @@ import java.util.*;
 public class GestionCursos {
     
     //inicializa un mapa vacio de cursos
-    public HashMap<String,Curso> cursos = new HashMap<>();
+    private HashMap<String,Curso> cursos = new HashMap<>();
     
     public boolean agregarCurso(String nombre, String codigo, String profesorJefe){
         //checkea si ya existe el curso con el codigo ingresado
@@ -51,4 +51,14 @@ public class GestionCursos {
             mostrarCurso(codigo);
         }
     }
+
+	public HashMap<String, Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(HashMap<String, Curso> cursos) {
+		this.cursos = cursos;
+	}
+    
+    
 }
