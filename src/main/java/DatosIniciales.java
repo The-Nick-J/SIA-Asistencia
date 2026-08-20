@@ -12,10 +12,12 @@ public class DatosIniciales {
 
         Alumno alumno1 = new Alumno("20.123.456-7", "Mike", "Ceplus");
         Alumno alumno2 = new Alumno("21.987.654-3", "Carla", "Python");
+        Profesor profesor1 = new Profesor("20.482.528-9", "Cubillos", "El GOAT", "Java");
 
         curso.addAlumno(alumno1);
         curso.addAlumno(alumno2);
-
+        
+        
         Asistencia asistencia = new Asistencia(
                 LocalDate.now(),
                 alumno1,
@@ -40,7 +42,10 @@ public class DatosIniciales {
         System.out.println("Fecha: " + asistencia.getFecha());
         System.out.println("Alumno: " + asistencia.getAlumno().getNombre());
         System.out.println("Presente: " + asistencia.isPresente());
-
+        
+        profesor1.mostrarResumen();
+        alumno1.mostrarResumen();
+        
         // Probar setters
         alumno1.setNombre("Ana María");
         curso.setProfesorJefe("Pedro Ramírez");
