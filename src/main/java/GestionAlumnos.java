@@ -54,15 +54,21 @@ public class GestionAlumnos {
 
 	public void mostrarAlumnos() {
 		// verifica que existan alumnos en el arraylist
+		int cont = 1;
+		boolean formatoCorto = true;
+		
 		if (alumnos.isEmpty()) {
 			System.out.println("No hay alumnos registrados");
 			return;
 		}
-
+		
+		System.out.println("Lista de alumnos: \n");
 		// itera por el arraylist de alumnos y llama el metodo mostrarAlumno por cada
 		// alumno existente
 		for (Alumno alumno : alumnos) {
-			mostrarAlumno(alumno.getRut());
+			System.out.print(cont + ".-");
+			alumno.mostrarResumen(formatoCorto);
+			cont++;
 		}
 
 	}
@@ -75,7 +81,7 @@ public class GestionAlumnos {
 			return false;
 		}
 
-		Curso curso = gestionCursos.cursos.get(codigo);
+		Curso curso = gestionCursos.getCursos().get(codigo);
 
 		if (curso == null) {
 			System.out.println("No existe un curso con ese codigo");

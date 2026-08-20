@@ -14,6 +14,10 @@ public class Alumno extends Persona {
     	return this.curso.getCodigo();
     }
     
+    public Curso getCurso() {
+    	return this.curso;
+    }
+    
     @Override
     public void mostrarResumen() {
     	String nombre = this.getNombre();
@@ -33,5 +37,18 @@ public class Alumno extends Persona {
     		System.out.println("Apellido: " + apellido);
     		System.out.println("Curso: Sin curso asignado");
     	}
+    }
+   
+    public void mostrarResumen(boolean formatoCorto) {
+    	if(!formatoCorto) {
+    		mostrarResumen();
+    		return;
+    	}
+    	if(this.curso != null) {
+    		System.out.println(this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Curso: " + this.getCodigoCurso());
+    	} else {
+    		System.out.println(this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Sin curso asignado");
+    	}
+    	
     }
 }
