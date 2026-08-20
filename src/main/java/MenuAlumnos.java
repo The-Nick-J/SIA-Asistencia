@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -13,7 +14,10 @@ public class MenuAlumnos {
 
     public void mostrarMenu() throws IOException {
         int opcionAlumnos;
-        String alumnoBuscar;
+        int opcionAlumnoBuscar;
+        String rutBuscar;
+        String nombreBuscar;
+        String apellidoBuscar;
 
         do {
             System.out.println("Bienvenido al Menu de Gestion de Alumnos");
@@ -23,7 +27,7 @@ public class MenuAlumnos {
             System.out.println("4. Registrar Alumno en Curso");
             System.out.println("5. Volver al Menu de Administracion");
             opcionAlumnos = Integer.parseInt(leer.readLine());
-            if(opcionAlumnos == 1){
+            if (opcionAlumnos == 1) {
                 //promptea al usuario por los datos
                 System.out.print("RUT: ");
                 String rut = leer.readLine();
@@ -31,50 +35,62 @@ public class MenuAlumnos {
                 String nombre = leer.readLine();
                 System.out.print("Apellido: ");
                 String apellido = leer.readLine();
-                
-                
-                if(gestionAlumnos.agregarAlumno(rut, nombre, apellido)){
+
+                if (gestionAlumnos.agregarAlumno(rut, nombre, apellido)) {
                     System.out.println("Alumno agregado con exito!");
                     System.out.println("--------------------------");
                 } else {
                     System.out.println("Error al agregar alumno");
                     System.out.println("-----------------------");
                 }
-                
-                
-            } else if(opcionAlumnos == 2) { 
-            	
-            	System.out.println("Ingrese el RUT del alumno que desea mostrar:");
-            	alumnoBuscar = leer.readLine();
-            	//quiza es buena idea cambiar arraylist de alumnos por map?
-            	Alumno alumno = gestionAlumnos.mostrarAlumno(alumnoBuscar);
-            	if(alumno != null) {
-            		alumno.mostrarResumen();
-            	} else {
-            		System.out.println("el RUT ingresado no tiene un alumno asociado");
-            	}
-            	
-            	
-            	
-            } else if(opcionAlumnos == 3){
-            	
-            	gestionAlumnos.mostrarAlumnos();
-            	
-            } else if (opcionAlumnos == 4){
-                
-            	System.out.print("RUT: ");
+
+            } else if (opcionAlumnos == 2) {
+
+                System.out.println("Como desea buscar al alumno?:");
+                System.out.println("1. Buscar por RUT");
+                System.out.println("2. Buscar por Nombre y Apellido");
+                opcionAlumnoBuscar = Integer.parseInt(leer.readLine());
+                if (opcionAlumnoBuscar == 1) {
+                    System.out.println("Ingrese el RUT del alumno: ");
+                    rutBuscar = leer.readLine();
+                    Alumno alumno = gestionAlumnos.buscarAlumno(rutBuscar);
+                    if (alumno != null) {
+                        alumno.mostrarResumen();
+                    } else {
+                        System.out.println("El alumno no ha sido encontrado");
+                    }
+                } else if (opcionAlumnoBuscar == 2) {
+                    System.out.println("Ingrese el Nombre del alumno: ");
+                    nombreBuscar = leer.readLine();
+                    System.out.println("Ingrese el Apellido del alumno: ");
+                    apellidoBuscar = leer.readLine();
+                    Alumno alumno = gestionAlumnos.buscarAlumno(nombreBuscar, apellidoBuscar);
+                    if (alumno != null) {
+                        alumno.mostrarResumen();
+                    } else {
+                        System.out.println("El alumno no ha sido encontrado");
+                    }
+                }
+
+            } else if (opcionAlumnos == 3) {
+
+                gestionAlumnos.mostrarAlumnos();
+
+            } else if (opcionAlumnos == 4) {
+
+                System.out.print("RUT: ");
                 String rut = leer.readLine();
                 System.out.print("Codigo de curso: ");
                 String codigo = leer.readLine();
-               
-                if(gestionAlumnos.registrarAlumno(rut,codigo)){
+
+                if (gestionAlumnos.registrarAlumno(rut, codigo)) {
                     System.out.println("Alumno registrado con exito!");
                     System.out.println("----------------------------");
                 } else {
                     System.out.println("Error al registrar alumno");
                     System.out.println("-------------------------");
                 }
-                
+
             }
         } while (opcionAlumnos != 5);
     }
