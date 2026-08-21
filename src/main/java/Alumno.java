@@ -1,38 +1,54 @@
 
-public class Alumno {
-    private String rut;
-    private String nombre;
-    private String apellido;
+public class Alumno extends Persona {
+	private Curso curso;
     
     public Alumno(String rut, String nombre, String apellido) {
-        this.rut = rut;
-        this.nombre = nombre;
-        this.apellido = apellido;
+    	super(rut,nombre,apellido);
     }
     
-    
-    public String getRut() {
-        return rut;
+    public void setCurso(Curso curso) {
+    	this.curso = curso;
     }
     
-    public String getNombre() {
-        return nombre;
+    public String getCodigoCurso() {
+    	return this.curso.getCodigo();
     }
     
-    public String getApellido() {
-        return apellido;
+    public Curso getCurso() {
+    	return this.curso;
     }
     
-    public void setRut(String rut) {
-        this.rut = rut;
+    @Override
+    public void mostrarResumen() {
+    	String nombre = this.getNombre();
+    	String rut = this.getRut();
+    	String apellido = this.getApellido();
+    	
+    	if(this.curso != null) {
+    		System.out.println("-----Datos del Alumno-----");
+    		System.out.println("RUT: " + rut);
+    		System.out.println("Nombre: " + nombre);
+    		System.out.println("Apellido: " + apellido);
+    		System.out.println("Curso: " + this.getCodigoCurso());
+    	} else {
+    		System.out.println("-----Datos del Alumno-----");
+    		System.out.println("RUT: " + rut);
+    		System.out.println("Nombre: " + nombre);
+    		System.out.println("Apellido: " + apellido);
+    		System.out.println("Curso: Sin curso asignado");
+    	}
     }
-    
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+   
+    public void mostrarResumen(boolean formatoCorto) {
+    	if(!formatoCorto) {
+    		mostrarResumen();
+    		return;
+    	}
+    	if(this.curso != null) {
+    		System.out.println(this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Curso: " + this.getCodigoCurso());
+    	} else {
+    		System.out.println(this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Sin curso asignado");
+    	}
+    	
     }
-    
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-    
 }
