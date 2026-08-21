@@ -5,17 +5,21 @@ public class GestionRegistroAsistencia{
     private ArrayList<Asistencia> registrosAsistencia;
     
     //el arraylist se declara en atributos y se inicializa en el constructor
-    public void GestionRegistrosAsistencias(){
+    public GestionRegistroAsistencia(){
         this.registrosAsistencia = new ArrayList<Asistencia>();
     }
     
-    public void agregarRegistroAsistencia(Asistencia asistencia){
-        //validacion si el alumno de esta asistencia ya esta en el registro Y la fecha de esta asistencia es la misma que la de la asistencia del alumno que ya esta, quiere decir que esta repitiendo alumno Y fecha, NO PERMITIDO
-        if(buscarRegistroAsistencia(asistencia.getAlumno()) != null && asistencia.getFecha() == buscarRegistroAsistencia(asistencia.getAlumno()).getFecha()){
-            System.out.println("ERROR! No se puede registrar asistencia dos veces en un mismo dia para el mismo alumno!");
-        } else {
-            this.registrosAsistencia.add(asistencia);
+    public void agregarRegistroAsistencia(Asistencia nuevaAsistencia){
+        for(Asistencia asistencia : registrosAsistencia){
+            boolean alumno = asistencia.getAlumno().getRut().equals(nuevaAsistencia.getAlumno().getRut());
+            boolean fecha = asistencia.getFecha().equals(nuevaAsistencia.getFecha());
+            
+            if(alumno && fecha){
+                System.out.println("ERROR: El alumno ya tiene una asistencia registra en esa fecha");
+                return;
+            }
         }
+        registrosAsistencia.add(nuevaAsistencia);
     }
    
     //metodo para buscar por alumno, utiliza sobrecarga
