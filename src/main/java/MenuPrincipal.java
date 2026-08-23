@@ -15,7 +15,7 @@ public class MenuPrincipal {
         this.gestionCursos = gestionCursos;
         this.gestionAlumnos = gestionAlumnos;
         this.gestionRegistroAsistencia = gestionRegistroAsistencia;
-        menuAsistencia = new MenuAsistencia(leer,gestionCursos,gestionRegistroAsistencia);
+        menuAsistencia = new MenuAsistencia(leer,gestionCursos,gestionRegistroAsistencia,gestionAlumnos);
         menuAdministracion = new MenuAdministracion(leer, gestionCursos, gestionAlumnos);
     }
 
