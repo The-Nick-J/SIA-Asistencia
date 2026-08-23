@@ -18,6 +18,16 @@ public class Asistencia {
         this.motivoInasistencia = motivoInasistencia;
         this.motivoSalida = motivoSalida;
     }
+    
+    public Asistencia(LocalDate fecha, Alumno alumno, boolean presente) {
+        this.fecha = fecha;
+        this.alumno = alumno;
+        this.presente = presente;
+        this.retirado = false;
+        this.inasistenciaExtraordinaria = false;
+        this.motivoInasistencia = null;
+        this.motivoSalida = null;
+    }
 
     public LocalDate getFecha() {
         return fecha;

@@ -6,7 +6,7 @@ public class GestionRegistroAsistencia{
     /*Este HashMap usa de key el rut del alumno, y su value es un ArrayList
     que contendra todas las asistencias correspondiente a un alumno
     */
-    private HashMap<String,ArrayList<Asistencia>> registrosAsistencia;
+    private final HashMap<String,ArrayList<Asistencia>> registrosAsistencia;
     
     //el HashMap se declara en atributos y se inicializa en el constructor
     public GestionRegistroAsistencia(){
@@ -53,6 +53,25 @@ public class GestionRegistroAsistencia{
         }
         return asistenciasFecha;
     }
+    
+    public boolean existeAsistenciaRegistrada(Curso curso, LocalDate fecha){
+        if(curso.getAlumnos().isEmpty()){
+            return false;
+        }
+        
+        String rut = curso.getAlumnos().get(0).getRut();
+        
+        if(registrosAsistencia.get(rut) == null || registrosAsistencia.get(rut).isEmpty()){
+            return false;
+        }
+        for(Asistencia asistencia : registrosAsistencia.get(curso.getAlumnos().get(0).getRut())){
+            if(asistencia.getFecha().equals(fecha)){
+                return true;
+            }
+        }
+        
+        return false;
+    }
     //print las asistencias del arraylist y sus datos, dado que asistencia no tiene metodo mostrar
     public void mostrarRegistros(){
         if(registrosAsistencia.isEmpty()){
@@ -76,6 +95,10 @@ public class GestionRegistroAsistencia{
                 System.out.println("\n--------------\n");
             }
         }
+    }
+
+    public HashMap<String, ArrayList<Asistencia>> getRegistrosAsistencia() {
+        return registrosAsistencia;
     }
     
 }

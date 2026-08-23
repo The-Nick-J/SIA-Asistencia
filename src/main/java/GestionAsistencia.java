@@ -9,9 +9,9 @@ public class GestionAsistencia {
         
         GestionCursos gestionCursos = new GestionCursos();
         GestionAlumnos gestionAlumnos = new GestionAlumnos(gestionCursos);
+        GestionRegistroAsistencia gestionRegistroAsistencia = new GestionRegistroAsistencia();
         
-        
-        Menu menu = new Menu(leer, gestionCursos, gestionAlumnos);
+        Menu menu = new Menu(leer, gestionCursos, gestionAlumnos,gestionRegistroAsistencia);
         menu.mostrarMenu();
         
     }

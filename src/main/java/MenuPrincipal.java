@@ -6,14 +6,16 @@ public class MenuPrincipal {
     private final BufferedReader leer;
     private final GestionCursos gestionCursos;
     private final GestionAlumnos gestionAlumnos;
+    private final GestionRegistroAsistencia gestionRegistroAsistencia;
     private final MenuAsistencia menuAsistencia;
     private final MenuAdministracion menuAdministracion;
 
-    public MenuPrincipal(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos){
+    public MenuPrincipal(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos,GestionRegistroAsistencia gestionRegistroAsistencia){
         this.leer = leer;
         this.gestionCursos = gestionCursos;
         this.gestionAlumnos = gestionAlumnos;
-        menuAsistencia = new MenuAsistencia(leer);
+        this.gestionRegistroAsistencia = gestionRegistroAsistencia;
+        menuAsistencia = new MenuAsistencia(leer,gestionCursos,gestionRegistroAsistencia);
         menuAdministracion = new MenuAdministracion(leer, gestionCursos, gestionAlumnos);
     }
 
