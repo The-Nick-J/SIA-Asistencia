@@ -27,7 +27,7 @@ public class GestionCursos {
     public void mostrarCurso(String codigo){
         
         //buscar el curso segun el codigo
-        Curso mostrado = cursos.get(codigo);
+        Curso mostrado = buscarCurso(codigo);
         
         //revisar que el curso efectivamente existad
         if(mostrado == null){
@@ -36,11 +36,13 @@ public class GestionCursos {
         }
         
         //printear los datos del curso
+        System.out.println("-------------------------------");
         System.out.println("Codigo: " + mostrado.getCodigo());
         System.out.println("Nombre: " + mostrado.getNombre());
         System.out.println("Profesor Jefe: " + mostrado.getProfesorJefe());
         
         //printear alumnos registrados en curso
+        System.out.println("Alumnos: ");
         mostrado.mostrarAlumnos();
     }
     
@@ -59,6 +61,5 @@ public class GestionCursos {
 	public HashMap<String, Curso> getCursos() {
 		return cursos;
 	}
-    
-    
+
 }
