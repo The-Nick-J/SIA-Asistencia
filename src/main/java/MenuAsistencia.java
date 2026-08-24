@@ -104,6 +104,42 @@ public class MenuAsistencia {
                     }
                     break;
                 case 3:
+                    String rut;
+                    Alumno alumnoSalida;
+                    String fechaTextoSalida;
+                    LocalDate fecha;
+                    String motivo;
+                    
+                    System.out.println("Ingrese el RUT del alumno: ");
+                    rut = leer.readLine();
+                    
+                    alumnoSalida = gestionAlumnos.buscarAlumno(rut);
+                    
+                    if(alumnoSalida == null){
+                        System.out.println("Alumno no encontrado");
+                        break;
+                    }
+                    
+                    System.out.println("Ingrese la fecha de la salida anticipada (AAAA-MM-DD): ");
+                    fechaTextoSalida = leer.readLine();
+                    
+                    try {
+                        fecha = LocalDate.parse(fechaTextoSalida);
+                    } catch (DateTimeParseException e){
+                        System.out.println("El formato de fecha ingresado no es valido!");
+                        break;
+                    }
+                    
+                    System.out.println("Ingrese el motivo de la salida: ");
+                    motivo = leer.readLine();
+                    
+                    boolean salidaRegistrada = gestionRegistroAsistencia.registrarSalidaAnticipada(alumnoSalida, fecha, motivo);
+                    
+                    if(salidaRegistrada){
+                        System.out.println("Salida anticipada registrada correctamente");
+                    } else {
+                        System.out.println("No se pudo registrar la salida anticipada");
+                    }            
                     break;
                 case 4:
                     break;
