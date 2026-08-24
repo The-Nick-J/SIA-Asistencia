@@ -125,4 +125,28 @@ public class GestionRegistroAsistencia {
         }
         return false;
     }
+    
+    public boolean registrarSalidaAnticipada(Alumno alumno, LocalDate fecha, String motivo){
+        ArrayList<Asistencia> asistenciasAlumno = buscarRegistroAsistencia(alumno);
+        
+        //si existe registro, busca la asistencia de ese dia y modifica
+        if(asistenciasAlumno != null){
+            for(Asistencia asistencia : asistenciasAlumno){
+                if(asistencia.getFecha().equals(fecha)){
+                    asistencia.setPresente(true);
+                    asistencia.setRetirado(true);
+                    asistencia.setMotivoSalida(motivo);
+                    return true;
+                }
+            }
+        }
+        
+        //si no hay registro, crea uno y modifica
+        Asistencia nuevaAsistencia = new Asistencia(fecha, alumno, true);
+        
+        nuevaAsistencia.setRetirado(true);
+        nuevaAsistencia.setMotivoSalida(motivo);
+        
+        return agregarRegistroAsistencia(nuevaAsistencia);
+    }
 }

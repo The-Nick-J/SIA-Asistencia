@@ -81,7 +81,7 @@ public class GestionAlumnos {
 			return false;
 		}
 
-		Curso curso = gestionCursos.getCursos().get(codigo);
+		Curso curso = gestionCursos.buscarCurso(codigo);
 
 		if (curso == null) {
 			System.out.println("No existe un curso con ese codigo");
