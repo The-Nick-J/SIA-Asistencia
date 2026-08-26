@@ -29,8 +29,9 @@ public class MenuAsistencia {
             System.out.println("1. Pasar Asistencia");
             System.out.println("2. Registrar una Inasistencia Extraordinaria");
             System.out.println("3. Registrar salida anticipada");
-            System.out.println("4. Consultar Asistencia");
-            System.out.println("5. Volver al menu principal");
+            System.out.println("4. Mostrar alumnos ausentes del colegio en fecha");
+            System.out.println("5. Consultar asistencia de un curso por fecha");
+            System.out.println("6. Volver al menu principal");
             opcionAsistencia = Integer.parseInt(leer.readLine());
 
             switch (opcionAsistencia) {
@@ -157,12 +158,41 @@ public class MenuAsistencia {
                     
                     gestionRegistroAsistencia.mostrarAusentesPorFecha(fechaConsulta);
                     break;
+                case 5:
+                    String fechaTextoBuscar;
+                    LocalDate fechaBuscar;
+                    String codigoCursoBuscar;
+                    Curso cursoBuscar;
+                    
+                    System.out.println("Ingrese la fecha que desea revisar en formato (AAAA-MM-DD)");
+                    fechaTextoBuscar = leer.readLine();
+                    
+                    try {
+                        fechaBuscar = LocalDate.parse(fechaTextoBuscar);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("El formato de fecha ingresado no es valido");
+                        break;
+                    }
+                    
+                    System.out.println("Ingrese el codigo del curso a buscar: ");
+                    codigoCursoBuscar = leer.readLine();
+                    
+                    cursoBuscar = gestionCursos.getCursos().get(codigoCursoBuscar);
+                    
+                    if(cursoBuscar == null) {
+                        System.out.println("No existe un curso con ese codigo");
+                        break;
+                    }
+                    
+                    gestionRegistroAsistencia.mostrarAsistenciaPorFechaYCurso(cursoBuscar,fechaBuscar);
+                    
+                    break;
                 default:
                     System.out.println("Ingrese una opción valida.");
                     break;
             }
 
-        } while (opcionAsistencia != 5);
+        } while (opcionAsistencia != 6);
 
     }
 }
