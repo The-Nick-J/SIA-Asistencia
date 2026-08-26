@@ -176,4 +176,42 @@ public class GestionRegistroAsistencia {
     }
     
     
+    public void mostrarAsistenciaPorFechaYCurso(Curso curso, LocalDate fecha) {
+        boolean hayAsistenciaTomada = false;
+        
+        for(Alumno alumno : curso.getAlumnos()) {
+            ArrayList<Asistencia> asistenciasAlumno = buscarRegistroAsistencia(alumno);
+            
+            if(asistenciasAlumno != null) {
+                for(Asistencia asistencia : asistenciasAlumno) {
+                    if (asistencia.getFecha().equals(fecha)) {
+                        hayAsistenciaTomada = true;
+                        System.out.println("==== ALUMNO ==== ");
+                        System.out.println("Alumno: " + alumno.getNombre() + " " + alumno.getApellido());
+                        System.out.println("RUT: " + alumno.getRut());
+                        
+                        if(asistencia.isRetirado()) {
+                            System.out.println("Estado: Salida Anticipada");
+                            System.out.println("Motivo: " + asistencia.getMotivoSalida());
+                        } else if (asistencia.isPresente()) {
+                            System.out.println("Estado: Presente");
+                        } else {
+                            System.out.println("Estado: Ausente");
+                        }
+                        
+                        if(asistencia.isInasistenciaExtraordinaria()) {
+                            System.out.println("Falta Justificada: Si");
+                            System.out.println("Motivo de Inasistencia: " + asistencia.getMotivoInasistencia());
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        if (!hayAsistenciaTomada) {
+            System.out.println("No hay asistencia tomada para ese curso en esa fecha");
+        }
+    }
+    
 }
