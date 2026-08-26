@@ -6,7 +6,7 @@ public class Curso {
     private String nombre;
     private String codigo;
     private String profesorJefe;
-    private ArrayList<Alumno> alumnos;
+    private final ArrayList<Alumno> alumnos;
 
     public Curso(String nombre, String codigo, String profesorJefe) {
         this.nombre = nombre;
@@ -43,12 +43,21 @@ public class Curso {
         this.profesorJefe = profesorJefe;
     }
 
-    public void setAlumnos(ArrayList<Alumno> alumnos) {
-        this.alumnos = alumnos;
-    }
-
-    public void addAlumno(Alumno alumno) {
+    public boolean addAlumno(Alumno alumno) {
+        if(buscarAlumno(alumno.getRut()) != null){
+            return false;
+        }
         this.alumnos.add(alumno);
+        return true;
+    }
+    
+    public Alumno buscarAlumno(String rut){
+        for(Alumno alumno : alumnos){
+            if(alumno.getRut().equals(rut)){
+                return alumno;
+            }
+        }
+        return null;
     }
     
     public void mostrarAlumnos(){
