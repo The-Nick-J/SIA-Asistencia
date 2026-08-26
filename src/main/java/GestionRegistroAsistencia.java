@@ -149,4 +149,31 @@ public class GestionRegistroAsistencia {
         
         return agregarRegistroAsistencia(nuevaAsistencia);
     }
+    
+    // metodo para mostrar ausentes en una fecha especifica
+    public void mostrarAusentesPorFecha(LocalDate fecha) {
+        boolean hayAusentes = false;
+        
+        for(ArrayList<Asistencia> asistenciasAlumno : registrosAsistencia.values()) {
+            for(Asistencia asistencia : asistenciasAlumno) {
+                if(asistencia.getFecha().equals(fecha) && !asistencia.isPresente()) {
+                    
+                    Alumno alumno = asistencia.getAlumno();
+                    System.out.println("Alumnos AUSENTES en fecha: " + fecha );
+                    System.out.print("RUT: " + alumno.getRut());
+                    System.out.print("--- Nombre: " + alumno.getNombre() + " " + alumno.getApellido());
+                    System.out.println(" ");
+                    
+                    hayAusentes = true;
+                }
+            }
+        }
+        
+        if(!hayAusentes) {
+            System.out.println("no hay ausentes en la fecha ingresada.");
+        }
+        
+    }
+    
+    
 }

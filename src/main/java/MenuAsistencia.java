@@ -142,6 +142,20 @@ public class MenuAsistencia {
                     }            
                     break;
                 case 4:
+                    String fechaTextoConsulta;
+                    LocalDate fechaConsulta;
+                    
+                    System.out.println("Ingrese la fecha que desea revisar la asistencia en formato (AAAA-MM-DD): ");
+                    fechaTextoConsulta = leer.readLine();
+                    
+                    try {
+                        fechaConsulta = LocalDate.parse(fechaTextoConsulta);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("El formato de fecha que ingreso no es valido.");
+                        break;
+                    }
+                    
+                    gestionRegistroAsistencia.mostrarAusentesPorFecha(fechaConsulta);
                     break;
                 default:
                     System.out.println("Ingrese una opción valida.");
