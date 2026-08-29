@@ -58,8 +58,20 @@ public class GestionCursos {
         }
     }
 
-	public HashMap<String, Curso> getCursos() {
-		return cursos;
-	}
+    public HashMap<String, Curso> getCursos() {
+	return cursos;
+    }
+    
+    public boolean editarCurso(String codigo, String nuevoNombre, String nuevoProfesorJefe){
+        Curso curso = buscarCurso(codigo);
+        if(curso == null){
+            return false;
+        }
+        
+        curso.setNombre(nuevoNombre);
+        curso.setProfesorJefe(nuevoProfesorJefe);
+        
+        return true;
+    }
 
 }

@@ -25,7 +25,8 @@ public class MenuAlumnos {
             System.out.println("2. Mostrar Alumno");
             System.out.println("3. Mostrar Todos los Alumnos");
             System.out.println("4. Registrar Alumno en Curso");
-            System.out.println("5. Volver al Menu de Administracion");
+            System.out.println("5. Editar Alumno");
+            System.out.println("6. Volver al Menu de Administracion");
             opcionAlumnos = Integer.parseInt(leer.readLine());
             if (opcionAlumnos == 1) {
                 //promptea al usuario por los datos
@@ -90,8 +91,22 @@ public class MenuAlumnos {
                     System.out.println("Error al registrar alumno");
                     System.out.println("-------------------------");
                 }
-
+            } else if (opcionAlumnos == 5){
+                System.out.println("RUT del alumno que se edita: ");
+                String rut = leer.readLine();
+                System.out.println("Nuevo nombre: ");
+                String nuevoNombre = leer.readLine();
+                System.out.println("Nuevo apellido: ");
+                String nuevoApellido = leer.readLine();
+                
+                if(gestionAlumnos.editarAlumno(rut, nuevoNombre, nuevoApellido)){
+                    System.out.println("Alumno editado con exito!");
+                } else {
+                    System.out.println("No existe un alumno con ese RUT");
+                }
+                
             }
-        } while (opcionAlumnos != 5);
+            
+        } while (opcionAlumnos != 6);
     }
 }
