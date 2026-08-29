@@ -92,5 +92,18 @@ public class GestionAlumnos {
 		alumno.setCurso(curso);
 		return true;
 	}
+        
+        public boolean editarAlumno(String rut, String nuevoNombre, String nuevoApellido){
+            Alumno alumno = buscarAlumno(rut);
+            if(alumno == null){
+                return false;
+            }
+            
+            alumno.setNombre(nuevoNombre);
+            alumno.setApellido(nuevoApellido);
+            return true;
+        }
+        
+        
 
 }

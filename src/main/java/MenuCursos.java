@@ -19,7 +19,8 @@ public class MenuCursos {
             System.out.println("Bienvenido al Menu de Gestion de Cursos");
             System.out.println("1. Agregar Curso");
             System.out.println("2. Mostrar Cursos");
-            System.out.println("3. Volver al Menu de Administracion");
+            System.out.println("3. Editar Curso");
+            System.out.println("4. Volver al Menu de Administracion");
             opcionCursos = Integer.parseInt(leer.readLine());
             
             if (opcionCursos == 1){
@@ -43,7 +44,20 @@ public class MenuCursos {
                 
             } else if (opcionCursos == 2){
                 gestionCursos.mostrarCursos();
+            } else if (opcionCursos == 3){
+                System.out.println("Codigo del curso a editar: ");
+                String codigo = leer.readLine();
+                System.out.println("Nuevo nombre del curso: ");
+                String nuevoNombre = leer.readLine();
+                System.out.println("Nuevo profesor jefe: ");
+                String nuevoProfesorJefe = leer.readLine();
+                
+                if(gestionCursos.editarCurso(codigo, nuevoNombre, nuevoProfesorJefe)){
+                    System.out.println("Curso editado con exito!");
+                } else {
+                    System.out.println("No existe un curso con ese codigo");
+                }
             }
-        } while (opcionCursos != 3);
+        } while (opcionCursos != 4);
     }
 }
