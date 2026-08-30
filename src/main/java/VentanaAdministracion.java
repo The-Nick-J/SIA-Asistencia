@@ -24,9 +24,8 @@ public class VentanaAdministracion extends javax.swing.JFrame {
         getContentPane().setBackground(new java.awt.Color(15, 23, 42));
         jButton1.addActionListener(e -> { dispose(); new VentanaAlumnos(this).setVisible(true); });
         jButton2.addActionListener(e -> { dispose(); new VentanaCursos(this).setVisible(true); });
-        jButton3.addActionListener(e -> { dispose(); new VentanaCalendario(this).setVisible(true); });
-        jButton4.addActionListener(e -> { dispose(); new VentanaAvanzado(this).setVisible(true); });
-        jButton5.addActionListener(e -> {
+        jButton3.addActionListener(e -> { dispose(); new VentanaAvanzado(this).setVisible(true); });
+        jButton4.addActionListener(e -> {
             dispose();
             if (this.ventanaAnterior != null) {
                 this.ventanaAnterior.setVisible(true);
@@ -47,7 +46,6 @@ public class VentanaAdministracion extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Administración");
@@ -57,11 +55,9 @@ public class VentanaAdministracion extends javax.swing.JFrame {
 
         jButton2.setText("Gestión de cursos");
 
-        jButton3.setText("Gestión del calendario");
+        jButton3.setText("Opciones avanzadas");
 
-        jButton4.setText("Opciones avanzadas");
-
-        jButton5.setText("Volver al menú principal");
+        jButton4.setText("Volver al menú principal");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,11 +66,10 @@ public class VentanaAdministracion extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(89, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5)
-                    .addComponent(jButton4)
                     .addComponent(jButton3)
                     .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton4))
                 .addGap(153, 153, 153))
         );
         layout.setVerticalGroup(
@@ -88,8 +83,6 @@ public class VentanaAdministracion extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
                 .addContainerGap(99, Short.MAX_VALUE))
         );
 
@@ -136,6 +129,5 @@ public class VentanaAdministracion extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     // End of variables declaration//GEN-END:variables
 }

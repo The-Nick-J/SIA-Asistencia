@@ -8,7 +8,6 @@ public class MenuAdministracion {
     private final GestionAlumnos gestionAlumnos;
     private final MenuAlumnos menuAlumnos;
     private final MenuCursos menuCursos;
-    private final MenuCalendario menuCalendario;
     private final MenuAvanzado menuAvanzado;
 
     public MenuAdministracion(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos) {
@@ -17,7 +16,6 @@ public class MenuAdministracion {
         this.gestionAlumnos = gestionAlumnos;
         this.menuAlumnos = new MenuAlumnos(leer, gestionAlumnos);
         this.menuCursos = new MenuCursos(leer, gestionCursos);
-        this.menuCalendario = new MenuCalendario(leer);
         this.menuAvanzado = new MenuAvanzado(leer);
     }
 
@@ -28,9 +26,8 @@ public class MenuAdministracion {
             System.out.println("Bienvenido al Menu de Administracion");
             System.out.println("1. Gestion de Alumnos");
             System.out.println("2. Gestion de Cursos");
-            System.out.println("3. Gestion del Calendario Escolar");
-            System.out.println("4. Opciones Avanzadas");
-            System.out.println("5. Volver al Menu Principal");
+            System.out.println("3. Opciones Avanzadas");
+            System.out.println("4. Volver al Menu Principal");
             opcionAdmin = Integer.parseInt(leer.readLine());
 
             if (opcionAdmin == 1) {
@@ -38,10 +35,8 @@ public class MenuAdministracion {
             } else if (opcionAdmin == 2) {
                 menuCursos.mostrarMenu();
             } else if (opcionAdmin == 3) {
-                menuCalendario.mostrarMenu();
-            } else if (opcionAdmin == 4) {
                 menuAvanzado.mostrarMenu();
             }
-        } while (opcionAdmin != 5);
+        } while (opcionAdmin != 4);
     }
 }
