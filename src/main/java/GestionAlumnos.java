@@ -104,6 +104,18 @@ public class GestionAlumnos {
             return true;
         }
         
+        public boolean eliminarAlumno(String rut){
+            Alumno alumnoBuscar = buscarAlumno(rut);
+            if(alumnoBuscar == null) return false;
+            
+            if (alumnoBuscar.getCurso() != null) {
+                alumnoBuscar.getCurso().getAlumnos().remove(alumnoBuscar);
+            }
+            alumnos.remove(alumnoBuscar);
+            
+            return true;
+        }
+        
         
 
 }
