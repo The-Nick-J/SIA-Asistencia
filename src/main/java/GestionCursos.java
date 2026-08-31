@@ -73,5 +73,17 @@ public class GestionCursos {
         
         return true;
     }
+    
+    public boolean eliminarCurso(String codigo){
+        Curso curso = buscarCurso(codigo);
+        if(curso == null){
+            return false;
+        }
+        for(Alumno alumno : curso.getAlumnos()){
+            alumno.setCurso(null);
+        }
+        cursos.remove(curso.getCodigo());
+        return true;
+    }
 
 }

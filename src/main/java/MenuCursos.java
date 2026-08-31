@@ -20,7 +20,8 @@ public class MenuCursos {
             System.out.println("1. Agregar Curso");
             System.out.println("2. Mostrar Cursos");
             System.out.println("3. Editar Curso");
-            System.out.println("4. Volver al Menu de Administracion");
+            System.out.println("4. Buscar Curso");
+            System.out.println("5. Volver al Menu de Administracion");
             opcionCursos = Integer.parseInt(leer.readLine());
             
             if (opcionCursos == 1){
@@ -57,7 +58,11 @@ public class MenuCursos {
                 } else {
                     System.out.println("No existe un curso con ese codigo");
                 }
+            } else if (opcionCursos == 4){
+                System.out.print("Ingrese el codigo del curso a buscar: ");
+                String codigo = leer.readLine();
+                gestionCursos.mostrarCurso(codigo);
             }
-        } while (opcionCursos != 4);
+        } while (opcionCursos != 5);
     }
 }
