@@ -1,28 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author Gmodc
- */
+import javax.swing.JOptionPane;
+
 public class VentanaAvanzado extends javax.swing.JFrame {
 
     private final javax.swing.JFrame ventanaAnterior;
+    private final GestionAlumnos gestionAlumnos;
+    private final GestionCursos gestionCursos;
 
     /**
      * Creates new form VentanaAvanzado
      */
     public VentanaAvanzado() {
-        this(null);
+        this(null, null, null);
     }
 
-    public VentanaAvanzado(javax.swing.JFrame ventanaAnterior) {
+    public VentanaAvanzado(javax.swing.JFrame ventanaAnterior, GestionAlumnos gestionAlumnos, GestionCursos gestionCursos) {
+
         this.ventanaAnterior = ventanaAnterior;
+        this.gestionAlumnos = gestionAlumnos;
+        this.gestionCursos = gestionCursos;
+
         initComponents();
+        setTitle("Opciones avanzadas");
         getContentPane().setBackground(new java.awt.Color(15, 23, 42));
-        jButton3.addActionListener(e -> { dispose(); if (this.ventanaAnterior != null) this.ventanaAnterior.setVisible(true); });
+        setLocationRelativeTo(ventanaAnterior);
+
+        jButton3.addActionListener(e -> { dispose(); if (this.ventanaAnterior != null) { this.ventanaAnterior.setVisible(true); } });
     }
 
     /**
@@ -42,8 +45,18 @@ public class VentanaAvanzado extends javax.swing.JFrame {
         setBackground(new java.awt.Color(30, 41, 59));
 
         jButton1.setText("Eliminar alumno");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Eliminar curso");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Volver a administración");
 
@@ -51,31 +64,93 @@ public class VentanaAvanzado extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(162, 162, 162)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(108, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
-                .addGap(138, 138, 138))
+                .addContainerGap(131, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButton2)))
+                .addGap(152, 152, 152))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(114, 114, 114)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(61, 61, 61)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addContainerGap(149, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno que desea eliminar:");
+
+        if (rut == null) {
+            return;
+        }
+
+        rut = rut.trim();
+
+        if (rut.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un RUT.");
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar al alumno?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        boolean alumnoEliminado = gestionAlumnos.eliminarAlumno(rut);
+
+        if (alumnoEliminado) {
+            JOptionPane.showMessageDialog(this, "Alumno eliminado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso que desea eliminar:");
+
+        if (codigo == null) {
+            return;
+        }
+
+        codigo = codigo.trim();
+
+        if (codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un código.");
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar el curso?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        boolean cursoEliminado = gestionCursos.eliminarCurso(codigo);
+
+        if (cursoEliminado) {
+            JOptionPane.showMessageDialog(this, "Curso eliminado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

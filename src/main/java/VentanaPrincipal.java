@@ -1,12 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author Gmodc
- */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private final GestionCursos gestionCursos;
@@ -20,10 +12,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this(null, null, null);
     }
 
-    public VentanaPrincipal(
-            GestionCursos gestionCursos,
-            GestionAlumnos gestionAlumnos,
-            GestionRegistroAsistencia gestionRegistroAsistencia) {
+    public VentanaPrincipal(GestionCursos gestionCursos, GestionAlumnos gestionAlumnos, GestionRegistroAsistencia gestionRegistroAsistencia) {
         
         this.gestionCursos = gestionCursos;
         this.gestionAlumnos = gestionAlumnos;
@@ -34,13 +23,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         jButton1.addActionListener(e -> {
+            VentanaAsistencia ventanaAsistencia = new VentanaAsistencia(this, gestionCursos, gestionAlumnos, gestionRegistroAsistencia);
             setVisible(false);
-            new VentanaAsistencia(this).setVisible(true);
+            ventanaAsistencia.setVisible(true);
         });
 
         jButton2.addActionListener(e -> {
+            VentanaAdministracion ventanaAdministracion = new VentanaAdministracion(this, gestionCursos, gestionAlumnos, gestionRegistroAsistencia);
             setVisible(false);
-            new VentanaAdministracion(this).setVisible(true);
+            ventanaAdministracion.setVisible(true);
         });
 
         jButton3.addActionListener(e -> dispose());

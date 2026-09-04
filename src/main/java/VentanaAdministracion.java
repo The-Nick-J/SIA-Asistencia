@@ -1,30 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author Gmodc
- */
 public class VentanaAdministracion extends javax.swing.JFrame {
 
     private final javax.swing.JFrame ventanaAnterior;
+    private final GestionCursos gestionCursos;
+    private final GestionAlumnos gestionAlumnos;
+    private final GestionRegistroAsistencia gestionRegistroAsistencia;
+
 
     /**
      * Creates new form VentanaAdministracion
      */
     public VentanaAdministracion() {
-        this(null);
+        this(null,null,null,null);
     }
 
-    public VentanaAdministracion(javax.swing.JFrame ventanaAnterior) {
+    public VentanaAdministracion(javax.swing.JFrame ventanaAnterior, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos, GestionRegistroAsistencia gestionRegistroAsistencia) {
+
         this.ventanaAnterior = ventanaAnterior;
+        this.gestionCursos = gestionCursos;
+        this.gestionAlumnos = gestionAlumnos;
+        this.gestionRegistroAsistencia = gestionRegistroAsistencia;
+
         initComponents();
         getContentPane().setBackground(new java.awt.Color(15, 23, 42));
-        jButton1.addActionListener(e -> { dispose(); new VentanaAlumnos(this).setVisible(true); });
-        jButton2.addActionListener(e -> { dispose(); new VentanaCursos(this).setVisible(true); });
-        jButton3.addActionListener(e -> { dispose(); new VentanaAvanzado(this).setVisible(true); });
+        setLocationRelativeTo(ventanaAnterior);
+
+        jButton1.addActionListener(e -> {
+            VentanaAlumnos ventanaAlumnos = new VentanaAlumnos(this, gestionAlumnos);
+            setVisible(false);
+            ventanaAlumnos.setVisible(true);
+        });
+
+        jButton2.addActionListener(e -> {
+            VentanaCursos ventanaCursos = new VentanaCursos(this, gestionCursos);
+            setVisible(false);
+            ventanaCursos.setVisible(true);
+        });
+
+        jButton3.addActionListener(e -> {
+            VentanaAvanzado ventanaAvanzado = new VentanaAvanzado(this, gestionAlumnos, gestionCursos);
+            setVisible(false);
+            ventanaAvanzado.setVisible(true);
+        });
         jButton4.addActionListener(e -> {
             dispose();
             if (this.ventanaAnterior != null) {

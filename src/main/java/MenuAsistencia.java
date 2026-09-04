@@ -22,12 +22,11 @@ public class MenuAsistencia {
         int opcionAsistencia;
         String codigoCurso;
         Curso cursoAsistencia;
-        LocalDate fechaActual = LocalDate.now();
         String presente;
         do {
             System.out.println("Bienvenido al Menu de Asistencia");
             System.out.println("1. Pasar Asistencia");
-            System.out.println("2. Registrar una Inasistencia Extraordinaria");
+            System.out.println("2. Registrar una falta justificada");
             System.out.println("3. Registrar salida anticipada");
             System.out.println("4. Mostrar alumnos ausentes del colegio en fecha");
             System.out.println("5. Consultar asistencia de un curso por fecha");
@@ -44,7 +43,22 @@ public class MenuAsistencia {
                         break;
                     }
 
-                    if (gestionRegistroAsistencia.existeAsistenciaRegistrada(cursoAsistencia, fechaActual)) {
+                    if (cursoAsistencia.getAlumnos().isEmpty()) {
+                        System.out.println("ERROR: El curso no tiene alumnos registrados.");
+                        break;
+                    }
+
+                    System.out.println("Ingrese la fecha de la asistencia (AAAA-MM-DD):");
+                    LocalDate fechaAsistencia;
+
+                    try {
+                        fechaAsistencia = LocalDate.parse(leer.readLine());
+                    } catch (DateTimeParseException e) {
+                        System.out.println("El formato de fecha ingresado no es valido.");
+                        break;
+                    }
+
+                    if (gestionRegistroAsistencia.existeAsistenciaRegistrada(cursoAsistencia, fechaAsistencia)) {
                         System.out.println("ERROR: Ya se tomo asistencia para este curso.");
                         break;
                     }
@@ -60,9 +74,11 @@ public class MenuAsistencia {
                             }
                         } while (!presente.equals("S") && !presente.equals("N"));
                         if (presente.equals("S")) {
-                            gestionRegistroAsistencia.agregarRegistroAsistencia(new Asistencia(fechaActual, alumno, true));
+                            gestionRegistroAsistencia.registrarAsistencia(alumno, fechaAsistencia, true, null);
                         } else {
-                            gestionRegistroAsistencia.agregarRegistroAsistencia(new Asistencia(fechaActual, alumno, false));
+                            System.out.println("Ingrese una justificacion o presione Enter para dejar la falta sin justificar:");
+                            String justificacion = leer.readLine().trim();
+                            gestionRegistroAsistencia.registrarAsistencia(alumno, fechaAsistencia, false, justificacion);
                         }
 
                     }
@@ -70,7 +86,7 @@ public class MenuAsistencia {
                 case 2:
                     String rutAlumno;
                     Alumno alumno;
-                    String motivoInasistencia;
+                    String justificacion;
                     String fechaTexto;
 
                     System.out.println("Ingrese el RUT del alumno: ");
@@ -82,26 +98,31 @@ public class MenuAsistencia {
                         break;
                     }
 
-                    System.out.println("Ingrese la fecha de Inasistencia a justificar (AAAA-MM-DD):");
+                    System.out.println("Ingrese la fecha de la falta a justificar (AAAA-MM-DD):");
                     fechaTexto = leer.readLine();
-                    LocalDate fechaInasistencia;
+                    LocalDate fechaFalta;
 
                     try {
-                        fechaInasistencia = LocalDate.parse(fechaTexto);
+                        fechaFalta = LocalDate.parse(fechaTexto);
                     } catch (DateTimeParseException e) {
                         System.out.println("El formato de fecha ingresado no es valido");
                         break;
                     }
 
                     System.out.println("Ingrese la justificacion: ");
-                    motivoInasistencia = leer.readLine();
+                    justificacion = leer.readLine().trim();
 
-                    boolean resultado = gestionRegistroAsistencia.registrarInasistenciaExtraordinaria(alumno, fechaInasistencia, motivoInasistencia);
+                    if (justificacion.isEmpty()) {
+                        System.out.println("Debe ingresar una justificacion.");
+                        break;
+                    }
+
+                    boolean resultado = gestionRegistroAsistencia.registrarFaltaJustificada(alumno, fechaFalta, justificacion);
                     
                     if(resultado == true) {
-                        System.out.println("La asistencia ha sido justificada correctamente");
+                        System.out.println("La falta ha sido justificada correctamente");
                     } else { 
-                        System.out.println("La asistencia no pudo ser justificada");
+                        System.out.println("La falta no pudo ser justificada");
                     }
                     break;
                 case 3:
@@ -186,6 +207,8 @@ public class MenuAsistencia {
                     
                     gestionRegistroAsistencia.mostrarAsistenciaPorFechaYCurso(cursoBuscar,fechaBuscar);
                     
+                    break;
+                case 6:
                     break;
                 default:
                     System.out.println("Ingrese una opción valida.");
