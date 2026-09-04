@@ -44,6 +44,7 @@ public class Menu {
                 );
                 
                 ventanaPrincipal.setVisible(true);
+                return;
             } else if (opcion != 3) {
                 System.out.println("Error: Opcion invalida");
             }

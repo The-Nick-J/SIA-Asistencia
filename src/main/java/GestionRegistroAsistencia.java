@@ -35,6 +35,17 @@ public class GestionRegistroAsistencia {
         return true;
     }
 
+    public boolean registrarAsistencia(Alumno alumno, LocalDate fecha, boolean presente, String justificacion) {
+        Asistencia nuevaAsistencia = new Asistencia(fecha, alumno, presente);
+
+        if (!presente && justificacion != null && !justificacion.trim().isEmpty()) {
+            nuevaAsistencia.setFaltaJustificada(true);
+            nuevaAsistencia.setJustificacion(justificacion.trim());
+        }
+
+        return agregarRegistroAsistencia(nuevaAsistencia);
+    }
+
     //Retorna un ArrayList de todas las asistencias registradas de un alumno
     public ArrayList<Asistencia> buscarRegistroAsistencia(Alumno alumno) {
         if (alumno != null && registrosAsistencia.containsKey(alumno.getRut())) {
@@ -57,18 +68,15 @@ public class GestionRegistroAsistencia {
     }
 
     public boolean existeAsistenciaRegistrada(Curso curso, LocalDate fecha) {
-        if (curso.getAlumnos().isEmpty()) {
-            return false;
-        }
+        for (Alumno alumno : curso.getAlumnos()) {
+            ArrayList<Asistencia> asistenciasAlumno = buscarRegistroAsistencia(alumno);
 
-        String rut = curso.getAlumnos().get(0).getRut();
-
-        if (registrosAsistencia.get(rut) == null || registrosAsistencia.get(rut).isEmpty()) {
-            return false;
-        }
-        for (Asistencia asistencia : registrosAsistencia.get(curso.getAlumnos().get(0).getRut())) {
-            if (asistencia.getFecha().equals(fecha)) {
-                return true;
+            if (asistenciasAlumno != null) {
+                for (Asistencia asistencia : asistenciasAlumno) {
+                    if (asistencia.getFecha().equals(fecha)) {
+                        return true;
+                    }
+                }
             }
         }
 
@@ -88,7 +96,11 @@ public class GestionRegistroAsistencia {
                 if (asistencia.isPresente()) {
                     System.out.println("Estado: Presente");
                 } else {
-                    System.out.println("Estado: No presente");
+                    System.out.println("Estado: Ausente");
+                    System.out.println("Falta justificada: " + (asistencia.isFaltaJustificada() ? "Si" : "No"));
+                    if (asistencia.isFaltaJustificada()) {
+                        System.out.println("Justificacion: " + asistencia.getJustificacion());
+                    }
                 }
                 if (asistencia.isRetirado()) {
                     System.out.println("Estado: Retirado");
@@ -104,7 +116,11 @@ public class GestionRegistroAsistencia {
         return registrosAsistencia;
     }
 
-    public boolean registrarInasistenciaExtraordinaria(Alumno alumno, LocalDate fecha, String motivo) {
+    public boolean registrarFaltaJustificada(Alumno alumno, LocalDate fecha, String justificacion) {
+        if (alumno == null || fecha == null || justificacion == null || justificacion.trim().isEmpty()) {
+            return false;
+        }
+
         ArrayList<Asistencia> listaTemp = buscarRegistroAsistencia(alumno);
 
         if (listaTemp == null) {
@@ -113,84 +129,91 @@ public class GestionRegistroAsistencia {
 
         for (Asistencia asistencia : listaTemp) {
             if (asistencia.getFecha().equals(fecha)) {
-                if (asistencia.isPresente() == true) {
-                    System.out.println("no se puede justificar un presente");
+                if (asistencia.isPresente()) {
+                    System.out.println("No se puede justificar una asistencia presente.");
                     return false;
                 } else {
-                    asistencia.setInasistenciaExtraordinaria(true);
-                    asistencia.setMotivoInasistencia(motivo);
+                    asistencia.setFaltaJustificada(true);
+                    asistencia.setJustificacion(justificacion.trim());
                     return true;
                 }
             }
         }
         return false;
     }
-    
-    public boolean registrarSalidaAnticipada(Alumno alumno, LocalDate fecha, String motivo){
+
+    public boolean registrarSalidaAnticipada(Alumno alumno, LocalDate fecha, String motivo) {
+        if (alumno == null || fecha == null || motivo == null || motivo.trim().isEmpty()) {
+            return false;
+        }
+
         ArrayList<Asistencia> asistenciasAlumno = buscarRegistroAsistencia(alumno);
-        
-        //si existe registro, busca la asistencia de ese dia y modifica
-        if(asistenciasAlumno != null){
-            for(Asistencia asistencia : asistenciasAlumno){
-                if(asistencia.getFecha().equals(fecha)){
-                    asistencia.setPresente(true);
+
+        if (asistenciasAlumno != null) {
+            for (Asistencia asistencia : asistenciasAlumno) {
+                if (asistencia.getFecha().equals(fecha)) {
+                    if (!asistencia.isPresente()) {
+                        return false;
+                    }
+
                     asistencia.setRetirado(true);
-                    asistencia.setMotivoSalida(motivo);
+                    asistencia.setMotivoSalida(motivo.trim());
                     return true;
                 }
             }
         }
-        
-        //si no hay registro, crea uno y modifica
+
         Asistencia nuevaAsistencia = new Asistencia(fecha, alumno, true);
-        
         nuevaAsistencia.setRetirado(true);
-        nuevaAsistencia.setMotivoSalida(motivo);
-        
+        nuevaAsistencia.setMotivoSalida(motivo.trim());
+
         return agregarRegistroAsistencia(nuevaAsistencia);
     }
-    
+
     // metodo para mostrar ausentes en una fecha especifica
     public void mostrarAusentesPorFecha(LocalDate fecha) {
         boolean hayAusentes = false;
-        
-        for(ArrayList<Asistencia> asistenciasAlumno : registrosAsistencia.values()) {
-            for(Asistencia asistencia : asistenciasAlumno) {
-                if(asistencia.getFecha().equals(fecha) && !asistencia.isPresente()) {
-                    
+
+        for (ArrayList<Asistencia> asistenciasAlumno : registrosAsistencia.values()) {
+            for (Asistencia asistencia : asistenciasAlumno) {
+                if (asistencia.getFecha().equals(fecha) && !asistencia.isPresente()) {
+
                     Alumno alumno = asistencia.getAlumno();
-                    System.out.println("Alumnos AUSENTES en fecha: " + fecha );
+                    System.out.println("Alumnos AUSENTES en fecha: " + fecha);
                     System.out.print("RUT: " + alumno.getRut());
                     System.out.print("--- Nombre: " + alumno.getNombre() + " " + alumno.getApellido());
                     System.out.println(" ");
-                    
+                    System.out.println("Falta justificada: " + (asistencia.isFaltaJustificada() ? "Si" : "No"));
+                    if (asistencia.isFaltaJustificada()) {
+                        System.out.println("Justificacion: " + asistencia.getJustificacion());
+                    }
+
                     hayAusentes = true;
                 }
             }
         }
-        
-        if(!hayAusentes) {
+
+        if (!hayAusentes) {
             System.out.println("no hay ausentes en la fecha ingresada.");
         }
-        
+
     }
-    
-    
+
     public void mostrarAsistenciaPorFechaYCurso(Curso curso, LocalDate fecha) {
         boolean hayAsistenciaTomada = false;
-        
-        for(Alumno alumno : curso.getAlumnos()) {
+
+        for (Alumno alumno : curso.getAlumnos()) {
             ArrayList<Asistencia> asistenciasAlumno = buscarRegistroAsistencia(alumno);
-            
-            if(asistenciasAlumno != null) {
-                for(Asistencia asistencia : asistenciasAlumno) {
+
+            if (asistenciasAlumno != null) {
+                for (Asistencia asistencia : asistenciasAlumno) {
                     if (asistencia.getFecha().equals(fecha)) {
                         hayAsistenciaTomada = true;
                         System.out.println("==== ALUMNO ==== ");
                         System.out.println("Alumno: " + alumno.getNombre() + " " + alumno.getApellido());
                         System.out.println("RUT: " + alumno.getRut());
-                        
-                        if(asistencia.isRetirado()) {
+
+                        if (asistencia.isRetirado()) {
                             System.out.println("Estado: Salida Anticipada");
                             System.out.println("Motivo: " + asistencia.getMotivoSalida());
                         } else if (asistencia.isPresente()) {
@@ -198,20 +221,86 @@ public class GestionRegistroAsistencia {
                         } else {
                             System.out.println("Estado: Ausente");
                         }
-                        
-                        if(asistencia.isInasistenciaExtraordinaria()) {
+
+                        if (asistencia.isFaltaJustificada()) {
                             System.out.println("Falta Justificada: Si");
-                            System.out.println("Motivo de Inasistencia: " + asistencia.getMotivoInasistencia());
+                            System.out.println("Justificacion: " + asistencia.getJustificacion());
                         }
                     }
                 }
             }
         }
-        
-        
+
         if (!hayAsistenciaTomada) {
             System.out.println("No hay asistencia tomada para ese curso en esa fecha");
         }
     }
-    
+
+    public String obtenerAusentesPorFecha(LocalDate fecha) {
+        String resultado = "";
+
+        for (ArrayList<Asistencia> asistenciasAlumno : registrosAsistencia.values()) {
+            for (Asistencia asistencia : asistenciasAlumno) {
+                if (asistencia.getFecha().equals(fecha) && !asistencia.isPresente()) {
+                    Alumno alumno = asistencia.getAlumno();
+
+                    resultado = resultado + "RUT: " + alumno.getRut() + "\n";
+                    resultado = resultado + "Nombre: " + alumno.getNombre() + " " + alumno.getApellido() + "\n";
+                    resultado = resultado + "Falta justificada: " + (asistencia.isFaltaJustificada() ? "Sí" : "No") + "\n";
+
+                    if (asistencia.isFaltaJustificada()) {
+                        resultado = resultado + "Justificación: " + asistencia.getJustificacion() + "\n";
+                    }
+
+                    resultado = resultado + "\n";
+                }
+            }
+        }
+
+        if (resultado.isEmpty()) {
+            return "No hay alumnos ausentes en la fecha ingresada.";
+        }
+
+        return resultado;
+    }
+
+    public String obtenerAsistenciaPorFechaYCurso(Curso curso, LocalDate fecha) {
+        String resultado = "";
+
+        for (Alumno alumno : curso.getAlumnos()) {
+            ArrayList<Asistencia> asistenciasAlumno = buscarRegistroAsistencia(alumno);
+
+            if (asistenciasAlumno != null) {
+                for (Asistencia asistencia : asistenciasAlumno) {
+                    if (asistencia.getFecha().equals(fecha)) {
+                        resultado = resultado + "Alumno: " + alumno.getNombre() + " " + alumno.getApellido() + "\n";
+                        resultado = resultado + "RUT: " + alumno.getRut() + "\n";
+
+                        if (asistencia.isRetirado()) {
+                            resultado = resultado + "Estado: Salida anticipada\n";
+                            resultado = resultado + "Motivo: " + asistencia.getMotivoSalida() + "\n";
+                        } else if (asistencia.isPresente()) {
+                            resultado = resultado + "Estado: Presente\n";
+                        } else {
+                            resultado = resultado + "Estado: Ausente\n";
+                        }
+
+                        if (asistencia.isFaltaJustificada()) {
+                            resultado = resultado + "Falta justificada: Sí\n";
+                            resultado = resultado + "Justificación: " + asistencia.getJustificacion() + "\n";
+                        }
+
+                        resultado = resultado + "\n";
+                    }
+                }
+            }
+        }
+
+        if (resultado.isEmpty()) {
+            return "No hay asistencia registrada para ese curso en esa fecha.";
+        }
+
+        return resultado;
+    }
+
 }

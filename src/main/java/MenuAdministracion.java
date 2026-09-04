@@ -16,7 +16,7 @@ public class MenuAdministracion {
         this.gestionAlumnos = gestionAlumnos;
         this.menuAlumnos = new MenuAlumnos(leer, gestionAlumnos);
         this.menuCursos = new MenuCursos(leer, gestionCursos);
-        this.menuAvanzado = new MenuAvanzado(leer, gestionCursos, gestionAlumnos);
+        this.menuAvanzado = new MenuAvanzado(leer, gestionAlumnos, gestionCursos);
     }
 
     public void mostrarMenu() throws IOException {

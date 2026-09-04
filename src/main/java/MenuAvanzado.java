@@ -5,10 +5,10 @@ import java.io.IOException;
 public class MenuAvanzado {
 
     private final BufferedReader leer;
-    private final GestionCursos gestionCursos;
     private final GestionAlumnos gestionAlumnos;
-    
-    public MenuAvanzado(BufferedReader leer, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos) {
+    private final GestionCursos gestionCursos;
+
+    public MenuAvanzado(BufferedReader leer, GestionAlumnos gestionAlumnos, GestionCursos gestionCursos) {
         this.leer = leer;
         this.gestionAlumnos = gestionAlumnos;
         this.gestionCursos = gestionCursos;
@@ -23,54 +23,32 @@ public class MenuAvanzado {
             System.out.println("2. Eliminar Curso");
             System.out.println("3. Volver al menu de Administracion");
             opcionAvanzada = Integer.parseInt(leer.readLine());
-            
-            if(opcionAvanzada == 1){
-                System.out.println("Ingrese el RUT del alumno a eliminar");
+
+            if (opcionAvanzada == 1) {
+                System.out.println("Ingrese el RUT del alumno que desea eliminar: ");
                 String rut = leer.readLine();
-                
-                String confirmar;
-                do {
-                    System.out.println("Esta segur@ de eliminar al alumno? (S/N: ");
-                    confirmar = leer.readLine().trim().toUpperCase();
-                    if(!confirmar.equals("S") && !confirmar.equals("N")){
-                        System.out.println("Ingrese una opcion valida.");
-                    }
-                } while (!confirmar.equals("S") && !confirmar.equals("N"));
-                if(confirmar.equals("S")){
-                    if(gestionAlumnos.eliminarAlumno(rut)){
-                        System.out.println("Alumno eliminado con exito.");
-                    } else {
-                        System.out.println("No se encontro un alumno con ese RUT.");
-                    }
-                } else{
+                System.out.println("¿Esta seguro de eliminar al alumno? (S/N): ");
+                String confirmar = leer.readLine().trim().toUpperCase();
+                if (confirmar.equals("S") && gestionAlumnos.eliminarAlumno(rut)) {
+                    System.out.println("Alumno eliminado correctamente");
+                } else if (confirmar.equals("S")) {
+                    System.out.println("No existe un alumno con ese RUT");
+                } else {
                     System.out.println("Operacion cancelada");
                 }
-            }
-            
-            if(opcionAvanzada == 2){
-                System.out.println("Ingrese el codigo del curso a eliminar");
+            } else if (opcionAvanzada == 2) {
+                System.out.println("Ingrese el codigo del curso que desea eliminar: ");
                 String codigo = leer.readLine();
-                
-                String confirmar;
-                do {
-                    System.out.println("Esta segur@ de eliminar el curso? (S/N: ");
-                    confirmar = leer.readLine().trim().toUpperCase();
-                    if(!confirmar.equals("S") && !confirmar.equals("N")){
-                        System.out.println("Ingrese una opcion valida.");
-                    }
-                } while (!confirmar.equals("S") && !confirmar.equals("N"));
-                if(confirmar.equals("S")){
-                    if(gestionCursos.eliminarCurso(codigo)){
-                        System.out.println("Curso eliminado con exito.");
-                    } else {
-                        System.out.println("No se encontro un curo con ese codigo.");
-                    }
-                } else{
+                System.out.println("¿Esta seguro de eliminar el curso? (S/N): ");
+                String confirmar = leer.readLine().trim().toUpperCase();
+                if (confirmar.equals("S") && gestionCursos.eliminarCurso(codigo)) {
+                    System.out.println("Curso eliminado correctamente");
+                } else if (confirmar.equals("S")) {
+                    System.out.println("No existe un curso con ese codigo");
+                } else {
                     System.out.println("Operacion cancelada");
                 }
             }
-            
-            
         } while (opcionAvanzada != 3);
     }
 }

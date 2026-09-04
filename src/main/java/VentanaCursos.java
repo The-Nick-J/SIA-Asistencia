@@ -1,28 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author Gmodc
- */
+import javax.swing.JOptionPane;
+
 public class VentanaCursos extends javax.swing.JFrame {
 
     private final javax.swing.JFrame ventanaAnterior;
+    private final GestionCursos gestionCursos;
 
     /**
      * Creates new form VentanaCursos
      */
     public VentanaCursos() {
-        this(null);
+        this(null, null);
     }
 
-    public VentanaCursos(javax.swing.JFrame ventanaAnterior) {
+    public VentanaCursos(javax.swing.JFrame ventanaAnterior, GestionCursos gestionCursos) {
         this.ventanaAnterior = ventanaAnterior;
+        this.gestionCursos = gestionCursos;
+
         initComponents();
         getContentPane().setBackground(new java.awt.Color(15, 23, 42));
-        jButton3.addActionListener(e -> { dispose(); if (this.ventanaAnterior != null) this.ventanaAnterior.setVisible(true); });
+        setLocationRelativeTo(ventanaAnterior);
+
+        jButton3.addActionListener(e -> {
+            dispose();
+            if (this.ventanaAnterior != null) {
+                this.ventanaAnterior.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -37,43 +41,195 @@ public class VentanaCursos extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Cursos");
         setBackground(new java.awt.Color(30, 41, 59));
 
         jButton1.setText("Agregar curso");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Mostrar cursos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Volver a administración");
+
+        jButton4.setText("Editar curso");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Buscar curso");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(93, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3)
+                .addContainerGap(138, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addGap(153, 153, 153))
+                    .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton5)
+                            .addComponent(jButton4))))
+                .addGap(154, 154, 154))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(50, 50, 50)
                 .addComponent(jButton1)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del curso:");
+
+        if (nombre == null) {
+            return;
+        }
+
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+
+        if (codigo == null) {
+            return;
+        }
+
+        String profesorJefe = JOptionPane.showInputDialog(this, "Ingrese el nombre del profesor jefe:");
+
+        if (profesorJefe == null) {
+            return;
+        }
+
+        nombre = nombre.trim();
+        codigo = codigo.trim();
+        profesorJefe = profesorJefe.trim();
+
+        if (nombre.isEmpty() || codigo.isEmpty() || profesorJefe.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
+            return;
+        }
+
+        boolean cursoAgregado = gestionCursos.agregarCurso(nombre, codigo, profesorJefe);
+
+        if (cursoAgregado) {
+            JOptionPane.showMessageDialog(this, "Curso agregado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Ya existe un curso con ese código.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if (gestionCursos.getCursos().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay cursos registrados.");
+            return;
+        }
+
+        String listaCursos = "";
+
+        for (Curso curso : gestionCursos.getCursos().values()) {
+            listaCursos = listaCursos + "Código: " + curso.getCodigo() + "\nNombre: " + curso.getNombre() + "\nProfesor jefe: " + curso.getProfesorJefe() + "\n\n";
+        }
+
+        JOptionPane.showMessageDialog(this, listaCursos, "Cursos registrados", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso que desea editar:");
+        if (codigo == null) {
+            return;
+        }
+
+        String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del curso:");
+        if (nuevoNombre == null) {
+            return;
+        }
+
+        String nuevoProfesorJefe = JOptionPane.showInputDialog(this, "Ingrese el nuevo profesor jefe:");
+        if (nuevoProfesorJefe == null) {
+            return;
+        }
+
+        codigo = codigo.trim();
+        nuevoNombre = nuevoNombre.trim();
+        nuevoProfesorJefe = nuevoProfesorJefe.trim();
+
+        if (codigo.isEmpty() || nuevoNombre.isEmpty() || nuevoProfesorJefe.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
+            return;
+        }
+
+        boolean cursoEditado = gestionCursos.editarCurso(codigo, nuevoNombre, nuevoProfesorJefe);
+
+        if (cursoEditado) {
+            JOptionPane.showMessageDialog(this, "Curso editado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+        if (codigo == null) {
+            return;
+        }
+
+        codigo = codigo.trim();
+
+        if (codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el código del curso.");
+            return;
+        }
+
+        Curso curso = gestionCursos.buscarCurso(codigo);
+
+        if (curso == null) {
+            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+            return;
+        }
+
+        String resultado = "Código: " + curso.getCodigo() + "\nNombre: " + curso.getNombre() + "\nProfesor jefe: " + curso.getProfesorJefe();
+        JOptionPane.showMessageDialog(this, resultado, "Curso encontrado", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,5 +270,7 @@ public class VentanaCursos extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,28 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author Gmodc
- */
+import javax.swing.JOptionPane;
+
 public class VentanaAlumnos extends javax.swing.JFrame {
 
     private final javax.swing.JFrame ventanaAnterior;
+    private final GestionAlumnos gestionAlumnos;
 
     /**
      * Creates new form VentanaAlumnos
      */
     public VentanaAlumnos() {
-        this(null);
+        this(null, null);
     }
 
-    public VentanaAlumnos(javax.swing.JFrame ventanaAnterior) {
+    public VentanaAlumnos(javax.swing.JFrame ventanaAnterior, GestionAlumnos gestionAlumnos) {
         this.ventanaAnterior = ventanaAnterior;
+        this.gestionAlumnos = gestionAlumnos;
+
         initComponents();
+
         getContentPane().setBackground(new java.awt.Color(15, 23, 42));
-        jButton3.addActionListener(e -> { dispose(); if (this.ventanaAnterior != null) this.ventanaAnterior.setVisible(true); });
+        setLocationRelativeTo(ventanaAnterior);
+
+        jButton3.addActionListener(e -> {
+            dispose();
+            if (this.ventanaAnterior != null) {
+                this.ventanaAnterior.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -37,14 +42,49 @@ public class VentanaAlumnos extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
-        setTitle("Gestión de Alumnos");
-        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gestión de Alumnos");
 
         jButton1.setText("Agregar alumno");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         jButton2.setText("Mostrar alumnos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         jButton3.setText("Volver a administración");
+
+        jButton4.setText("Buscar Alumno");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Registrar alumno en curso");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Editar Alumno");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,22 +95,204 @@ public class VentanaAlumnos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(100, Short.MAX_VALUE))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createSequentialGroup()
-            .addGap(70, 70, 70)
-            .addComponent(jButton1)
-            .addGap(15, 15, 15)
-            .addComponent(jButton2)
-            .addGap(15, 15, 15)
-            .addComponent(jButton3)
-            .addContainerGap(70, Short.MAX_VALUE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addGap(31, 31, 31))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+
+        if (rut == null) {
+            return;
+        }
+
+        String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del alumno:");
+
+        if (nombre == null) {
+            return;
+        }
+
+        String apellido = JOptionPane.showInputDialog(this, "Ingrese el apellido del alumno:");
+
+        if (apellido == null) {
+            return;
+        }
+
+        rut = rut.trim();
+        nombre = nombre.trim();
+        apellido = apellido.trim();
+
+        if (rut.isEmpty() || nombre.isEmpty() || apellido.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debes completar todos los datos.");
+            return;
+        }
+
+        boolean alumnoAgregado = gestionAlumnos.agregarAlumno(rut, nombre, apellido);
+
+        if (alumnoAgregado) {
+            JOptionPane.showMessageDialog(this, "Alumno agregado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Ya existe un alumno con ese RUT.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if (gestionAlumnos.getAlumnos().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay alumnos registrados.");
+            return;
+        }
+
+        String listaAlumnos = "";
+
+        for (Alumno alumno : gestionAlumnos.getAlumnos()) {
+            listaAlumnos = listaAlumnos + alumno.getRut() + " - " + alumno.getNombre() + " " + alumno.getApellido() + "\n";
+        }
+
+        JOptionPane.showMessageDialog(this, listaAlumnos, "Alumnos registrados", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String[] opciones = {"Buscar por RUT", "Buscar por nombre y apellido"};
+
+        int opcion = JOptionPane.showOptionDialog(this, "Seleccione cómo desea buscar al alumno:", "Buscar alumno", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+
+        if (opcion == JOptionPane.CLOSED_OPTION) {
+            return;
+        }
+
+        Alumno alumno = null;
+
+        if (opcion == 0) {
+            String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+
+            if (rut == null) {
+                return;
+            }
+
+            alumno = gestionAlumnos.buscarAlumno(rut.trim());
+        }
+
+        if (opcion == 1) {
+            String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del alumno:");
+
+            if (nombre == null) {
+                return;
+            }
+
+            String apellido = JOptionPane.showInputDialog(this, "Ingrese el apellido del alumno:");
+
+            if (apellido == null) {
+                return;
+            }
+
+            alumno = gestionAlumnos.buscarAlumno(nombre.trim(), apellido.trim());
+        }
+
+        if (alumno == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró al alumno.");
+            return;
+        }
+
+        String curso = "Sin curso asignado";
+
+        if (alumno.getCurso() != null) {
+            curso = alumno.getCurso().getCodigo();
+        }
+
+        String resultado = "RUT: " + alumno.getRut() + "\nNombre: " + alumno.getNombre() + " " + alumno.getApellido() + "\nCurso: " + curso;
+
+        JOptionPane.showMessageDialog(this, resultado, "Alumno encontrado", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+        if (rut == null) {
+            return;
+        }
+
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+        if (codigo == null) {
+            return;
+        }
+
+        rut = rut.trim();
+        codigo = codigo.trim();
+
+        if (rut.isEmpty() || codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
+            return;
+        }
+
+        boolean alumnoRegistrado = gestionAlumnos.registrarAlumno(rut, codigo);
+
+        if (alumnoRegistrado) {
+            JOptionPane.showMessageDialog(this, "Alumno registrado en el curso correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo registrar al alumno. Verifique el RUT y el código del curso.");
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno que desea editar:");
+        if (rut == null) {
+            return;
+        }
+
+        String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre:");
+        if (nuevoNombre == null) {
+            return;
+        }
+
+        String nuevoApellido = JOptionPane.showInputDialog(this, "Ingrese el nuevo apellido:");
+        if (nuevoApellido == null) {
+            return;
+        }
+
+        rut = rut.trim();
+        nuevoNombre = nuevoNombre.trim();
+        nuevoApellido = nuevoApellido.trim();
+
+        if (rut.isEmpty() || nuevoNombre.isEmpty() || nuevoApellido.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
+            return;
+        }
+
+        boolean alumnoEditado = gestionAlumnos.editarAlumno(rut, nuevoNombre, nuevoApellido);
+
+        if (alumnoEditado) {
+            JOptionPane.showMessageDialog(this, "Alumno editado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,9 +329,13 @@ public class VentanaAlumnos extends javax.swing.JFrame {
         });
     }
 
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     // End of variables declaration//GEN-END:variables
 }

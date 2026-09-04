@@ -1,27 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author Gmodc
- */
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import javax.swing.JOptionPane;
+
 public class VentanaAsistencia extends javax.swing.JFrame {
 
     private final javax.swing.JFrame ventanaAnterior;
+    private final GestionCursos gestionCursos;
+    private final GestionAlumnos gestionAlumnos;
+    private final GestionRegistroAsistencia gestionRegistroAsistencia;
 
     /**
      * Creates new form VentanaAsistencia
      */
     public VentanaAsistencia() {
-        this(null);
+        this(null, null, null, null);
     }
 
-    public VentanaAsistencia(javax.swing.JFrame ventanaAnterior) {
+    public VentanaAsistencia(javax.swing.JFrame ventanaAnterior, GestionCursos gestionCursos, GestionAlumnos gestionAlumnos, GestionRegistroAsistencia gestionRegistroAsistencia) {
+
         this.ventanaAnterior = ventanaAnterior;
+        this.gestionCursos = gestionCursos;
+        this.gestionAlumnos = gestionAlumnos;
+        this.gestionRegistroAsistencia = gestionRegistroAsistencia;
+
         initComponents();
+
         getContentPane().setBackground(new java.awt.Color(15, 23, 42));
+        setLocationRelativeTo(ventanaAnterior);
+
         jButton5.addActionListener(e -> {
             dispose();
             if (this.ventanaAnterior != null) {
@@ -45,14 +52,37 @@ public class VentanaAsistencia extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        setTitle("Gestión de Asistencia");
-        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gestión de Asistencia");
 
         jButton1.setText("Pasar asistencia");
-        jButton2.setText("Registrar inasistencia extraordinaria");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Justificar Inasistencia");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         jButton3.setText("Registrar salida anticipada");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         jButton4.setText("Consultar asistencia");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         jButton5.setText("Volver al menú principal");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -70,22 +100,261 @@ public class VentanaAsistencia extends javax.swing.JFrame {
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createSequentialGroup()
-            .addGap(35, 35, 35)
-            .addComponent(jButton1)
-            .addGap(12, 12, 12)
-            .addComponent(jButton2)
-            .addGap(12, 12, 12)
-            .addComponent(jButton3)
-            .addGap(12, 12, 12)
-            .addComponent(jButton4)
-            .addGap(12, 12, 12)
-            .addComponent(jButton5)
-            .addContainerGap(35, Short.MAX_VALUE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jButton1)
+                .addGap(12, 12, 12)
+                .addComponent(jButton2)
+                .addGap(12, 12, 12)
+                .addComponent(jButton3)
+                .addGap(12, 12, 12)
+                .addComponent(jButton4)
+                .addGap(12, 12, 12)
+                .addComponent(jButton5)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+
+        if (rut == null) {
+            return;
+        }
+
+        rut = rut.trim();
+
+        Alumno alumno = gestionAlumnos.buscarAlumno(rut);
+
+        if (alumno == null) {
+            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+            return;
+        }
+
+        String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la falta (AAAA-MM-DD):");
+
+        if (fechaTexto == null) {
+            return;
+        }
+
+        LocalDate fecha;
+
+        try {
+            fecha = LocalDate.parse(fechaTexto);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido.");
+            return;
+        }
+
+        String justificacion = JOptionPane.showInputDialog(this, "Ingrese la justificación de la falta:");
+
+        if (justificacion == null) {
+            return;
+        }
+
+        justificacion = justificacion.trim();
+
+        if (justificacion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una justificación.");
+            return;
+        }
+
+        boolean faltaJustificada = gestionRegistroAsistencia.registrarFaltaJustificada(alumno, fecha, justificacion);
+
+        if (faltaJustificada) {
+            JOptionPane.showMessageDialog(this, "La falta fue justificada correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró una falta sin justificar para ese alumno y fecha.");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+
+        if (codigo == null) {
+            return;
+        }
+
+        codigo = codigo.trim();
+
+        Curso curso = gestionCursos.buscarCurso(codigo);
+
+        if (curso == null) {
+            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+            return;
+        }
+
+        if (curso.getAlumnos().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El curso no tiene alumnos registrados.");
+            return;
+        }
+
+        String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la asistencia (AAAA-MM-DD):");
+
+        if (fechaTexto == null) {
+            return;
+        }
+
+        LocalDate fecha;
+
+        try {
+            fecha = LocalDate.parse(fechaTexto);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido.");
+            return;
+        }
+
+        if (gestionRegistroAsistencia.existeAsistenciaRegistrada(curso, fecha)) {
+            JOptionPane.showMessageDialog(this, "Ya existe asistencia registrada para ese curso en esa fecha.");
+            return;
+        }
+
+        for (Alumno alumno : curso.getAlumnos()) {
+            int respuesta;
+
+            do {
+                respuesta = JOptionPane.showConfirmDialog(this, "¿Está presente " + alumno.getNombre() + " " + alumno.getApellido() + "?", "Pasar asistencia", JOptionPane.YES_NO_OPTION);
+            } while (respuesta == JOptionPane.CLOSED_OPTION);
+
+            boolean presente = respuesta == JOptionPane.YES_OPTION;
+            String justificacion = null;
+
+            if (!presente) {
+                justificacion = JOptionPane.showInputDialog(this, "Ingrese una justificación para la falta de " + alumno.getNombre() + " o deje el campo vacío:");
+
+                if (justificacion == null) {
+                    justificacion = "";
+                }
+            }
+
+            gestionRegistroAsistencia.registrarAsistencia(alumno, fecha, presente, justificacion);
+        }
+
+        JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente.");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+
+        if (rut == null) {
+            return;
+        }
+
+        rut = rut.trim();
+        Alumno alumno = gestionAlumnos.buscarAlumno(rut);
+
+        if (alumno == null) {
+            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+            return;
+        }
+
+        String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la salida (AAAA-MM-DD):");
+
+        if (fechaTexto == null) {
+            return;
+        }
+
+        LocalDate fecha;
+
+        try {
+            fecha = LocalDate.parse(fechaTexto);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido.");
+            return;
+        }
+
+        String motivo = JOptionPane.showInputDialog(this, "Ingrese el motivo de la salida anticipada:");
+
+        if (motivo == null) {
+            return;
+        }
+
+        motivo = motivo.trim();
+
+        if (motivo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un motivo.");
+            return;
+        }
+
+        boolean salidaRegistrada = gestionRegistroAsistencia.registrarSalidaAnticipada(alumno, fecha, motivo);
+
+        if (salidaRegistrada) {
+            JOptionPane.showMessageDialog(this, "Salida anticipada registrada correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo registrar la salida anticipada.");
+        }
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+
+        String[] opciones = {"Ausentes del colegio", "Asistencia de un curso"};
+
+        int opcion = JOptionPane.showOptionDialog(this, "Seleccione el tipo de consulta:", "Consultar asistencia", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+
+        if (opcion == JOptionPane.CLOSED_OPTION) {
+            return;
+        }
+
+        if (opcion == 0) {
+            LocalDate fecha = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
+
+            if (fecha == null) {
+                return;
+            }
+
+            String resultado = gestionRegistroAsistencia.obtenerAusentesPorFecha(fecha);
+            JOptionPane.showMessageDialog(this, resultado, "Ausentes del colegio", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        if (opcion == 1) {
+            String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+
+            if (codigo == null) {
+                return;
+            }
+
+            codigo = codigo.trim();
+            Curso curso = gestionCursos.buscarCurso(codigo);
+
+            if (curso == null) {
+                JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+                return;
+            }
+
+            LocalDate fecha = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
+
+            if (fecha == null) {
+                return;
+            }
+
+            String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorFechaYCurso(curso, fecha);
+            JOptionPane.showMessageDialog(this, resultado, "Asistencia del curso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private LocalDate pedirFecha(String mensaje) {
+        String fechaTexto = JOptionPane.showInputDialog(this, mensaje);
+
+        if (fechaTexto == null) {
+            return null;
+        }
+
+        try {
+            return LocalDate.parse(fechaTexto);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido.");
+            return null;
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -122,11 +391,11 @@ public class VentanaAsistencia extends javax.swing.JFrame {
         });
     }
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

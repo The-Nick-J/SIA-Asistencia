@@ -4,18 +4,18 @@ public class Asistencia {
     private LocalDate fecha;
     private Alumno alumno;
     private boolean presente;
-    private boolean inasistenciaExtraordinaria;
-    private String motivoInasistencia;
+    private boolean faltaJustificada;
+    private String justificacion;
     private String motivoSalida;
     private boolean retirado;
 
-    public Asistencia(LocalDate fecha, Alumno alumno, boolean presente, boolean retirado, boolean inasistenciaExtraordinaria, String motivoInasistencia, String motivoSalida) {
+    public Asistencia(LocalDate fecha, Alumno alumno, boolean presente, boolean retirado, boolean faltaJustificada, String justificacion, String motivoSalida) {
         this.fecha = fecha;
         this.alumno = alumno;
         this.presente = presente;
         this.retirado = retirado;
-        this.inasistenciaExtraordinaria = inasistenciaExtraordinaria;
-        this.motivoInasistencia = motivoInasistencia;
+        this.faltaJustificada = faltaJustificada;
+        this.justificacion = justificacion;
         this.motivoSalida = motivoSalida;
     }
     
@@ -24,8 +24,8 @@ public class Asistencia {
         this.alumno = alumno;
         this.presente = presente;
         this.retirado = false;
-        this.inasistenciaExtraordinaria = false;
-        this.motivoInasistencia = null;
+        this.faltaJustificada = false;
+        this.justificacion = null;
         this.motivoSalida = null;
     }
 
@@ -69,20 +69,20 @@ public class Asistencia {
         return this.alumno.equals(alumno);
     }
     
-    public boolean isInasistenciaExtraordinaria() {
-        return this.inasistenciaExtraordinaria;
+    public boolean isFaltaJustificada() {
+        return this.faltaJustificada;
     }
     
-    public void setInasistenciaExtraordinaria(boolean inasistenciaExtraordinaria) {
-        this.inasistenciaExtraordinaria = inasistenciaExtraordinaria;
+    public void setFaltaJustificada(boolean faltaJustificada) {
+        this.faltaJustificada = faltaJustificada;
     }
     
-    public String getMotivoInasistencia() {
-        return this.motivoInasistencia;
+    public String getJustificacion() {
+        return this.justificacion;
     }
     
-    public void setMotivoInasistencia(String motivoInasistencia) {
-        this.motivoInasistencia = motivoInasistencia;
+    public void setJustificacion(String justificacion) {
+        this.justificacion = justificacion;
     }
     
     public String getMotivoSalida() {
