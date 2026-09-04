@@ -27,18 +27,26 @@ public class MenuAvanzado {
             if (opcionAvanzada == 1) {
                 System.out.println("Ingrese el RUT del alumno que desea eliminar: ");
                 String rut = leer.readLine();
-                if (gestionAlumnos.eliminarAlumno(rut)) {
+                System.out.println("¿Esta seguro de eliminar al alumno? (S/N): ");
+                String confirmar = leer.readLine().trim().toUpperCase();
+                if (confirmar.equals("S") && gestionAlumnos.eliminarAlumno(rut)) {
                     System.out.println("Alumno eliminado correctamente");
-                } else {
+                } else if (confirmar.equals("S")) {
                     System.out.println("No existe un alumno con ese RUT");
+                } else {
+                    System.out.println("Operacion cancelada");
                 }
             } else if (opcionAvanzada == 2) {
                 System.out.println("Ingrese el codigo del curso que desea eliminar: ");
                 String codigo = leer.readLine();
-                if (gestionCursos.eliminarCurso(codigo)) {
+                System.out.println("¿Esta seguro de eliminar el curso? (S/N): ");
+                String confirmar = leer.readLine().trim().toUpperCase();
+                if (confirmar.equals("S") && gestionCursos.eliminarCurso(codigo)) {
                     System.out.println("Curso eliminado correctamente");
-                } else {
+                } else if (confirmar.equals("S")) {
                     System.out.println("No existe un curso con ese codigo");
+                } else {
+                    System.out.println("Operacion cancelada");
                 }
             }
         } while (opcionAvanzada != 3);

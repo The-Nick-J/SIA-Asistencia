@@ -73,7 +73,6 @@ public class GestionCursos {
 
         return true;
     }
-
     public boolean eliminarCurso(String codigo) {
         Curso curso = buscarCurso(codigo);
 
