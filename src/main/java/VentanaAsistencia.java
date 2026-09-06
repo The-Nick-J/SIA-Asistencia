@@ -296,7 +296,7 @@ public class VentanaAsistencia extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
 
-        String[] opciones = {"Ausentes del colegio", "Asistencia de un curso"};
+        String[] opciones = {"Ausentes del colegio", "Asistencia de un curso", "Asistencia de un alumno"};
 
         int opcion = JOptionPane.showOptionDialog(this, "Seleccione el tipo de consulta:", "Consultar asistencia", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 
@@ -338,6 +338,24 @@ public class VentanaAsistencia extends javax.swing.JFrame {
 
             String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorFechaYCurso(curso, fecha);
             JOptionPane.showMessageDialog(this, resultado, "Asistencia del curso", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        if(opcion == 2){
+            String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+            
+            if (rut == null){
+                return;
+            }
+            
+            Alumno alumno = gestionAlumnos.buscarAlumno(rut);
+            
+            if(alumno == null){
+                JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+                return;
+            }
+            
+            String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorAlumno(alumno);
+            JOptionPane.showMessageDialog(this, resultado, "Historial del Alumno", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
