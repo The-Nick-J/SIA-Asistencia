@@ -350,5 +350,40 @@ public class GestionRegistroAsistencia {
     public void mostrarAsistenciaPorAlumno(Alumno alumno){
         System.out.println(obtenerAsistenciaPorAlumno(alumno));
     }
+    
+    public Asistencia buscarAsistencia(Alumno alumno,LocalDate fecha){
+        if (alumno == null || fecha == null) {
+            return null;
+        }
+        ArrayList<Asistencia> lista = buscarRegistroAsistencia(alumno);
+        if (lista == null) {
+            return null;
+        }
+        for (Asistencia asistencia : lista) {
+            if (asistencia.getFecha().equals(fecha)) {
+                return asistencia;
+            }
+        }
+        return null;
+        
+    }
+    
+    public boolean modificarAsistencia(Alumno alumno, LocalDate fecha, boolean nuevoPresente){
+        if(alumno == null || fecha == null){
+            return false;
+        }
+        Asistencia asistencia = buscarAsistencia(alumno, fecha);
+        if(asistencia == null){
+            return false;
+        }
+        asistencia.setPresente(nuevoPresente);
+        
+        if(nuevoPresente){
+            asistencia.setFaltaJustificada(false);
+            asistencia.setJustificacion(null);
+        }
+        return true;
+    }
+    
 
 }
