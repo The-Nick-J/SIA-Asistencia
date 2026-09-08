@@ -186,48 +186,53 @@ public class VentanaAlumnos extends javax.swing.JFrame {
             return;
         }
 
-        Alumno alumno = null;
+        try {
+            Alumno alumno = null;
 
-        if (opcion == 0) {
-            String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+            if (opcion == 0) {
+                String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
 
-            if (rut == null) {
+                if (rut == null) {
+                    return;
+                }
+
+                alumno = gestionAlumnos.obtenerAlumno(rut.trim());
+            }
+
+
+            if (opcion == 1) {
+                String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del alumno:");
+
+                if (nombre == null) {
+                    return;
+                }
+
+                String apellido = JOptionPane.showInputDialog(this, "Ingrese el apellido del alumno:");
+
+                if (apellido == null) {
+                    return;
+                }
+
+                alumno = gestionAlumnos.buscarAlumno(nombre.trim(), apellido.trim());
+            }
+
+            if (alumno == null) {
+                JOptionPane.showMessageDialog(this, "No se encontró al alumno.");
                 return;
             }
 
-            alumno = gestionAlumnos.buscarAlumno(rut.trim());
-        }
+            String curso = "Sin curso asignado";
 
-        if (opcion == 1) {
-            String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del alumno:");
-
-            if (nombre == null) {
-                return;
+            if (alumno.getCurso() != null) {
+                curso = alumno.getCurso().getCodigo();
             }
 
-            String apellido = JOptionPane.showInputDialog(this, "Ingrese el apellido del alumno:");
+            String resultado = "RUT: " + alumno.getRut() + "\nNombre: " + alumno.getNombre() + " " + alumno.getApellido() + "\nCurso: " + curso;
 
-            if (apellido == null) {
-                return;
-            }
-
-            alumno = gestionAlumnos.buscarAlumno(nombre.trim(), apellido.trim());
+            JOptionPane.showMessageDialog(this, resultado, "Alumno encontrado", JOptionPane.INFORMATION_MESSAGE);
+        } catch (AlumnoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
-
-        if (alumno == null) {
-            JOptionPane.showMessageDialog(this, "No se encontró al alumno.");
-            return;
-        }
-
-        String curso = "Sin curso asignado";
-
-        if (alumno.getCurso() != null) {
-            curso = alumno.getCurso().getCodigo();
-        }
-
-        String resultado = "RUT: " + alumno.getRut() + "\nNombre: " + alumno.getNombre() + " " + alumno.getApellido() + "\nCurso: " + curso;
-
-        JOptionPane.showMessageDialog(this, resultado, "Alumno encontrado", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -250,47 +255,63 @@ public class VentanaAlumnos extends javax.swing.JFrame {
             return;
         }
 
-        boolean alumnoRegistrado = gestionAlumnos.registrarAlumno(rut, codigo);
+        try {
+            boolean alumnoRegistrado = gestionAlumnos.registrarAlumno(rut, codigo);
 
-        if (alumnoRegistrado) {
-            JOptionPane.showMessageDialog(this, "Alumno registrado en el curso correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo registrar al alumno. Verifique el RUT y el código del curso.");
+            if (alumnoRegistrado) {
+                JOptionPane.showMessageDialog(this, "Alumno registrado en el curso correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo registrar al alumno. Revise si ya pertenece al curso.");
+            }
+        } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno que desea editar:");
-        if (rut == null) {
-            return;
-        }
+        try {
+            // TODO add your handling code here:
+            String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno que desea editar:");
+            if (rut == null) {
+                return;
+            }
 
-        String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre:");
-        if (nuevoNombre == null) {
-            return;
-        }
+            rut = rut.trim();
 
-        String nuevoApellido = JOptionPane.showInputDialog(this, "Ingrese el nuevo apellido:");
-        if (nuevoApellido == null) {
-            return;
-        }
+            if (rut.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un RUT.");
+                return;
+            }
 
-        rut = rut.trim();
-        nuevoNombre = nuevoNombre.trim();
-        nuevoApellido = nuevoApellido.trim();
+            gestionAlumnos.obtenerAlumno(rut);
 
-        if (rut.isEmpty() || nuevoNombre.isEmpty() || nuevoApellido.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
-            return;
-        }
+            String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre:");
+            if (nuevoNombre == null) {
+                return;
+            }
 
-        boolean alumnoEditado = gestionAlumnos.editarAlumno(rut, nuevoNombre, nuevoApellido);
+            String nuevoApellido = JOptionPane.showInputDialog(this, "Ingrese el nuevo apellido:");
+            if (nuevoApellido == null) {
+                return;
+            }
 
-        if (alumnoEditado) {
-            JOptionPane.showMessageDialog(this, "Alumno editado correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+            nuevoNombre = nuevoNombre.trim();
+            nuevoApellido = nuevoApellido.trim();
+
+            if (rut.isEmpty() || nuevoNombre.isEmpty() || nuevoApellido.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
+                return;
+            }
+
+            boolean alumnoEditado = gestionAlumnos.editarAlumno(rut, nuevoNombre, nuevoApellido);
+
+            if (alumnoEditado) {
+                JOptionPane.showMessageDialog(this, "Alumno editado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+            }
+        } catch (AlumnoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 

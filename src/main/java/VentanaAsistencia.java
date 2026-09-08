@@ -119,203 +119,59 @@ public class VentanaAsistencia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
-
-        if (rut == null) {
-            return;
-        }
-
-        rut = rut.trim();
-
-        Alumno alumno = gestionAlumnos.buscarAlumno(rut);
-
-        if (alumno == null) {
-            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
-            return;
-        }
-
-        String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la falta (AAAA-MM-DD):");
-
-        if (fechaTexto == null) {
-            return;
-        }
-
-        LocalDate fecha;
-
         try {
+            // TODO add your handling code here:
+            String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+
+            if (rut == null) {
+                return;
+            }
+
+            rut = rut.trim();
+
+            Alumno alumno = gestionAlumnos.obtenerAlumno(rut.trim());
+
+
+            String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la falta (AAAA-MM-DD):");
+
+            if (fechaTexto == null) {
+                return;
+            }
+
+            LocalDate fecha;
+
             fecha = LocalDate.parse(fechaTexto);
+
+            String justificacion = JOptionPane.showInputDialog(this, "Ingrese la justificación de la falta:");
+
+            if (justificacion == null) {
+                return;
+            }
+
+            justificacion = justificacion.trim();
+
+            if (justificacion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar una justificación.");
+                return;
+            }
+
+            boolean faltaJustificada = gestionRegistroAsistencia.registrarFaltaJustificada(alumno, fecha, justificacion);
+
+            if (faltaJustificada) {
+                JOptionPane.showMessageDialog(this, "La falta fue justificada correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró una falta sin justificar para ese alumno y fecha.");
+            }
+        } catch (AlumnoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido.");
-            return;
-        }
-
-        String justificacion = JOptionPane.showInputDialog(this, "Ingrese la justificación de la falta:");
-
-        if (justificacion == null) {
-            return;
-        }
-
-        justificacion = justificacion.trim();
-
-        if (justificacion.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar una justificación.");
-            return;
-        }
-
-        boolean faltaJustificada = gestionRegistroAsistencia.registrarFaltaJustificada(alumno, fecha, justificacion);
-
-        if (faltaJustificada) {
-            JOptionPane.showMessageDialog(this, "La falta fue justificada correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontró una falta sin justificar para ese alumno y fecha.");
+            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido. Use AAAA-MM-DD.");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
-
-        if (codigo == null) {
-            return;
-        }
-
-        codigo = codigo.trim();
-
-        Curso curso = gestionCursos.buscarCurso(codigo);
-
-        if (curso == null) {
-            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
-            return;
-        }
-
-        if (curso.getAlumnos().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El curso no tiene alumnos registrados.");
-            return;
-        }
-
-        String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la asistencia (AAAA-MM-DD):");
-
-        if (fechaTexto == null) {
-            return;
-        }
-
-        LocalDate fecha;
-
         try {
-            fecha = LocalDate.parse(fechaTexto);
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido.");
-            return;
-        }
-
-        if (gestionRegistroAsistencia.existeAsistenciaRegistrada(curso, fecha)) {
-            JOptionPane.showMessageDialog(this, "Ya existe asistencia registrada para ese curso en esa fecha.");
-            return;
-        }
-
-        for (Alumno alumno : curso.getAlumnos()) {
-            int respuesta;
-
-            do {
-                respuesta = JOptionPane.showConfirmDialog(this, "¿Está presente " + alumno.getNombre() + " " + alumno.getApellido() + "?", "Pasar asistencia", JOptionPane.YES_NO_OPTION);
-            } while (respuesta == JOptionPane.CLOSED_OPTION);
-
-            boolean presente = respuesta == JOptionPane.YES_OPTION;
-            String justificacion = null;
-
-            if (!presente) {
-                justificacion = JOptionPane.showInputDialog(this, "Ingrese una justificación para la falta de " + alumno.getNombre() + " o deje el campo vacío:");
-
-                if (justificacion == null) {
-                    justificacion = "";
-                }
-            }
-
-            gestionRegistroAsistencia.registrarAsistencia(alumno, fecha, presente, justificacion);
-        }
-
-        JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente.");
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
-
-        if (rut == null) {
-            return;
-        }
-
-        rut = rut.trim();
-        Alumno alumno = gestionAlumnos.buscarAlumno(rut);
-
-        if (alumno == null) {
-            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
-            return;
-        }
-
-        String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la salida (AAAA-MM-DD):");
-
-        if (fechaTexto == null) {
-            return;
-        }
-
-        LocalDate fecha;
-
-        try {
-            fecha = LocalDate.parse(fechaTexto);
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido.");
-            return;
-        }
-
-        String motivo = JOptionPane.showInputDialog(this, "Ingrese el motivo de la salida anticipada:");
-
-        if (motivo == null) {
-            return;
-        }
-
-        motivo = motivo.trim();
-
-        if (motivo.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un motivo.");
-            return;
-        }
-
-        boolean salidaRegistrada = gestionRegistroAsistencia.registrarSalidaAnticipada(alumno, fecha, motivo);
-
-        if (salidaRegistrada) {
-            JOptionPane.showMessageDialog(this, "Salida anticipada registrada correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo registrar la salida anticipada.");
-        }
-
-
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-
-        String[] opciones = {"Ausentes del colegio", "Asistencia de un curso", "Asistencia de un alumno"};
-
-        int opcion = JOptionPane.showOptionDialog(this, "Seleccione el tipo de consulta:", "Consultar asistencia", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-
-        if (opcion == JOptionPane.CLOSED_OPTION) {
-            return;
-        }
-
-        if (opcion == 0) {
-            LocalDate fecha = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
-
-            if (fecha == null) {
-                return;
-            }
-
-            String resultado = gestionRegistroAsistencia.obtenerAusentesPorFecha(fecha);
-            JOptionPane.showMessageDialog(this, resultado, "Ausentes del colegio", JOptionPane.INFORMATION_MESSAGE);
-        }
-
-        if (opcion == 1) {
+            // TODO add your handling code here:
             String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
 
             if (codigo == null) {
@@ -323,39 +179,168 @@ public class VentanaAsistencia extends javax.swing.JFrame {
             }
 
             codigo = codigo.trim();
-            Curso curso = gestionCursos.buscarCurso(codigo);
 
-            if (curso == null) {
-                JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+            Curso curso = gestionCursos.obtenerCurso(codigo);
+
+
+            if (curso.getAlumnos().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El curso no tiene alumnos registrados.");
                 return;
             }
 
-            LocalDate fecha = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
+            String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la asistencia (AAAA-MM-DD):");
 
-            if (fecha == null) {
+            if (fechaTexto == null) {
                 return;
             }
 
-            String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorFechaYCurso(curso, fecha);
-            JOptionPane.showMessageDialog(this, resultado, "Asistencia del curso", JOptionPane.INFORMATION_MESSAGE);
+            LocalDate fecha;
+
+            fecha = LocalDate.parse(fechaTexto);
+
+            if (gestionRegistroAsistencia.existeAsistenciaRegistrada(curso, fecha)) {
+                JOptionPane.showMessageDialog(this, "Ya existe asistencia registrada para ese curso en esa fecha.");
+                return;
+            }
+
+            for (Alumno alumno : curso.getAlumnos()) {
+                int respuesta;
+
+                do {
+                    respuesta = JOptionPane.showConfirmDialog(this, "¿Está presente " + alumno.getNombre() + " " + alumno.getApellido() + "?", "Pasar asistencia", JOptionPane.YES_NO_OPTION);
+                } while (respuesta == JOptionPane.CLOSED_OPTION);
+
+                boolean presente = respuesta == JOptionPane.YES_OPTION;
+                String justificacion = null;
+
+                if (!presente) {
+                    justificacion = JOptionPane.showInputDialog(this, "Ingrese una justificación para la falta de " + alumno.getNombre() + " o deje el campo vacío:");
+
+                    if (justificacion == null) {
+                        justificacion = "";
+                    }
+                }
+
+                gestionRegistroAsistencia.registrarAsistencia(alumno, fecha, presente, justificacion);
+            }
+
+            JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente.");
+        } catch (CursoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido. Use AAAA-MM-DD.");
         }
-        
-        if(opcion == 2){
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            // TODO add your handling code here:
             String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
-            
-            if (rut == null){
+
+            if (rut == null) {
                 return;
             }
-            
-            Alumno alumno = gestionAlumnos.buscarAlumno(rut);
-            
-            if(alumno == null){
-                JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+
+            rut = rut.trim();
+            Alumno alumno = gestionAlumnos.obtenerAlumno(rut.trim());
+
+
+            String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la salida (AAAA-MM-DD):");
+
+            if (fechaTexto == null) {
                 return;
             }
-            
-            String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorAlumno(alumno);
-            JOptionPane.showMessageDialog(this, resultado, "Historial del Alumno", JOptionPane.INFORMATION_MESSAGE);
+
+            LocalDate fecha;
+
+            fecha = LocalDate.parse(fechaTexto);
+
+            String motivo = JOptionPane.showInputDialog(this, "Ingrese el motivo de la salida anticipada:");
+
+            if (motivo == null) {
+                return;
+            }
+
+            motivo = motivo.trim();
+
+            if (motivo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un motivo.");
+                return;
+            }
+
+            boolean salidaRegistrada = gestionRegistroAsistencia.registrarSalidaAnticipada(alumno, fecha, motivo);
+
+            if (salidaRegistrada) {
+                JOptionPane.showMessageDialog(this, "Salida anticipada registrada correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo registrar la salida anticipada.");
+            }
+        } catch (AlumnoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "El formato de la fecha no es válido. Use AAAA-MM-DD.");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            // TODO add your handling code here:
+
+            String[] opciones = {"Ausentes del colegio", "Asistencia de un curso", "Asistencia de un alumno"};
+
+            int opcion = JOptionPane.showOptionDialog(this, "Seleccione el tipo de consulta:", "Consultar asistencia", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+
+            if (opcion == JOptionPane.CLOSED_OPTION) {
+                return;
+            }
+
+            if (opcion == 0) {
+                LocalDate fecha = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
+
+                if (fecha == null) {
+                    return;
+                }
+
+                String resultado = gestionRegistroAsistencia.obtenerAusentesPorFecha(fecha);
+                JOptionPane.showMessageDialog(this, resultado, "Ausentes del colegio", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if (opcion == 1) {
+                String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+
+                if (codigo == null) {
+                    return;
+                }
+
+                codigo = codigo.trim();
+                Curso curso = gestionCursos.obtenerCurso(codigo);
+
+
+                LocalDate fecha = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
+
+                if (fecha == null) {
+                    return;
+                }
+
+                String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorFechaYCurso(curso, fecha);
+                JOptionPane.showMessageDialog(this, resultado, "Asistencia del curso", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if(opcion == 2){
+                String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+
+                if (rut == null){
+                    return;
+                }
+
+                Alumno alumno = gestionAlumnos.obtenerAlumno(rut.trim());
+
+
+                String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorAlumno(alumno);
+                JOptionPane.showMessageDialog(this, resultado, "Historial del Alumno", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
