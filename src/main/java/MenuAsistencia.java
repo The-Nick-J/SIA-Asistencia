@@ -30,7 +30,8 @@ public class MenuAsistencia {
             System.out.println("3. Registrar salida anticipada");
             System.out.println("4. Mostrar alumnos ausentes del colegio en fecha");
             System.out.println("5. Consultar asistencia de un curso por fecha");
-            System.out.println("6. Volver al menu principal");
+            System.out.println("6. Consultar asistencia de un alumno");
+            System.out.println("7. Volver al menu principal");
             opcionAsistencia = Integer.parseInt(leer.readLine());
 
             switch (opcionAsistencia) {
@@ -209,13 +210,25 @@ public class MenuAsistencia {
                     
                     break;
                 case 6:
+                    System.out.println("Ingrese el rut del alumno a consultar: ");
+                    String rutConsulta = leer.readLine();
+                    Alumno alumnoConsulta = gestionAlumnos.buscarAlumno(rutConsulta);
+                    
+                    if(alumnoConsulta == null){
+                        System.out.println("No existe un alumno con ese rut.");
+                        break;
+                    }
+                    
+                    gestionRegistroAsistencia.mostrarAsistenciaPorAlumno(alumnoConsulta);
+                    break;
+                case 7:
                     break;
                 default:
                     System.out.println("Ingrese una opción valida.");
                     break;
             }
 
-        } while (opcionAsistencia != 6);
+        } while (opcionAsistencia != 7);
 
     }
 }

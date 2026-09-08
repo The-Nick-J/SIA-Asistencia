@@ -302,5 +302,88 @@ public class GestionRegistroAsistencia {
 
         return resultado;
     }
+    
+    public String obtenerAsistenciaPorAlumno(Alumno alumno){
+        if(alumno == null){
+            return "Alumno no existe.";
+        }
+        
+        ArrayList<Asistencia> asistencias = buscarRegistroAsistencia(alumno);
+        
+        if(asistencias == null || asistencias.isEmpty()){
+            return "El alumno no registra asistencias en el sistema.";
+        }
+        
+        String resultado = "Historial de asistencia \n";
+        resultado += "Alumno: " + alumno.getNombre() + " " + alumno.getApellido()+"\n";
+        resultado += "Rut: " + alumno.getRut() + "\n";
+        resultado += "--------------------------------\n";
+        
+        for(Asistencia asistencia : asistencias){
+            resultado += "Fecha: " + asistencia.getFecha() + "\n";
+            
+            if(asistencia.isPresente()){
+                resultado+= "Estado: Presente\n";
+                if(asistencia.isRetirado()){
+                    resultado+= "Fue retirado anticipadamente. \n";
+                    resultado+= "Motivo =" + asistencia.getMotivoSalida() + "\n";
+                }
+            }
+            else{
+                resultado+= "Estado: Ausente\n";
+                if(asistencia.isFaltaJustificada()){
+                    resultado+="Falta justificada.\n";
+                    resultado+="Justificación =: " + asistencia.getJustificacion() + "\n";
+                } else {
+                    resultado+="Falta no justificada.\n";
+                }
+            }
+            
+            resultado += "--------------------------------\n";
+            
+        }
+        
+        return resultado;
+        
+    }
+    
+    public void mostrarAsistenciaPorAlumno(Alumno alumno){
+        System.out.println(obtenerAsistenciaPorAlumno(alumno));
+    }
+    
+    public Asistencia buscarAsistencia(Alumno alumno,LocalDate fecha){
+        if (alumno == null || fecha == null) {
+            return null;
+        }
+        ArrayList<Asistencia> lista = buscarRegistroAsistencia(alumno);
+        if (lista == null) {
+            return null;
+        }
+        for (Asistencia asistencia : lista) {
+            if (asistencia.getFecha().equals(fecha)) {
+                return asistencia;
+            }
+        }
+        return null;
+        
+    }
+    
+    public boolean modificarAsistencia(Alumno alumno, LocalDate fecha, boolean nuevoPresente){
+        if(alumno == null || fecha == null){
+            return false;
+        }
+        Asistencia asistencia = buscarAsistencia(alumno, fecha);
+        if(asistencia == null){
+            return false;
+        }
+        asistencia.setPresente(nuevoPresente);
+        
+        if(nuevoPresente){
+            asistencia.setFaltaJustificada(false);
+            asistencia.setJustificacion(null);
+        }
+        return true;
+    }
+    
 
 }
