@@ -31,7 +31,8 @@ public class MenuAsistencia {
             System.out.println("4. Mostrar alumnos ausentes del colegio en fecha");
             System.out.println("5. Consultar asistencia de un curso por fecha");
             System.out.println("6. Consultar asistencia de un alumno");
-            System.out.println("7. Volver al menu principal");
+            System.out.println("7. Modificar asistencia de un alumno");
+            System.out.println("8. Volver al menu principal");
 
             String entrada = leer.readLine();
 
@@ -183,6 +184,50 @@ public class MenuAsistencia {
                         gestionRegistroAsistencia.mostrarAsistenciaPorAlumno(alumnoConsulta);
                         break;
                     case 7:
+                        System.out.println("Ingrese el RUT del alumno: ");
+                        String rutModificar = leer.readLine();
+                        Alumno alumnoModificar = gestionAlumnos.obtenerAlumno(rutModificar);
+                        
+                        if(alumnoModificar == null){
+                            System.out.println("No existe un alumno con ese RUT.");
+                            break;
+                        }
+                        
+                        System.out.println("Ingrese la fecha de la asistencia a modificar (AAAA-MM-DD)");
+                        LocalDate fechaModificar = LocalDate.parse(leer.readLine());
+                        
+                        Asistencia asistenciaActual = gestionRegistroAsistencia.buscarAsistencia(alumnoModificar, fechaModificar);
+                        
+                        if(asistenciaActual == null){
+                            System.out.println("No hay asistencia registrada en esa fecha.");
+                            break;
+                        }
+                        
+                        if(asistenciaActual.isPresente()){
+                            System.out.println("Estado actual: Presente");
+                            System.out.println("¿Desea marcarlo como AUSENTE? (S/N)");
+                            
+                            String resp = leer.readLine().trim().toUpperCase();
+                            if(resp.equals("S")){
+                                gestionRegistroAsistencia.modificarAsistencia(alumnoModificar, fechaModificar, false);
+                                System.out.println("Asistencia modificada a AUSENTE correctamente.");
+                            }else System.out.println("No se realizaron cambios");
+                        }else{
+                            System.out.println("Estado actual: Ausente");
+                            System.out.println("¿Desea marcarlo como PRESENTE? (S/N)");
+                            
+                            String resp = leer.readLine().trim().toUpperCase();
+                            if(resp.equals("S")){
+                                gestionRegistroAsistencia.modificarAsistencia(alumnoModificar, fechaModificar, true);
+                                System.out.println("Asistencia modificada a PRESENTE correctamente.");
+                            }else System.out.println("No se realizaron cambios");
+                        }
+                        
+                        
+                        
+                        break;
+                    case 8:
+                    
                         break;
                     default:
                         System.out.println("Ingrese una opción valida.");
@@ -195,7 +240,7 @@ public class MenuAsistencia {
             } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
                 System.out.println(e.getMessage());
             }
-        } while (opcionAsistencia != 7);
+        } while (opcionAsistencia != 8);
 
     }
 }

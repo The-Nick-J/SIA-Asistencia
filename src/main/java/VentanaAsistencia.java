@@ -286,7 +286,7 @@ public class VentanaAsistencia extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
 
-            String[] opciones = {"Ausentes del colegio", "Asistencia de un curso", "Asistencia de un alumno"};
+            String[] opciones = {"Ausentes del colegio", "Asistencia de un curso", "Asistencia de un alumno","Modificar asistencia"};
 
             int opcion = JOptionPane.showOptionDialog(this, "Seleccione el tipo de consulta:", "Consultar asistencia", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 
@@ -328,16 +328,58 @@ public class VentanaAsistencia extends javax.swing.JFrame {
 
             if(opcion == 2){
                 String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
-
-                if (rut == null){
-                    return;
-                }
+                if(rut == null) return;
 
                 Alumno alumno = gestionAlumnos.obtenerAlumno(rut.trim());
+                if(alumno == null) return;
 
 
                 String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorAlumno(alumno);
                 JOptionPane.showMessageDialog(this, resultado, "Historial del Alumno", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if(opcion == 3){
+                String rutMod = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+                if(rutMod == null) return;
+                
+                Alumno alumnoMod = gestionAlumnos.obtenerAlumno(rutMod);
+                
+                if(alumnoMod == null) return;
+                
+                LocalDate fechaMod = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
+                if(fechaMod == null) return;
+                
+                Asistencia asistenciaMod = gestionRegistroAsistencia.buscarAsistencia(alumnoMod, fechaMod);
+                if (asistenciaMod == null) {
+                    JOptionPane.showMessageDialog(this, "El alumno no tiene asistencia registrada en esa fecha.");
+                    return;
+                }
+                
+                if(asistenciaMod.isPresente()){
+                    int respuesta = JOptionPane.showConfirmDialog(this,
+                            "Estado actual asistencia: Presente \n ¿Desea cambiarlo a AUSENTE?",
+                            "Modificar Asistencia",
+                            JOptionPane.YES_NO_OPTION);
+                    if(respuesta == JOptionPane.CLOSED_OPTION) return;
+                    
+                    boolean accion = (respuesta == JOptionPane.YES_OPTION);
+                    if(accion){
+                        gestionRegistroAsistencia.modificarAsistencia(alumnoMod, fechaMod, false);
+                        JOptionPane.showMessageDialog(this,"Asistencia modificada con exito.");
+                    }
+                }else{
+                    int respuesta = JOptionPane.showConfirmDialog(this,
+                            "Estado actual asistencia: Ausente \n ¿Desea cambiarlo a PRESENTE?",
+                            "Modificar Asistencia",
+                            JOptionPane.YES_NO_OPTION);
+                    if(respuesta == JOptionPane.CLOSED_OPTION) return;
+                    
+                    boolean accion = (respuesta == JOptionPane.YES_OPTION);
+                    if(accion){
+                        gestionRegistroAsistencia.modificarAsistencia(alumnoMod, fechaMod, true);
+                        JOptionPane.showMessageDialog(this,"Asistencia modificada con exito.");
+                    }
+                }
+                
             }
         } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
