@@ -385,5 +385,48 @@ public class GestionRegistroAsistencia {
         return true;
     }
     
+    public double calcularPorcentajeAsistenciaAlumno(Alumno alumno){
+        if(alumno == null) {
+            return -1;
+        }
+        
+        ArrayList<Asistencia> asistencias = buscarRegistroAsistencia(alumno);
+        
+        if(asistencias == null || asistencias.isEmpty()){
+            return -1;
+        }
+        
+        int diasPresentes = 0;
+        int diasAusentes = 0;
+        
+        for(Asistencia asistencia : asistencias){
+            if(!esDiaValido(asistencia.getFecha())){
+                continue;
+            }
+            if(asistencia.isPresente()){
+                diasPresentes++;
+            } else {
+                diasAusentes++;
+            }
+        }
+        
+        int totalDiasValidos = diasPresentes + diasAusentes;
+        
+        if(totalDiasValidos == 0){
+            return -1;
+        }
+        
+        return diasPresentes * 100.0 / totalDiasValidos;
+    }
+    
+    private boolean esDiaValido(LocalDate fecha){
+        DayOfWeek dia = fecha.getDayOfWeek();
+        if(dia != DayOfWeek.SATURDAY && dia != DayOfWeek.SUNDAY){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 
 }
