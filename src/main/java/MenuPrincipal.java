@@ -20,7 +20,7 @@ public class MenuPrincipal {
     }
 
     public void mostrarMenu() throws IOException {
-        int opcion;
+        int opcion = 0;
 
         do {
             System.out.println("Bienvenido al Menu Principal!");
@@ -28,12 +28,24 @@ public class MenuPrincipal {
             System.out.println("1. Gestion de Asistencia");
             System.out.println("2. Gestion de Administracion");
             System.out.println("3. Salir");
-            opcion = Integer.parseInt(leer.readLine());
+            String entrada = leer.readLine();
 
-            if (opcion == 1) {
-                menuAsistencia.mostrarMenu();
-            } else if (opcion == 2) {
-                menuAdministracion.mostrarMenu();
+            if (entrada == null) {
+                return;
+            }
+
+            try {
+                opcion = Integer.parseInt(entrada);
+
+                if (opcion == 1) {
+                    menuAsistencia.mostrarMenu();
+                } else if (opcion == 2) {
+                    menuAdministracion.mostrarMenu();
+                } else if (opcion != 3) {
+                    System.out.println("Error: opcion no es valida.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un numero de las opciones del menu.");
             }
         } while (opcion != 3);
     }

@@ -24,6 +24,16 @@ public class GestionCursos {
         return cursos.get(codigo);
     }
 
+    public Curso obtenerCurso(String codigo) throws CursoNoEncontradoException {
+        Curso curso = buscarCurso(codigo);
+
+        if (curso == null) {
+            throw new CursoNoEncontradoException(codigo);
+        }
+
+        return curso;
+    }
+
     public void mostrarCurso(String codigo) {
 
         //buscar el curso segun el codigo
@@ -73,6 +83,7 @@ public class GestionCursos {
 
         return true;
     }
+
     public boolean eliminarCurso(String codigo) {
         Curso curso = buscarCurso(codigo);
 

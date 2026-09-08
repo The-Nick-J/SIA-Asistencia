@@ -25,28 +25,38 @@ public class Menu {
     }
 
     public void mostrarMenu() throws IOException {
-        int opcion;
+        int opcion = 0;
         do {
             System.out.println("Seleccione el modo: ");
             System.out.println("1. Usar consola");
             System.out.println("2. Usar ventana");
             System.out.println("3. Salir");
 
-            opcion = Integer.parseInt(leer.readLine());
+            String entrada = leer.readLine();
 
-            if (opcion == 1) {
-                menuPrincipal.mostrarMenu();
-            } else if (opcion == 2) {
-                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(
-                        gestionCursos,
-                        gestionAlumnos,
-                        gestionRegistroAsistencia
-                );
-                
-                ventanaPrincipal.setVisible(true);
+            if(entrada == null) {
                 return;
-            } else if (opcion != 3) {
-                System.out.println("Error: Opcion invalida");
+            }
+
+            try {
+                opcion = Integer.parseInt(entrada);
+
+                if (opcion == 1) {
+                    menuPrincipal.mostrarMenu();
+                } else if (opcion == 2) {
+                    VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(
+                            gestionCursos,
+                            gestionAlumnos,
+                            gestionRegistroAsistencia
+                    );
+
+                    ventanaPrincipal.setVisible(true);
+                    return;
+                } else if (opcion != 3) {
+                    System.out.println("Error: Opcion invalida");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un numero de las opciones del menu.");
             }
         } while (opcion != 3);
     }

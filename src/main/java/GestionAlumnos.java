@@ -48,6 +48,16 @@ public class GestionAlumnos {
         return null;
     }
 
+    public Alumno obtenerAlumno(String rut) throws AlumnoNoEncontradoException {
+        Alumno alumno = buscarAlumno(rut);
+
+        if (alumno == null) {
+            throw new AlumnoNoEncontradoException(rut);
+        }
+
+        return alumno;
+    }
+
     public Alumno mostrarAlumno(String rut) {
         Alumno alumno = buscarAlumno(rut);
         return alumno;
@@ -74,20 +84,10 @@ public class GestionAlumnos {
 
     }
 
-    public boolean registrarAlumno(String rut, String codigo) {
-        Alumno alumno = buscarAlumno(rut);
-
-        if (alumno == null) {
-            System.out.println("No existe un alumno con ese RUT");
-            return false;
-        }
-
-        Curso curso = gestionCursos.buscarCurso(codigo);
-
-        if (curso == null) {
-            System.out.println("No existe un curso con ese codigo");
-            return false;
-        }
+    public boolean registrarAlumno(String rut, String codigo) throws AlumnoNoEncontradoException, CursoNoEncontradoException {
+        
+        Alumno alumno = obtenerAlumno(rut);
+        Curso curso = gestionCursos.obtenerCurso(codigo);
 
         if (alumno.getCurso() == curso) {
             return false;

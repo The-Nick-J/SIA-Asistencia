@@ -93,62 +93,74 @@ public class VentanaAvanzado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno que desea eliminar:");
+        try {
+            // TODO add your handling code here:
+            String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno que desea eliminar:");
 
-        if (rut == null) {
-            return;
-        }
+            if (rut == null) {
+                return;
+            }
 
-        rut = rut.trim();
+            rut = rut.trim();
 
-        if (rut.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un RUT.");
-            return;
-        }
+            if (rut.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un RUT.");
+                return;
+            }
 
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar al alumno?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            gestionAlumnos.obtenerAlumno(rut);
 
-        if (confirmacion != JOptionPane.YES_OPTION) {
-            return;
-        }
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar al alumno?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
-        boolean alumnoEliminado = gestionAlumnos.eliminarAlumno(rut);
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
 
-        if (alumnoEliminado) {
-            JOptionPane.showMessageDialog(this, "Alumno eliminado correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+            boolean alumnoEliminado = gestionAlumnos.eliminarAlumno(rut);
+
+            if (alumnoEliminado) {
+                JOptionPane.showMessageDialog(this, "Alumno eliminado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No existe un alumno con ese RUT.");
+            }
+        } catch (AlumnoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso que desea eliminar:");
+        try {
+            // TODO add your handling code here:
+            String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso que desea eliminar:");
 
-        if (codigo == null) {
-            return;
-        }
+            if (codigo == null) {
+                return;
+            }
 
-        codigo = codigo.trim();
+            codigo = codigo.trim();
 
-        if (codigo.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un código.");
-            return;
-        }
+            if (codigo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un código.");
+                return;
+            }
 
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar el curso?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            gestionCursos.obtenerCurso(codigo);
 
-        if (confirmacion != JOptionPane.YES_OPTION) {
-            return;
-        }
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar el curso?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
-        boolean cursoEliminado = gestionCursos.eliminarCurso(codigo);
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
 
-        if (cursoEliminado) {
-            JOptionPane.showMessageDialog(this, "Curso eliminado correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+            boolean cursoEliminado = gestionCursos.eliminarCurso(codigo);
+
+            if (cursoEliminado) {
+                JOptionPane.showMessageDialog(this, "Curso eliminado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+            }
+        } catch (CursoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
