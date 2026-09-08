@@ -31,7 +31,8 @@ public class MenuAsistencia {
             System.out.println("4. Mostrar alumnos ausentes del colegio en fecha");
             System.out.println("5. Consultar asistencia de un curso por fecha");
             System.out.println("6. Consultar asistencia de un alumno");
-            System.out.println("7. Volver al menu principal");
+            System.out.println("7. Consultar porcentaje de asistencia de un alumno");
+            System.out.println("8. Volver al menu principal");
 
             String entrada = leer.readLine();
 
@@ -183,6 +184,20 @@ public class MenuAsistencia {
                         gestionRegistroAsistencia.mostrarAsistenciaPorAlumno(alumnoConsulta);
                         break;
                     case 7:
+                        System.out.println("Ingrese el rut del alumno a consultar: ");
+                        String rutPorcentaje = leer.readLine();
+                        
+                        Alumno alumnoPorcentaje = gestionAlumnos.obtenerAlumno(rutPorcentaje);
+                        
+                        double porcentaje = gestionRegistroAsistencia.calcularPorcentajeAsistenciaAlumno(alumnoPorcentaje);
+                        
+                        if(porcentaje == -1){
+                            System.out.println("El alumno no tiene registros en dias lectivos.");
+                        } else {
+                            System.out.println("Porcentaje de asistencia: " + porcentaje + "%");
+                        }
+                        break;
+                    case 8:
                         break;
                     default:
                         System.out.println("Ingrese una opción valida.");
@@ -195,7 +210,7 @@ public class MenuAsistencia {
             } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
                 System.out.println(e.getMessage());
             }
-        } while (opcionAsistencia != 7);
+        } while (opcionAsistencia != 8);
 
     }
 }
