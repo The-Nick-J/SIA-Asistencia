@@ -131,7 +131,6 @@ public class VentanaAsistencia extends javax.swing.JFrame {
 
             Alumno alumno = gestionAlumnos.obtenerAlumno(rut.trim());
 
-
             String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la falta (AAAA-MM-DD):");
 
             if (fechaTexto == null) {
@@ -181,7 +180,6 @@ public class VentanaAsistencia extends javax.swing.JFrame {
             codigo = codigo.trim();
 
             Curso curso = gestionCursos.obtenerCurso(codigo);
-
 
             if (curso.getAlumnos().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El curso no tiene alumnos registrados.");
@@ -244,7 +242,6 @@ public class VentanaAsistencia extends javax.swing.JFrame {
             rut = rut.trim();
             Alumno alumno = gestionAlumnos.obtenerAlumno(rut.trim());
 
-
             String fechaTexto = JOptionPane.showInputDialog(this, "Ingrese la fecha de la salida (AAAA-MM-DD):");
 
             if (fechaTexto == null) {
@@ -286,7 +283,7 @@ public class VentanaAsistencia extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
 
-            String[] opciones = {"Ausentes del colegio", "Asistencia de un curso", "Asistencia de un alumno"};
+            String[] opciones = {"Ausentes del colegio", "Asistencia de un curso", "Historial de Asistencia de un alumno", "Porcentaje de asistencia"};
 
             int opcion = JOptionPane.showOptionDialog(this, "Seleccione el tipo de consulta:", "Consultar asistencia", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 
@@ -315,7 +312,6 @@ public class VentanaAsistencia extends javax.swing.JFrame {
                 codigo = codigo.trim();
                 Curso curso = gestionCursos.obtenerCurso(codigo);
 
-
                 LocalDate fecha = pedirFecha("Ingrese la fecha que desea consultar (AAAA-MM-DD):");
 
                 if (fecha == null) {
@@ -326,19 +322,44 @@ public class VentanaAsistencia extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, resultado, "Asistencia del curso", JOptionPane.INFORMATION_MESSAGE);
             }
 
-            if(opcion == 2){
+            if (opcion == 2) {
                 String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
 
-                if (rut == null){
+                if (rut == null) {
                     return;
                 }
 
                 Alumno alumno = gestionAlumnos.obtenerAlumno(rut.trim());
 
-
                 String resultado = gestionRegistroAsistencia.obtenerAsistenciaPorAlumno(alumno);
                 JOptionPane.showMessageDialog(this, resultado, "Historial del Alumno", JOptionPane.INFORMATION_MESSAGE);
             }
+
+            if (opcion == 3) {
+                String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del alumno:");
+
+                if (rut == null) {
+                    return;
+                }
+
+                rut = rut.trim();
+
+                if (rut.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe ingresar un RUT.");
+                    return;
+                }
+
+                Alumno alumno = gestionAlumnos.obtenerAlumno(rut);
+
+                double porcentaje = gestionRegistroAsistencia.calcularPorcentajeAsistenciaAlumno(alumno);
+
+                if (porcentaje == -1) {
+                    JOptionPane.showMessageDialog(this, "El alumno no tiene registros de asistencia de lunes a viernes.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Alumno: " + alumno.getNombre() + " " + alumno.getApellido() + "\nPorcentaje de asistencia: " + porcentaje + "%", "Porcentaje de asistencia", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+
         } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
