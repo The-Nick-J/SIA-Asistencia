@@ -172,63 +172,75 @@ public class VentanaCursos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso que desea editar:");
-        if (codigo == null) {
-            return;
-        }
+        try {
+            // TODO add your handling code here:
+            String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso que desea editar:");
+            if (codigo == null) {
+                return;
+            }
 
-        String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del curso:");
-        if (nuevoNombre == null) {
-            return;
-        }
+            codigo = codigo.trim();
 
-        String nuevoProfesorJefe = JOptionPane.showInputDialog(this, "Ingrese el nuevo profesor jefe:");
-        if (nuevoProfesorJefe == null) {
-            return;
-        }
+            if (codigo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo de curso.");
+                return;
+            }
 
-        codigo = codigo.trim();
-        nuevoNombre = nuevoNombre.trim();
-        nuevoProfesorJefe = nuevoProfesorJefe.trim();
+            gestionCursos.obtenerCurso(codigo);
 
-        if (codigo.isEmpty() || nuevoNombre.isEmpty() || nuevoProfesorJefe.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
-            return;
-        }
+            String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del curso:");
+            if (nuevoNombre == null) {
+                return;
+            }
 
-        boolean cursoEditado = gestionCursos.editarCurso(codigo, nuevoNombre, nuevoProfesorJefe);
+            String nuevoProfesorJefe = JOptionPane.showInputDialog(this, "Ingrese el nuevo profesor jefe:");
+            if (nuevoProfesorJefe == null) {
+                return;
+            }
 
-        if (cursoEditado) {
-            JOptionPane.showMessageDialog(this, "Curso editado correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+            nuevoNombre = nuevoNombre.trim();
+            nuevoProfesorJefe = nuevoProfesorJefe.trim();
+
+            if (codigo.isEmpty() || nuevoNombre.isEmpty() || nuevoProfesorJefe.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
+                return;
+            }
+
+            boolean cursoEditado = gestionCursos.editarCurso(codigo, nuevoNombre, nuevoProfesorJefe);
+
+            if (cursoEditado) {
+                JOptionPane.showMessageDialog(this, "Curso editado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
+            }
+        } catch (CursoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
-        if (codigo == null) {
-            return;
+        try {
+            // TODO add your handling code here:
+            String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+            if (codigo == null) {
+                return;
+            }
+
+            codigo = codigo.trim();
+
+            if (codigo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar el código del curso.");
+                return;
+            }
+
+            Curso curso = gestionCursos.obtenerCurso(codigo);
+
+
+            String resultado = "Código: " + curso.getCodigo() + "\nNombre: " + curso.getNombre() + "\nProfesor jefe: " + curso.getProfesorJefe();
+            JOptionPane.showMessageDialog(this, resultado, "Curso encontrado", JOptionPane.INFORMATION_MESSAGE);
+        } catch (CursoNoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
-
-        codigo = codigo.trim();
-
-        if (codigo.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar el código del curso.");
-            return;
-        }
-
-        Curso curso = gestionCursos.buscarCurso(codigo);
-
-        if (curso == null) {
-            JOptionPane.showMessageDialog(this, "No existe un curso con ese código.");
-            return;
-        }
-
-        String resultado = "Código: " + curso.getCodigo() + "\nNombre: " + curso.getNombre() + "\nProfesor jefe: " + curso.getProfesorJefe();
-        JOptionPane.showMessageDialog(this, resultado, "Curso encontrado", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**

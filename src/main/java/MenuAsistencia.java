@@ -19,7 +19,7 @@ public class MenuAsistencia {
     }
 
     public void mostrarMenu() throws IOException {
-        int opcionAsistencia;
+        int opcionAsistencia = 0;
         String codigoCurso;
         Curso cursoAsistencia;
         String presente;
@@ -32,202 +32,169 @@ public class MenuAsistencia {
             System.out.println("5. Consultar asistencia de un curso por fecha");
             System.out.println("6. Consultar asistencia de un alumno");
             System.out.println("7. Volver al menu principal");
-            opcionAsistencia = Integer.parseInt(leer.readLine());
 
-            switch (opcionAsistencia) {
-                case 1:
-                    System.out.println("Ingrese el codigo del curso en el que pasara asistencia:");
-                    codigoCurso = leer.readLine();
-                    cursoAsistencia = gestionCursos.getCursos().get(codigoCurso);
-                    if (cursoAsistencia == null) {
-                        System.out.println("ERROR: No existe un curso con este codigo.");
-                        break;
-                    }
+            String entrada = leer.readLine();
 
-                    if (cursoAsistencia.getAlumnos().isEmpty()) {
-                        System.out.println("ERROR: El curso no tiene alumnos registrados.");
-                        break;
-                    }
-
-                    System.out.println("Ingrese la fecha de la asistencia (AAAA-MM-DD):");
-                    LocalDate fechaAsistencia;
-
-                    try {
-                        fechaAsistencia = LocalDate.parse(leer.readLine());
-                    } catch (DateTimeParseException e) {
-                        System.out.println("El formato de fecha ingresado no es valido.");
-                        break;
-                    }
-
-                    if (gestionRegistroAsistencia.existeAsistenciaRegistrada(cursoAsistencia, fechaAsistencia)) {
-                        System.out.println("ERROR: Ya se tomo asistencia para este curso.");
-                        break;
-                    }
-
-                    System.out.println("Para cada alumno, ingrese 'S' si esta presente o 'N' si esta ausente");
-                    for (Alumno alumno : cursoAsistencia.getAlumnos()) {
-                        System.out.println("Alumn@: " + alumno.getNombre() + " " + alumno.getApellido());
-                        System.out.println("Presente?");
-                        do {
-                            presente = leer.readLine().trim().toUpperCase();
-                            if (!presente.equals("S") && !presente.equals("N")) {
-                                System.out.println("Ingrese una opcion valida.");
-                            }
-                        } while (!presente.equals("S") && !presente.equals("N"));
-                        if (presente.equals("S")) {
-                            gestionRegistroAsistencia.registrarAsistencia(alumno, fechaAsistencia, true, null);
-                        } else {
-                            System.out.println("Ingrese una justificacion o presione Enter para dejar la falta sin justificar:");
-                            String justificacion = leer.readLine().trim();
-                            gestionRegistroAsistencia.registrarAsistencia(alumno, fechaAsistencia, false, justificacion);
-                        }
-
-                    }
-                    break;
-                case 2:
-                    String rutAlumno;
-                    Alumno alumno;
-                    String justificacion;
-                    String fechaTexto;
-
-                    System.out.println("Ingrese el RUT del alumno: ");
-                    rutAlumno = leer.readLine();
-                    alumno = gestionAlumnos.buscarAlumno(rutAlumno);
-
-                    if (alumno == null) {
-                        System.out.println("Alumno no encontrado");
-                        break;
-                    }
-
-                    System.out.println("Ingrese la fecha de la falta a justificar (AAAA-MM-DD):");
-                    fechaTexto = leer.readLine();
-                    LocalDate fechaFalta;
-
-                    try {
-                        fechaFalta = LocalDate.parse(fechaTexto);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("El formato de fecha ingresado no es valido");
-                        break;
-                    }
-
-                    System.out.println("Ingrese la justificacion: ");
-                    justificacion = leer.readLine().trim();
-
-                    if (justificacion.isEmpty()) {
-                        System.out.println("Debe ingresar una justificacion.");
-                        break;
-                    }
-
-                    boolean resultado = gestionRegistroAsistencia.registrarFaltaJustificada(alumno, fechaFalta, justificacion);
-                    
-                    if(resultado == true) {
-                        System.out.println("La falta ha sido justificada correctamente");
-                    } else { 
-                        System.out.println("La falta no pudo ser justificada");
-                    }
-                    break;
-                case 3:
-                    String rut;
-                    Alumno alumnoSalida;
-                    String fechaTextoSalida;
-                    LocalDate fecha;
-                    String motivo;
-                    
-                    System.out.println("Ingrese el RUT del alumno: ");
-                    rut = leer.readLine();
-                    
-                    alumnoSalida = gestionAlumnos.buscarAlumno(rut);
-                    
-                    if(alumnoSalida == null){
-                        System.out.println("Alumno no encontrado");
-                        break;
-                    }
-                    
-                    System.out.println("Ingrese la fecha de la salida anticipada (AAAA-MM-DD): ");
-                    fechaTextoSalida = leer.readLine();
-                    
-                    try {
-                        fecha = LocalDate.parse(fechaTextoSalida);
-                    } catch (DateTimeParseException e){
-                        System.out.println("El formato de fecha ingresado no es valido!");
-                        break;
-                    }
-                    
-                    System.out.println("Ingrese el motivo de la salida: ");
-                    motivo = leer.readLine();
-                    
-                    boolean salidaRegistrada = gestionRegistroAsistencia.registrarSalidaAnticipada(alumnoSalida, fecha, motivo);
-                    
-                    if(salidaRegistrada){
-                        System.out.println("Salida anticipada registrada correctamente");
-                    } else {
-                        System.out.println("No se pudo registrar la salida anticipada");
-                    }            
-                    break;
-                case 4:
-                    String fechaTextoConsulta;
-                    LocalDate fechaConsulta;
-                    
-                    System.out.println("Ingrese la fecha que desea revisar la asistencia en formato (AAAA-MM-DD): ");
-                    fechaTextoConsulta = leer.readLine();
-                    
-                    try {
-                        fechaConsulta = LocalDate.parse(fechaTextoConsulta);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("El formato de fecha que ingreso no es valido.");
-                        break;
-                    }
-                    
-                    gestionRegistroAsistencia.mostrarAusentesPorFecha(fechaConsulta);
-                    break;
-                case 5:
-                    String fechaTextoBuscar;
-                    LocalDate fechaBuscar;
-                    String codigoCursoBuscar;
-                    Curso cursoBuscar;
-                    
-                    System.out.println("Ingrese la fecha que desea revisar en formato (AAAA-MM-DD)");
-                    fechaTextoBuscar = leer.readLine();
-                    
-                    try {
-                        fechaBuscar = LocalDate.parse(fechaTextoBuscar);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("El formato de fecha ingresado no es valido");
-                        break;
-                    }
-                    
-                    System.out.println("Ingrese el codigo del curso a buscar: ");
-                    codigoCursoBuscar = leer.readLine();
-                    
-                    cursoBuscar = gestionCursos.getCursos().get(codigoCursoBuscar);
-                    
-                    if(cursoBuscar == null) {
-                        System.out.println("No existe un curso con ese codigo");
-                        break;
-                    }
-                    
-                    gestionRegistroAsistencia.mostrarAsistenciaPorFechaYCurso(cursoBuscar,fechaBuscar);
-                    
-                    break;
-                case 6:
-                    System.out.println("Ingrese el rut del alumno a consultar: ");
-                    String rutConsulta = leer.readLine();
-                    Alumno alumnoConsulta = gestionAlumnos.buscarAlumno(rutConsulta);
-                    
-                    if(alumnoConsulta == null){
-                        System.out.println("No existe un alumno con ese rut.");
-                        break;
-                    }
-                    
-                    gestionRegistroAsistencia.mostrarAsistenciaPorAlumno(alumnoConsulta);
-                    break;
-                case 7:
-                    break;
-                default:
-                    System.out.println("Ingrese una opción valida.");
-                    break;
+            if (entrada == null) {
+                return;
             }
 
+            try {
+                opcionAsistencia = Integer.parseInt(entrada);
+
+                switch (opcionAsistencia) {
+                    case 1:
+                        System.out.println("Ingrese el codigo del curso en el que pasara asistencia:");
+                        codigoCurso = leer.readLine();
+                        cursoAsistencia = gestionCursos.obtenerCurso(codigoCurso);
+
+                        if (cursoAsistencia.getAlumnos().isEmpty()) {
+                            System.out.println("ERROR: El curso no tiene alumnos registrados.");
+                            break;
+                        }
+
+                        System.out.println("Ingrese la fecha de la asistencia (AAAA-MM-DD):");
+                        LocalDate fechaAsistencia;
+
+                        fechaAsistencia = LocalDate.parse(leer.readLine());
+
+                        if (gestionRegistroAsistencia.existeAsistenciaRegistrada(cursoAsistencia, fechaAsistencia)) {
+                            System.out.println("ERROR: Ya se tomo asistencia para este curso.");
+                            break;
+                        }
+
+                        System.out.println("Para cada alumno, ingrese 'S' si esta presente o 'N' si esta ausente");
+                        for (Alumno alumno : cursoAsistencia.getAlumnos()) {
+                            System.out.println("Alumn@: " + alumno.getNombre() + " " + alumno.getApellido());
+                            System.out.println("Presente?");
+                            do {
+                                presente = leer.readLine().trim().toUpperCase();
+                                if (!presente.equals("S") && !presente.equals("N")) {
+                                    System.out.println("Ingrese una opcion valida.");
+                                }
+                            } while (!presente.equals("S") && !presente.equals("N"));
+                            if (presente.equals("S")) {
+                                gestionRegistroAsistencia.registrarAsistencia(alumno, fechaAsistencia, true, null);
+                            } else {
+                                System.out.println("Ingrese una justificacion o presione Enter para dejar la falta sin justificar:");
+                                String justificacion = leer.readLine().trim();
+                                gestionRegistroAsistencia.registrarAsistencia(alumno, fechaAsistencia, false, justificacion);
+                            }
+
+                        }
+                        break;
+                    case 2:
+                        String rutAlumno;
+                        Alumno alumno;
+                        String justificacion;
+                        String fechaTexto;
+
+                        System.out.println("Ingrese el RUT del alumno: ");
+                        rutAlumno = leer.readLine();
+                        
+                        alumno = gestionAlumnos.obtenerAlumno(rutAlumno);
+
+                        System.out.println("Ingrese la fecha de la falta a justificar (AAAA-MM-DD):");
+                        fechaTexto = leer.readLine();
+                        LocalDate fechaFalta;
+
+                        fechaFalta = LocalDate.parse(fechaTexto);
+
+                        System.out.println("Ingrese la justificacion: ");
+                        justificacion = leer.readLine().trim();
+
+                        if (justificacion.isEmpty()) {
+                            System.out.println("Debe ingresar una justificacion.");
+                            break;
+                        }
+
+                        boolean resultado = gestionRegistroAsistencia.registrarFaltaJustificada(alumno, fechaFalta, justificacion);
+
+                        if (resultado == true) {
+                            System.out.println("La falta ha sido justificada correctamente");
+                        } else {
+                            System.out.println("La falta no pudo ser justificada");
+                        }
+                        break;
+                    case 3:
+                        String rut;
+                        Alumno alumnoSalida;
+                        String fechaTextoSalida;
+                        LocalDate fecha;
+                        String motivo;
+
+                        System.out.println("Ingrese el RUT del alumno: ");
+                        rut = leer.readLine();
+
+                        alumnoSalida = gestionAlumnos.obtenerAlumno(rut);
+
+                        System.out.println("Ingrese la fecha de la salida anticipada (AAAA-MM-DD): ");
+                        fechaTextoSalida = leer.readLine();
+
+                        fecha = LocalDate.parse(fechaTextoSalida);
+
+                        System.out.println("Ingrese el motivo de la salida: ");
+                        motivo = leer.readLine();
+
+                        boolean salidaRegistrada = gestionRegistroAsistencia.registrarSalidaAnticipada(alumnoSalida, fecha, motivo);
+
+                        if (salidaRegistrada) {
+                            System.out.println("Salida anticipada registrada correctamente");
+                        } else {
+                            System.out.println("No se pudo registrar la salida anticipada");
+                        }
+                        break;
+                    case 4:
+                        String fechaTextoConsulta;
+                        LocalDate fechaConsulta;
+
+                        System.out.println("Ingrese la fecha que desea revisar la asistencia en formato (AAAA-MM-DD): ");
+                        fechaTextoConsulta = leer.readLine();
+
+                        fechaConsulta = LocalDate.parse(fechaTextoConsulta);
+
+                        gestionRegistroAsistencia.mostrarAusentesPorFecha(fechaConsulta);
+                        break;
+                    case 5:
+                        String fechaTextoBuscar;
+                        LocalDate fechaBuscar;
+                        String codigoCursoBuscar;
+                        Curso cursoBuscar;
+
+                        System.out.println("Ingrese la fecha que desea revisar en formato (AAAA-MM-DD)");
+                        fechaTextoBuscar = leer.readLine();
+
+                        fechaBuscar = LocalDate.parse(fechaTextoBuscar);
+
+                        System.out.println("Ingrese el codigo del curso a buscar: ");
+                        codigoCursoBuscar = leer.readLine();
+
+                        cursoBuscar = gestionCursos.obtenerCurso(codigoCursoBuscar);
+
+                        gestionRegistroAsistencia.mostrarAsistenciaPorFechaYCurso(cursoBuscar, fechaBuscar);
+
+                        break;
+                    case 6:
+                        System.out.println("Ingrese el rut del alumno a consultar: ");
+                        String rutConsulta = leer.readLine();
+                        
+                        Alumno alumnoConsulta = gestionAlumnos.obtenerAlumno(rutConsulta);
+
+                        gestionRegistroAsistencia.mostrarAsistenciaPorAlumno(alumnoConsulta);
+                        break;
+                    case 7:
+                        break;
+                    default:
+                        System.out.println("Ingrese una opción valida.");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un numero de las opciones del menu.");
+            } catch (DateTimeParseException e) {
+                System.out.println("El formato de fecha ingresado no es valido. Use AAAA-MM-DD.");
+            } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
+                System.out.println(e.getMessage());
+            }
         } while (opcionAsistencia != 7);
 
     }

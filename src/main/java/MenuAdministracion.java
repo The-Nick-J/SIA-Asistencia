@@ -20,7 +20,7 @@ public class MenuAdministracion {
     }
 
     public void mostrarMenu() throws IOException {
-        int opcionAdmin;
+        int opcionAdmin = 0;
 
         do {
             System.out.println("Bienvenido al Menu de Administracion");
@@ -28,14 +28,27 @@ public class MenuAdministracion {
             System.out.println("2. Gestion de Cursos");
             System.out.println("3. Opciones Avanzadas");
             System.out.println("4. Volver al Menu Principal");
-            opcionAdmin = Integer.parseInt(leer.readLine());
 
-            if (opcionAdmin == 1) {
-                menuAlumnos.mostrarMenu();
-            } else if (opcionAdmin == 2) {
-                menuCursos.mostrarMenu();
-            } else if (opcionAdmin == 3) {
-                menuAvanzado.mostrarMenu();
+            String entrada = leer.readLine();
+
+            if(entrada == null) {
+                return;
+            }
+
+            try {
+                opcionAdmin = Integer.parseInt(entrada);
+
+                if (opcionAdmin == 1) {
+                    menuAlumnos.mostrarMenu();
+                } else if (opcionAdmin == 2) {
+                    menuCursos.mostrarMenu();
+                } else if (opcionAdmin == 3) {
+                    menuAvanzado.mostrarMenu();
+                } else if (opcionAdmin != 4) {
+                    System.out.println("Error: Opcion no es Valida!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un numero de las opciones del menu.");
             }
         } while (opcionAdmin != 4);
     }
