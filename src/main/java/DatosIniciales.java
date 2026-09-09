@@ -2,58 +2,50 @@ import java.time.LocalDate;
 
 public class DatosIniciales {
 
-    public static void main(String[] args) {
+    public static void cargarDatos(GestionCursos gestionCursos, GestionAlumnos gestionAlumnos, GestionRegistroAsistencia gestionRegistroAsistencia) throws AlumnoNoEncontradoException, CursoNoEncontradoException {
 
-        Curso curso = new Curso(
-                "1ro Medio A",
-                "1MA",
-                "John Java"
-        );
+        String codigoCurso = "curso";
+        String rutAlumno1 = "11111111-1";
+        String rutAlumno2 = "22222222-2";
 
-        Alumno alumno1 = new Alumno("20.123.456-7", "Mike", "Ceplus");
-        Alumno alumno2 = new Alumno("21.987.654-3", "Carla", "Python");
-        Profesor profesor1 = new Profesor("20.482.528-9", "Cubillos", "El GOAT", "Java");
+        // crear
+        gestionCursos.agregarCurso("curso",codigoCurso,"profesor");
+        gestionAlumnos.agregarAlumno(rutAlumno1,"xxxx","yyyy");
+        gestionAlumnos.agregarAlumno(rutAlumno2,"oooo","zzzz");
 
-        curso.addAlumno(alumno1);
-        curso.addAlumno(alumno2);
+        Alumno alumno1 = gestionAlumnos.obtenerAlumno(rutAlumno1);
+        Alumno alumno2 = gestionAlumnos.obtenerAlumno(rutAlumno2);
+
+        // registrar
+        gestionAlumnos.registrarAlumno(rutAlumno1, codigoCurso);
+        gestionAlumnos.registrarAlumno(rutAlumno2, codigoCurso);
         
-        
-        Asistencia asistencia = new Asistencia(
-                LocalDate.now(),
-                alumno1,
-                true,
-                false,
-                false,
-                null,
-                null
-        );
+        LocalDate fecha1 = LocalDate.of(2026, 8, 10);
+        LocalDate fecha2 = LocalDate.of(2026, 8, 11);
+        LocalDate fecha3 = LocalDate.of(2026, 8, 12);
 
-        System.out.println("Curso: " + curso.getNombre());
-        System.out.println("Código: " + curso.getCodigo());
-        System.out.println("Profesor jefe: " + curso.getProfesorJefe());
-
-        System.out.println("\nAlumnos:");
-        for (Alumno alumno : curso.getAlumnos()) {
-            System.out.println("- " + alumno.getNombre() + " "
-                    + alumno.getApellido() + " | RUT: " + alumno.getRut());
+        // test1 presente y ausente
+        if (gestionRegistroAsistencia.buscarAsistencia(alumno1, fecha1) == null) {
+            gestionRegistroAsistencia.registrarAsistencia(alumno1,fecha1,true,null);
         }
 
-        System.out.println("\nAsistencia:");
-        System.out.println("Fecha: " + asistencia.getFecha());
-        System.out.println("Alumno: " + asistencia.getAlumno().getNombre());
-        System.out.println("Presente: " + asistencia.isPresente());
-        
-        profesor1.mostrarResumen();
-        alumno1.mostrarResumen();
-        
-        // Probar setters
-        alumno1.setNombre("Ana María");
-        curso.setProfesorJefe("Pedro Ramírez");
-        asistencia.setRetirado(true);
+        if (gestionRegistroAsistencia.buscarAsistencia(alumno2, fecha1) == null) {
+            gestionRegistroAsistencia.registrarAsistencia(alumno2,fecha1,false,null);
+        }
 
-        System.out.println("\nDatos modificados:");
-        System.out.println("Alumno: " + alumno1.getNombre());
-        System.out.println("Profesor jefe: " + curso.getProfesorJefe());
-        System.out.println("¿Retirado?: " + asistencia.isRetirado());
+        // test2 inasistencia con justificacion
+        if (gestionRegistroAsistencia.buscarAsistencia(alumno1, fecha2) == null) {
+            gestionRegistroAsistencia.registrarAsistencia(alumno1,fecha2,false,"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        }
+
+        // test3 presente
+        if (gestionRegistroAsistencia.buscarAsistencia(alumno2, fecha2) == null) {
+            gestionRegistroAsistencia.registrarAsistencia(alumno2,fecha2,true,null);
+        }
+
+        // test4 retirado
+        if (gestionRegistroAsistencia.buscarAsistencia(alumno1, fecha3) == null) {
+            gestionRegistroAsistencia.registrarSalidaAnticipada(alumno1,fecha3,"oooooooooooooooooooooo");
+        }
     }
 }
