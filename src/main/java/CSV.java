@@ -65,7 +65,7 @@ public class CSV {
                     String nombre = limpiar(info[1]);
                     String profesorJefe = limpiar(info[2]);
                     
-                    gestionCursos.agregarCurso(codigo, nombre, profesorJefe);
+                    gestionCursos.agregarCurso(nombre, codigo, profesorJefe);
                 }
             }
         }

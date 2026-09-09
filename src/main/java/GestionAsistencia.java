@@ -14,6 +14,12 @@ public class GestionAsistencia {
         CSV csv = new CSV(gestionCursos, gestionAlumnos, gestionRegistroAsistencia);
         csv.cargarTodo();
         
+        try {
+            DatosIniciales.cargarDatos(gestionCursos,gestionAlumnos,gestionRegistroAsistencia);
+        } catch (AlumnoNoEncontradoException | CursoNoEncontradoException e) {
+            System.err.println("Error al cargar los datos iniciales: " + e.getMessage());
+}
+        
         Runtime.getRuntime().addShutdownHook(new Thread (() -> {
             try {
                 csv.guardarTodo();
