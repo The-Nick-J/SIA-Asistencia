@@ -29,7 +29,7 @@ cada alumno puede tener varios registros de asistencia en distintas fechas.
 
 ## Herramientas
 
-Java 11 · Apache NetBeans 21 · Maven · GitHub
+Java 11 · Apache NetBeans 21 · GitHub
 
 ## INSTRUCCIONES DE INSTALACION Y USO
 
@@ -41,7 +41,7 @@ Java 11 · Apache NetBeans 21 · Maven · GitHub
 4. Selecciona `File > Open Project`.
 5. Busca la carpeta extraída del proyecto.
 6. Selecciona el proyecto y presiona `Open Project`.
-7. Espera a que NetBeans cargue Maven y las dependencias.
+7. Espera a que NetBeans cargue las dependencias.
 
 ## Cómo ejecutar el proyecto
 
