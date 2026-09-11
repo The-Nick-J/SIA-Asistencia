@@ -5,7 +5,19 @@ INF2236 · PUCV · Segundo semestre 2026
 
 ## La idea
 
-Queremos construir un sistema sencillo para que un colegio pueda registrar la asistencia de sus alumnos durante el año escolar.
+El proyecto consiste en un sistema de gestión de asistencia para un colegio. 
+Su objetivo es permitir que el personal encargado registre, consulte y administre
+la asistencia de los alumnos de manera ordenada.
+
+El sistema trabaja principalmente con tres tipos de datos:
+
+- **Alumnos:** identificados por su RUT, nombre, apellido y curso.
+- **Cursos:** identificados por un código, nombre, profesor jefe y una lista de alumnos.
+- **Asistencias:** asociadas a un alumno y una fecha, indicando si estuvo presente,
+  ausente, si tuvo una falta justificada o si se retiró antes de finalizar la jornada.
+
+La relación principal del sistema es que un curso puede tener varios alumnos y que
+cada alumno puede tener varios registros de asistencia en distintas fechas.
 
 ## Equipo
 
