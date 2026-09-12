@@ -45,7 +45,7 @@ Java 11 · Apache NetBeans 21 · GitHub
 
 ## Cómo ejecutar el proyecto
 
-1. Haz clic derecho sobre el proyecto.
+1. Haz clic derecho sobre el proyecto (gestion-asistencia).
 2. Selecciona `Clean and Build`.
 3. Cuando la compilacion termine, vuelve a hacer clic derecho sobre el proyecto.
 4. Selecciona `Run`.
