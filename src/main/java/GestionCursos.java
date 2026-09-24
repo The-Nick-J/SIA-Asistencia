@@ -69,7 +69,7 @@ public class GestionCursos {
     }
 
     public HashMap<String, Curso> getCursos() {
-        return cursos;
+        return new HashMap<>(cursos);
     }
 
     public boolean editarCurso(String codigo, String nuevoNombre, String nuevoProfesorJefe) {

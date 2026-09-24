@@ -49,7 +49,7 @@ public class GestionRegistroAsistencia {
     //Retorna un ArrayList de todas las asistencias registradas de un alumno
     public ArrayList<Asistencia> buscarRegistroAsistencia(Alumno alumno) {
         if (alumno != null && registrosAsistencia.containsKey(alumno.getRut())) {
-            return registrosAsistencia.get(alumno.getRut());
+            return new ArrayList<>(registrosAsistencia.get(alumno.getRut()));
         }
         return null;
     }
@@ -113,7 +113,13 @@ public class GestionRegistroAsistencia {
     }
 
     public HashMap<String, ArrayList<Asistencia>> getRegistrosAsistencia() {
-        return registrosAsistencia;
+        HashMap<String, ArrayList<Asistencia>> copia = new HashMap<>();
+
+        for (String rut : registrosAsistencia.keySet()) {
+            copia.put(rut, new ArrayList<>(registrosAsistencia.get(rut)));
+        }
+
+        return copia;
     }
 
     public boolean registrarFaltaJustificada(Alumno alumno, LocalDate fecha, String justificacion) {
