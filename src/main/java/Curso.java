@@ -28,7 +28,7 @@ public class Curso {
     }
 
     public ArrayList<Alumno> getAlumnos() {
-        return alumnos;
+        return new ArrayList<>(alumnos);
     }
 
     public void setNombre(String nombre) {
@@ -60,6 +60,17 @@ public class Curso {
         return null;
     }
     
+    public boolean eliminarAlumno(String rut) {
+        Alumno alumno = buscarAlumno(rut);
+
+        if (alumno == null) {
+            return false;
+        }
+
+        alumnos.remove(alumno);
+        return true;
+    }
+
     public void mostrarAlumnos(){
         //revisar que existan alumnos en el arraylist
         if(alumnos.isEmpty()){

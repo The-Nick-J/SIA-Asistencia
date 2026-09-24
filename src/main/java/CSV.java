@@ -2,6 +2,8 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CSV {
     private final GestionCursos gestionCursos;
@@ -132,13 +134,14 @@ public class CSV {
     
     private void guardarAsistencias() throws IOException{
         Path archivo = carpetaDatos.resolve("asistencias.csv");
+        HashMap<String, ArrayList<Asistencia>> registros = gestionRegistroAsistencia.getRegistrosAsistencia();
         
         try(BufferedWriter escribir = Files.newBufferedWriter(archivo, StandardCharsets.UTF_8)){
             escribir.write("rut,fecha,presente,retirado,"+"faltaJustificada,justificacion,motivoSalida");
             escribir.newLine();
             
-            for(String rut : gestionRegistroAsistencia.getRegistrosAsistencia().keySet()){
-                for(Asistencia asistencia : gestionRegistroAsistencia.getRegistrosAsistencia().get(rut)){
+            for(String rut : registros.keySet()){
+                for(Asistencia asistencia : registros.get(rut)){
                     escribir.write(formatear(rut) + "," + formatear(asistencia.getFecha().toString()) + "," + formatear(String.valueOf(asistencia.isPresente())) + "," + formatear(String.valueOf(asistencia.isRetirado())) + "," + formatear(String.valueOf(asistencia.isFaltaJustificada())) + "," + formatear(asistencia.getJustificacion()) + "," + formatear(asistencia.getMotivoSalida()));
                     escribir.newLine();
                 }

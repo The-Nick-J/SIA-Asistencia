@@ -94,7 +94,7 @@ public class GestionAlumnos {
         }
 
         if (alumno.getCurso() != null) {
-            alumno.getCurso().getAlumnos().remove(alumno);
+            alumno.getCurso().eliminarAlumno(alumno.getRut());
         }
 
         if (!curso.addAlumno(alumno)) {
@@ -124,7 +124,7 @@ public class GestionAlumnos {
         }
 
         if (alumno.getCurso() != null) {
-            alumno.getCurso().getAlumnos().remove(alumno);
+            alumno.getCurso().eliminarAlumno(alumno.getRut());
         }
 
         alumnos.remove(alumno);
@@ -132,7 +132,7 @@ public class GestionAlumnos {
     }
 
     public ArrayList<Alumno> getAlumnos() {
-        return alumnos;
+        return new ArrayList<>(alumnos);
     }
 
 }
