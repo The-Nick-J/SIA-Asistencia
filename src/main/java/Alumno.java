@@ -19,36 +19,26 @@ public class Alumno extends Persona {
     }
     
     @Override
-    public void mostrarResumen() {
-    	String nombre = this.getNombre();
-    	String rut = this.getRut();
-    	String apellido = this.getApellido();
-    	
-    	if(this.curso != null) {
-    		System.out.println("-----Datos del Alumno-----");
-    		System.out.println("RUT: " + rut);
-    		System.out.println("Nombre: " + nombre);
-    		System.out.println("Apellido: " + apellido);
-    		System.out.println("Curso: " + this.getCodigoCurso());
-    	} else {
-    		System.out.println("-----Datos del Alumno-----");
-    		System.out.println("RUT: " + rut);
-    		System.out.println("Nombre: " + nombre);
-    		System.out.println("Apellido: " + apellido);
-    		System.out.println("Curso: Sin curso asignado");
-    	}
+    public String obtenerResumen() {
+        String resumen = "-----Datos del Alumno-----\nRUT: " + this.getRut() + "\nNombre: " + this.getNombre() + "\nApellido: " + this.getApellido();
+
+        if (this.curso != null) {
+            resumen += "\nCurso: " + this.getCodigoCurso();
+        } else {
+            resumen += "\nCurso: Sin curso asignado";
+        }
+
+        return resumen;
     }
    
-    public void mostrarResumen(boolean formatoCorto) {
-    	if(!formatoCorto) {
-    		mostrarResumen();
-    		return;
-    	}
-    	if(this.curso != null) {
-    		System.out.println(this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Curso: " + this.getCodigoCurso());
-    	} else {
-    		System.out.println(this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Sin curso asignado");
-    	}
-    	
+    public String obtenerResumen(boolean formatoCorto) {
+        if (!formatoCorto) {
+            return obtenerResumen();
+        }
+        if (this.curso != null) {
+            return this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Curso: " + this.getCodigoCurso();
+        } else {
+            return this.getRut() + " - " + this.getNombre() + " " + this.getApellido() + " - Sin curso asignado";
+        }
     }
 }

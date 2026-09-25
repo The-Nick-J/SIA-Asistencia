@@ -72,7 +72,7 @@ public class MenuAlumnos {
                         System.out.println("Ingrese el RUT del alumno: ");
                         rutBuscar = leer.readLine();
                         Alumno alumno = gestionAlumnos.obtenerAlumno(rutBuscar);
-                        alumno.mostrarResumen();
+                        System.out.println(alumno.obtenerResumen());
                     } else if (opcionAlumnoBuscar == 2) {
                         System.out.println("Ingrese el Nombre del alumno: ");
                         nombreBuscar = leer.readLine();
@@ -80,7 +80,7 @@ public class MenuAlumnos {
                         apellidoBuscar = leer.readLine();
                         Alumno alumno = gestionAlumnos.buscarAlumno(nombreBuscar, apellidoBuscar);
                         if (alumno != null) {
-                            alumno.mostrarResumen();
+                            System.out.println(alumno.obtenerResumen());
                         } else {
                             System.out.println("El alumno no ha sido encontrado");
                         }
@@ -90,7 +90,7 @@ public class MenuAlumnos {
 
                 } else if (opcionAlumnos == 3) {
 
-                    gestionAlumnos.mostrarAlumnos();
+                    System.out.println(gestionAlumnos.obtenerListadoAlumnos());
 
                 } else if (opcionAlumnos == 4) {
 

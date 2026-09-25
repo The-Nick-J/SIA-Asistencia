@@ -34,38 +34,24 @@ public class GestionCursos {
         return curso;
     }
 
-    public void mostrarCurso(String codigo) {
-
-        //buscar el curso segun el codigo
+    public String obtenerDetalleCurso(String codigo) {
         Curso mostrado = buscarCurso(codigo);
-
-        //revisar que el curso efectivamente existad
         if (mostrado == null) {
-            System.out.println("No existe un curso con ese codigo");
-            return;
+            return "No existe un curso con ese codigo";
         }
-
-        //printear los datos del curso
-        System.out.println("-------------------------------");
-        System.out.println("Codigo: " + mostrado.getCodigo());
-        System.out.println("Nombre: " + mostrado.getNombre());
-        System.out.println("Profesor Jefe: " + mostrado.getProfesorJefe());
-
-        //printear alumnos registrados en curso
-        System.out.println("Alumnos: ");
-        mostrado.mostrarAlumnos();
+        return "-------------------------------\nCodigo: " + mostrado.getCodigo() + "\nNombre: " + mostrado.getNombre() + "\nProfesor Jefe: " + mostrado.getProfesorJefe() + "\nAlumnos: \n" + mostrado.obtenerListadoAlumnos();
     }
 
-    public void mostrarCursos() {
-        //checkea que existan cursos
+    public String obtenerListadoCursos() {
         if (cursos.isEmpty()) {
-            System.out.println("No hay cursos registrados");
-            return;
+            return "No hay cursos registrados";
         }
-        //itera por el map de cursos y llama al metodo mostrarCurso
+
+        String resultado = "";
         for (String codigo : cursos.keySet()) {
-            mostrarCurso(codigo);
+            resultado += obtenerDetalleCurso(codigo) + "\n";
         }
+        return resultado;
     }
 
     public HashMap<String, Curso> getCursos() {

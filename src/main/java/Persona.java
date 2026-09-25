@@ -35,10 +35,7 @@ public class Persona {
         this.apellido = apellido;
     }
     
-    public void mostrarResumen() {
-    	System.out.println("-----Datos de la Persona-----");
-		System.out.println("RUT: " + rut);
-		System.out.println("Nombre: " + nombre);
-		System.out.println("Apellido: " + apellido);
+    public String obtenerResumen() {
+        return "-----Datos de la Persona-----\nRUT: " + rut + "\nNombre: " + nombre + "\nApellido: " + apellido;
     }
 }

@@ -162,16 +162,7 @@ public class VentanaAlumnos extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if (gestionAlumnos.getAlumnos().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay alumnos registrados.");
-            return;
-        }
-
-        String listaAlumnos = "";
-
-        for (Alumno alumno : gestionAlumnos.getAlumnos()) {
-            listaAlumnos = listaAlumnos + alumno.getRut() + " - " + alumno.getNombre() + " " + alumno.getApellido() + "\n";
-        }
+        String listaAlumnos = gestionAlumnos.obtenerListadoAlumnos();
 
         JOptionPane.showMessageDialog(this, listaAlumnos, "Alumnos registrados", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -221,13 +212,7 @@ public class VentanaAlumnos extends javax.swing.JFrame {
                 return;
             }
 
-            String curso = "Sin curso asignado";
-
-            if (alumno.getCurso() != null) {
-                curso = alumno.getCurso().getCodigo();
-            }
-
-            String resultado = "RUT: " + alumno.getRut() + "\nNombre: " + alumno.getNombre() + " " + alumno.getApellido() + "\nCurso: " + curso;
+            String resultado = alumno.obtenerResumen();
 
             JOptionPane.showMessageDialog(this, resultado, "Alumno encontrado", JOptionPane.INFORMATION_MESSAGE);
         } catch (AlumnoNoEncontradoException e) {

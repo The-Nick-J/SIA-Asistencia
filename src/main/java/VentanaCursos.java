@@ -157,16 +157,7 @@ public class VentanaCursos extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if (gestionCursos.getCursos().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay cursos registrados.");
-            return;
-        }
-
-        String listaCursos = "";
-
-        for (Curso curso : gestionCursos.getCursos().values()) {
-            listaCursos = listaCursos + "Código: " + curso.getCodigo() + "\nNombre: " + curso.getNombre() + "\nProfesor jefe: " + curso.getProfesorJefe() + "\n\n";
-        }
+        String listaCursos = gestionCursos.obtenerListadoCursos();
 
         JOptionPane.showMessageDialog(this, listaCursos, "Cursos registrados", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -233,10 +224,9 @@ public class VentanaCursos extends javax.swing.JFrame {
                 return;
             }
 
-            Curso curso = gestionCursos.obtenerCurso(codigo);
+            gestionCursos.obtenerCurso(codigo);
 
-
-            String resultado = "Código: " + curso.getCodigo() + "\nNombre: " + curso.getNombre() + "\nProfesor jefe: " + curso.getProfesorJefe();
+            String resultado = gestionCursos.obtenerDetalleCurso(codigo);
             JOptionPane.showMessageDialog(this, resultado, "Curso encontrado", JOptionPane.INFORMATION_MESSAGE);
         } catch (CursoNoEncontradoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
