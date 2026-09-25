@@ -63,25 +63,21 @@ public class GestionAlumnos {
         return alumno;
     }
 
-    public void mostrarAlumnos() {
-        // verifica que existan alumnos en el arraylist
+    public String obtenerListadoAlumnos() {
         int cont = 1;
         boolean formatoCorto = true;
 
         if (alumnos.isEmpty()) {
-            System.out.println("No hay alumnos registrados");
-            return;
+            return "No hay alumnos registrados";
         }
 
-        System.out.println("Lista de alumnos: \n");
-        // itera por el arraylist de alumnos y llama el metodo mostrarAlumno por cada
-        // alumno existente
+        String resultado = "Lista de alumnos: \n\n";
         for (Alumno alumno : alumnos) {
-            System.out.print(cont + ".-");
-            alumno.mostrarResumen(formatoCorto);
+            resultado += cont + ".-" + alumno.obtenerResumen(formatoCorto) + "\n";
             cont++;
         }
 
+        return resultado;
     }
 
     public boolean registrarAlumno(String rut, String codigo) throws AlumnoNoEncontradoException, CursoNoEncontradoException {

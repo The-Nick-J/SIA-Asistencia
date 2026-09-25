@@ -61,7 +61,7 @@ public class CSV {
             while((linea = lector.readLine()) != null){
                 if(linea.trim().isEmpty()) continue;
                 
-                String[] info = linea.split(",");
+                String[] info = linea.split(",", -1);
                 if(info.length>=3){
                     String codigo = limpiar(info[0]);
                     String nombre = limpiar(info[1]);
@@ -104,7 +104,7 @@ public class CSV {
             while((linea = lector.readLine()) != null){
                 if(linea.trim().isEmpty()) continue;
                 
-                String[] info = linea.split(",");
+                String[] info = linea.split(",", -1);
                 if(info.length>=4){
                     String rut = limpiar(info[0]);
                     String nombre = limpiar(info[1]);
@@ -160,7 +160,7 @@ public class CSV {
             while((linea = lector.readLine()) != null){
                 if(linea.trim().isEmpty()) continue;
                 
-                String[] info = linea.split(",");
+                String[] info = linea.split(",", -1);
                 if(info.length>=7){
                     String rut = limpiar(info[0]);
                     

@@ -71,17 +71,17 @@ public class Curso {
         return true;
     }
 
-    public void mostrarAlumnos(){
-        //revisar que existan alumnos en el arraylist
-        if(alumnos.isEmpty()){
-            System.out.println("No hay alumnos en este curso");
-            return;
+    public String obtenerListadoAlumnos() {
+        if (alumnos.isEmpty()) {
+            return "No hay alumnos en este curso";
         }
-        //iterar sobre el arraylist y printear los atributos de los alumnos
-        for(Alumno alumno : alumnos){
-            System.out.println(alumno.getRut() + " - " + alumno.getNombre() + " " + alumno.getApellido());
+
+        String resultado = "";
+        for (Alumno alumno : alumnos) {
+            resultado += alumno.getRut() + " - " + alumno.getNombre() + " " + alumno.getApellido() + "\n";
         }
-        
+
+        return resultado;
     }
 
 }

@@ -53,7 +53,7 @@ public class MenuCursos {
                     }
 
                 } else if (opcionCursos == 2) {
-                    gestionCursos.mostrarCursos();
+                    System.out.println(gestionCursos.obtenerListadoCursos());
                 } else if (opcionCursos == 3) {
                     System.out.println("Codigo del curso a editar: ");
                     String codigo = leer.readLine();
@@ -76,7 +76,7 @@ public class MenuCursos {
                     String codigo = leer.readLine();
 
                     gestionCursos.obtenerCurso(codigo);
-                    gestionCursos.mostrarCurso(codigo);
+                    System.out.println(gestionCursos.obtenerDetalleCurso(codigo));
 
                 } else if (opcionCursos != 5) {
                     System.out.println("Error, tu opcion elegida no es valida");
