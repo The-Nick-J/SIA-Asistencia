@@ -40,11 +40,12 @@ public class CSV {
         Path archivo = carpetaDatos.resolve("cursos.csv");
         
         try(BufferedWriter escribir = Files.newBufferedWriter(archivo, StandardCharsets.UTF_8)){
-            escribir.write("codigo,nombre,profesorJefe");
+            escribir.write("codigo,nombre,profesorRut,profesorNombre," + "profesorApellido,profesorAsignatura");
             escribir.newLine();
             
             for(Curso curso : gestionCursos.getCursos().values()){
-                escribir.write(formatear(curso.getCodigo()) + "," + formatear(curso.getNombre()) + "," + formatear(curso.getProfesorJefe()));
+                Profesor profesor = curso.getProfesorJefe();
+                escribir.write(formatear(curso.getCodigo()) + "," + formatear(curso.getNombre()) + "," + formatear(profesor == null ? "" : profesor.getRut()) + "," + formatear(profesor == null ? "" : profesor.getNombre()) + "," + formatear(profesor == null ? "" : profesor.getApellido()) + "," + formatear(profesor == null ? "" : profesor.getAsignatura()));
                 escribir.newLine();
             }
         }
@@ -62,11 +63,19 @@ public class CSV {
                 if(linea.trim().isEmpty()) continue;
                 
                 String[] info = linea.split(",", -1);
-                if(info.length>=3){
+                if(info.length == 6){
                     String codigo = limpiar(info[0]);
                     String nombre = limpiar(info[1]);
-                    String profesorJefe = limpiar(info[2]);
-                    
+
+                    Profesor profesorJefe = new Profesor(limpiar(info[2]), limpiar(info[3]), limpiar(info[4]), limpiar(info[5]));
+
+                    gestionCursos.agregarCurso(nombre, codigo, profesorJefe);
+                } else if(info.length == 3){
+                    String codigo = limpiar(info[0]);
+                    String nombre = limpiar(info[1]);
+
+                    Profesor profesorJefe = new Profesor("", limpiar(info[2]), "", "");
+
                     gestionCursos.agregarCurso(nombre, codigo, profesorJefe);
                 }
             }

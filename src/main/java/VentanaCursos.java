@@ -28,6 +28,28 @@ public class VentanaCursos extends javax.swing.JFrame {
             }
         });
     }
+    
+    private String[] solicitarDatosProfesor(){
+        String[] etiquetas = {"RUT del profesor jefe:", "Nombre del profesor jefe:", "Apellido del profesor jefe:", "Asignatura del profesor jefe:"};
+        
+        String[] datos = new String[4];
+
+        for (int i = 0; i < datos.length; i++) {
+            String entrada = JOptionPane.showInputDialog(this, etiquetas[i]);
+
+            if (entrada == null) {
+                return null;
+            }
+
+            datos[i] = entrada.trim();
+
+            if (datos[i].isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe completar los datos del profesor.");
+                return null;
+            }
+        }
+        return datos;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,22 +153,22 @@ public class VentanaCursos extends javax.swing.JFrame {
             return;
         }
 
-        String profesorJefe = JOptionPane.showInputDialog(this, "Ingrese el nombre del profesor jefe:");
-
-        if (profesorJefe == null) {
-            return;
-        }
 
         nombre = nombre.trim();
         codigo = codigo.trim();
-        profesorJefe = profesorJefe.trim();
 
-        if (nombre.isEmpty() || codigo.isEmpty() || profesorJefe.isEmpty()) {
+        if (nombre.isEmpty() || codigo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
             return;
         }
+        
+        String[] profesor = solicitarDatosProfesor();
+        
+        if (profesor == null){
+            return;
+        }
 
-        boolean cursoAgregado = gestionCursos.agregarCurso(nombre, codigo, profesorJefe);
+        boolean cursoAgregado = gestionCursos.agregarCurso(nombre, codigo, profesor[0], profesor[1], profesor[2], profesor[3]);
 
         if (cursoAgregado) {
             JOptionPane.showMessageDialog(this, "Curso agregado correctamente.");
@@ -184,20 +206,20 @@ public class VentanaCursos extends javax.swing.JFrame {
                 return;
             }
 
-            String nuevoProfesorJefe = JOptionPane.showInputDialog(this, "Ingrese el nuevo profesor jefe:");
-            if (nuevoProfesorJefe == null) {
-                return;
-            }
-
             nuevoNombre = nuevoNombre.trim();
-            nuevoProfesorJefe = nuevoProfesorJefe.trim();
 
-            if (codigo.isEmpty() || nuevoNombre.isEmpty() || nuevoProfesorJefe.isEmpty()) {
+            if (codigo.isEmpty() || nuevoNombre.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Debe completar todos los datos.");
                 return;
             }
+            
+            String[] profesor = solicitarDatosProfesor();
+            
+            if(profesor == null){
+                return;
+            }
 
-            boolean cursoEditado = gestionCursos.editarCurso(codigo, nuevoNombre, nuevoProfesorJefe);
+            boolean cursoEditado = gestionCursos.editarCurso(codigo, nuevoNombre, profesor[0], profesor[1], profesor[2], profesor[3]);
 
             if (cursoEditado) {
                 JOptionPane.showMessageDialog(this, "Curso editado correctamente.");

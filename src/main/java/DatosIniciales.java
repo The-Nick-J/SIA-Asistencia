@@ -9,7 +9,8 @@ public class DatosIniciales {
         String rutAlumno2 = "22222222-2";
 
         // crear
-        gestionCursos.agregarCurso("curso",codigoCurso,"profesor");
+        Profesor profesor = new Profesor("12345678-5","Ana","Pérez","Matemáticas");
+        gestionCursos.agregarCurso("curso",codigoCurso,profesor);
         gestionAlumnos.agregarAlumno(rutAlumno1,"xxxx","yyyy");
         gestionAlumnos.agregarAlumno(rutAlumno2,"oooo","zzzz");
 
