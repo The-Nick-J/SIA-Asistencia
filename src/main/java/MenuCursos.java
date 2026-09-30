@@ -40,11 +40,31 @@ public class MenuCursos {
                     String nombre = leer.readLine();
                     System.out.print("Codigo del curso: ");
                     String codigo = leer.readLine();
-                    System.out.print("Profesor jefe: ");
-                    String profesorJefe = leer.readLine();
+                    System.out.print("RUT del profesor jefe: ");
+                    String rutProfesor = leer.readLine();
+                    System.out.print("Nombre del profesor jefe: ");
+                    String nombreProfesor = leer.readLine();
+                    System.out.print("Apellido del profesor jefe: ");
+                    String apellidoProfesor = leer.readLine();
+                    System.out.print("Asignatura del profesor jefe: ");
+                    String asignatura = leer.readLine();
+                    
+                    if(rutProfesor == null || nombreProfesor == null || apellidoProfesor == null || asignatura == null){
+                        return;
+                    }
+                    
+                    rutProfesor = rutProfesor.trim();
+                    nombreProfesor = nombreProfesor.trim();
+                    apellidoProfesor = apellidoProfesor.trim();
+                    asignatura = asignatura.trim();
+                    
+                    if(rutProfesor.isEmpty() || nombreProfesor.isEmpty() || apellidoProfesor.isEmpty() || asignatura.isEmpty()){
+                        System.out.println("Debe completar los datos del profesor.");
+                        continue;
+                    }
 
                     //feedback al usuario sobre la operacion y llama el metodo de agregado
-                    if (gestionCursos.agregarCurso(nombre, codigo, profesorJefe)) {
+                    if (gestionCursos.agregarCurso(nombre, codigo, rutProfesor, nombreProfesor, apellidoProfesor, asignatura)) {
                         System.out.println("Curso agregado con exito!");
                         System.out.println("--------------------------");
                     } else {
@@ -62,10 +82,31 @@ public class MenuCursos {
 
                     System.out.println("Nuevo nombre del curso: ");
                     String nuevoNombre = leer.readLine();
-                    System.out.println("Nuevo profesor jefe: ");
-                    String nuevoProfesorJefe = leer.readLine();
+                    System.out.print("RUT del profesor jefe: ");
+                    String rutProfesor = leer.readLine();
+                    System.out.print("Nombre del profesor jefe: ");
+                    String nombreProfesor = leer.readLine();
+                    System.out.print("Apellido del profesor jefe: ");
+                    String apellidoProfesor = leer.readLine();
+                    System.out.print("Asignatura del profesor jefe: ");
+                    String asignatura = leer.readLine();
 
-                    if (gestionCursos.editarCurso(codigo, nuevoNombre, nuevoProfesorJefe)) {
+                    if (nuevoNombre == null || rutProfesor == null || nombreProfesor == null || apellidoProfesor == null|| asignatura == null){
+                        return;
+                    }
+                    
+                    nuevoNombre = nuevoNombre.trim();
+                    rutProfesor = rutProfesor.trim();
+                    nombreProfesor = nombreProfesor.trim();
+                    apellidoProfesor = apellidoProfesor.trim();
+                    asignatura = asignatura.trim();
+
+                    if (nuevoNombre.isEmpty() || rutProfesor.isEmpty() || nombreProfesor.isEmpty() || apellidoProfesor.isEmpty() || asignatura.isEmpty()){
+                        System.out.println("Debe completar todos los datos.");
+                        continue;
+                    }
+
+                    if (gestionCursos.editarCurso(codigo, nuevoNombre, rutProfesor, nombreProfesor, apellidoProfesor, asignatura)) {
                         System.out.println("Curso editado con exito!");
                     } else {
                         System.out.println("No existe un curso con ese codigo");

@@ -6,14 +6,20 @@ public class GestionCursos {
 
     //inicializa un mapa vacio de cursos
     private final HashMap<String, Curso> cursos = new HashMap<>();
-
-    public boolean agregarCurso(String nombre, String codigo, String profesorJefe) {
+    
+    public boolean agregarCurso(String nombre, String codigo, String rutProfesor, String nombreProfesor, String apellidoProfesor, String asignatura){
+        Profesor profesor = new Profesor(rutProfesor, nombreProfesor, apellidoProfesor, asignatura);
+        
+        return agregarCurso(nombre, codigo, profesor);
+    }
+    
+    public boolean agregarCurso(String nombre, String codigo, Profesor profesor) {
         //checkea si ya existe el curso con el codigo ingresado
         if (cursos.containsKey(codigo)) {
             return false;
         }
         //crea el curso con el input dado
-        Curso nuevoCurso = new Curso(nombre, codigo, profesorJefe);
+        Curso nuevoCurso = new Curso(nombre, codigo, profesor);
         //se mete al mapa con key codigo y value objeto Curso nuevoCurso
         cursos.put(codigo, nuevoCurso);
         //return true si exito
@@ -39,7 +45,11 @@ public class GestionCursos {
         if (mostrado == null) {
             return "No existe un curso con ese codigo";
         }
-        return "-------------------------------\nCodigo: " + mostrado.getCodigo() + "\nNombre: " + mostrado.getNombre() + "\nProfesor Jefe: " + mostrado.getProfesorJefe() + "\nAlumnos: \n" + mostrado.obtenerListadoAlumnos();
+        
+        Profesor profesor = mostrado.getProfesorJefe();
+        String resumenProfesor = profesor == null ? "Sin profesor jefe asignado" : profesor.obtenerResumen();
+        
+        return "-------------------------------\nCodigo: " + mostrado.getCodigo() + "\nNombre: " + mostrado.getNombre() + "\nProfesor Jefe: " + resumenProfesor + "\nAlumnos: \n" + mostrado.obtenerListadoAlumnos();
     }
 
     public String obtenerListadoCursos() {
@@ -58,14 +68,16 @@ public class GestionCursos {
         return new HashMap<>(cursos);
     }
 
-    public boolean editarCurso(String codigo, String nuevoNombre, String nuevoProfesorJefe) {
+    public boolean editarCurso(String codigo, String nuevoNombre, String rutProfesor, String nombreProfesor, String apellidoProfesor, String asignatura) {
         Curso curso = buscarCurso(codigo);
         if (curso == null) {
             return false;
         }
+        
+        Profesor profesor = new Profesor(rutProfesor, nombreProfesor, apellidoProfesor, asignatura);
 
         curso.setNombre(nuevoNombre);
-        curso.setProfesorJefe(nuevoProfesorJefe);
+        curso.setProfesorJefe(profesor);
 
         return true;
     }

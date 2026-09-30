@@ -5,10 +5,10 @@ public class Curso {
 
     private String nombre;
     private String codigo;
-    private String profesorJefe;
+    private Profesor profesorJefe;
     private final ArrayList<Alumno> alumnos;
 
-    public Curso(String nombre, String codigo, String profesorJefe) {
+    public Curso(String nombre, String codigo, Profesor profesorJefe) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.profesorJefe = profesorJefe;
@@ -23,7 +23,7 @@ public class Curso {
         return codigo;
     }
 
-    public String getProfesorJefe() {
+    public Profesor getProfesorJefe() {
         return profesorJefe;
     }
 
@@ -39,10 +39,9 @@ public class Curso {
         this.codigo = codigo;
     }
 
-    public void setProfesorJefe(String profesorJefe) {
+    public void setProfesorJefe(Profesor profesorJefe) {
         this.profesorJefe = profesorJefe;
     }
-
     public boolean addAlumno(Alumno alumno) {
         if(buscarAlumno(alumno.getRut()) != null){
             return false;

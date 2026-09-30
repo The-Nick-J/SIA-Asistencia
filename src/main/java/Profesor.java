@@ -21,7 +21,7 @@ public class Profesor extends Persona {
     public String obtenerResumen() {
         String resumen = "-----Datos del Profesor-----\nRUT: " + this.getRut() + "\nNombre: " + this.getNombre() + "\nApellido: " + this.getApellido();
 
-        if (this.asignatura != null) {
+        if (this.asignatura != null && !this.asignatura.isBlank()) {
             resumen += "\nAsignatura: " + this.getAsignatura();
         } else {
             resumen += "\nAsignatura: Sin Asignatura Asignada";
